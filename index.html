@@ -27,8 +27,8 @@ body{background:var(--green);color:var(--cream);font-family:'Inter',sans-serif;c
   position:fixed;z-index:9999;
   width:16px;height:16px;
   border:2px solid var(--brown);
-  background:rgba(245,240,232,.9);
-  box-shadow:0 0 0 3px rgba(28,43,30,.45),0 0 0 5px rgba(245,240,232,.55);
+  background:rgba(245,240,232,.94);
+  box-shadow:0 0 0 3px rgba(28,43,30,.5),0 0 0 6px rgba(245,240,232,.45);
   border-radius:50%;
   pointer-events:none;
   transform:translate(-50%,-50%);
@@ -36,9 +36,9 @@ body{background:var(--green);color:var(--cream);font-family:'Inter',sans-serif;c
 }
 #cur.hover{
   width:42px;height:42px;
-  background:rgba(107,66,38,.92);
+  background:rgba(107,66,38,.95);
   border-color:var(--cream);
-  box-shadow:0 0 0 3px rgba(28,43,30,.65),0 0 0 6px rgba(245,240,232,.75);
+  box-shadow:0 0 0 3px rgba(28,43,30,.7),0 0 0 7px rgba(245,240,232,.72);
 }
 
 /* ── NAV ── */
@@ -260,21 +260,11 @@ nav{
   line-height:1.6;margin-top:2px;
   position:relative;z-index:4;
 }
-.note-arrow{
-  font-family:'Caveat',cursive;font-size:1.5rem;
-  position:absolute;bottom:20px;right:16px;
-  color:rgba(26,21,16,.5);
-  transition:transform .2s;z-index:4;
-}
 .note:hover{
   box-shadow:3px 6px 28px rgba(0,0,0,.22),6px 12px 40px rgba(0,0,0,.1);
 }
 .note:hover .note-bg{filter:url(#crumple) brightness(1.03)}
-.note:hover .note-arrow{transform:translate(3px,-3px)}
-.note:focus-visible{
-  outline:2px solid var(--cream);
-  outline-offset:7px;
-}
+.note:focus-visible{outline:2px solid var(--cream);outline-offset:7px}
 
 /* Note positions — wider spread around centered photo */
 .note-1{
@@ -503,17 +493,17 @@ nav{
 /* ══════════════════════
    CONTACT
 ══════════════════════ */
-.contact-grid{display:grid;grid-template-columns:1fr 220px;min-height:55vh}
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,260px);min-height:55vh}
 .contact-main{border-right:1.5px solid rgba(28,43,30,.15);display:flex;flex-direction:column}
 .contact-hl-row{padding:48px 48px 36px;border-bottom:1.5px solid rgba(28,43,30,.15)}
 .contact-hl{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3rem,6.5vw,6rem);line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--green)}
 .contact-hl em{font-style:normal;color:var(--brown)}
-.contact-action{padding:24px 48px;display:flex;align-items:center;justify-content:space-between}
-.contact-addr{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:var(--green)}
-.contact-btn{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--cream);background:var(--brown);padding:11px 22px;transition:opacity .2s}
+.contact-action{padding:24px 48px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.contact-addr{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:var(--green);overflow-wrap:anywhere;min-width:0}
+.contact-btn{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--cream);background:var(--brown);padding:11px 22px;transition:opacity .2s;text-align:center;white-space:nowrap}
 .contact-btn:hover{opacity:.8}
 .clinks{display:flex;flex-direction:column}
-.clink{flex:1;border-bottom:1.5px solid rgba(28,43,30,.12);display:flex;align-items:center;justify-content:space-between;padding:0 24px;text-decoration:none;color:var(--green);font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:background .15s,color .15s;min-height:56px}
+.clink{flex:1;border-bottom:1.5px solid rgba(28,43,30,.12);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 24px;text-decoration:none;color:var(--green);font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:background .15s,color .15s;min-height:56px}
 .clink:last-child{border-bottom:none}
 .clink:hover{background:var(--green);color:var(--cream)}
 .clink span{opacity:.4}
@@ -526,39 +516,94 @@ nav{
 
 /* ── MOBILE ── */
 @media(max-width:768px){
-  nav{padding:0 20px}
-  .hero{align-items:flex-start}
-  .hero-stage{
-    width:min(430px,100vw);
-    height:calc(100vh - 118px);
-    padding:112px 20px 104px;
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    align-content:center;
-    gap:20px 16px;
-  }
-  .hero-photo-placeholder{display:none}
-  .note{
-    position:relative;
-    inset:auto;
-    width:100%;
-    min-height:168px;
-    padding:34px 14px 20px 23px;
-    animation:none;
-    transform:none !important;
-  }
-  .note-label{font-size:1.35rem}
-  .note-sub{font-size:.98rem;line-height:1.55}
-  .note-1,.note-2,.note-3,.note-4{top:auto;right:auto;bottom:auto;left:auto}
-  .note-1:hover,.note-2:hover,.note-3:hover,.note-4:hover{transform:translateY(-2px) !important}
-  .hero-cta{bottom:58px;padding:10px 14px}
-  .hero-bar{padding:0 20px}
-  .hbar-txt{font-size:.5rem;max-width:86px;line-height:1.45}
-  .hbar-center{font-size:.78rem}
+  .note{width:clamp(130px,30vw,155px)}
   .about-grid{grid-template-columns:1fr}
   .about-col:first-child{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .contact-grid{grid-template-columns:1fr}
   .contact-main{border-right:none}
+  .skills-page-grid{grid-template-columns:1fr}
+  .skill-block{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
+  .work-col-header,.work-row{grid-template-columns:44px 1fr 90px}
+  .wch:nth-child(3),.work-td:nth-child(3){display:none}
+  .page-hero-strip,.about-col,.contact-hl-row,.contact-action{padding-left:20px;padding-right:20px}
+}
+/* Responsive overrides */
+@media(max-width:1024px){
+  nav{padding:0 24px}
+  .hero-stage{width:min(720px,92vw);height:min(720px,82vh)}
+  .note{width:clamp(150px,22vw,190px)}
+  .hero-photo-placeholder,.hero-photo{width:44%;max-width:310px}
+  .contact-grid{grid-template-columns:1fr}
+  .contact-main{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
+  .clinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .clink{min-height:70px;border-right:1.5px solid rgba(28,43,30,.12);padding:18px 22px}
+  .clink:nth-child(2n){border-right:none}
+  .clink:last-child{border-bottom:1.5px solid rgba(28,43,30,.12)}
+  .portfolio-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media(max-width:768px){
+  html,body{height:100%;overflow:hidden}
+  body{cursor:auto}
+  #cur{display:none}
+  nav{height:56px;padding:0 18px}
+  .logo{font-size:1rem}
+  .page{padding-top:56px}
+  .hero{
+    min-height:calc(100svh - 56px);
+    height:auto;
+    overflow:visible;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding:24px 16px 64px;
+  }
+  .hero-stage{
+    width:100%;
+    max-width:520px;
+    height:auto;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px 16px;
+    align-items:stretch;
+    justify-content:stretch;
+  }
+  .hero-photo-placeholder,
+  .hero-photo{
+    position:relative;
+    left:auto;bottom:auto;transform:none;
+    grid-column:1 / -1;
+    justify-self:center;
+    width:min(54vw,230px);
+    max-width:230px;
+    z-index:2;
+  }
+  .note{
+    position:relative;
+    inset:auto;
+    width:100%;
+    min-height:158px;
+    padding:34px 14px 20px 23px;
+    animation:none;
+    transform:none !important;
+  }
+  .note-label{font-size:1.34rem}
+  .note-sub{font-size:.96rem;line-height:1.55}
+  .note-1,.note-2,.note-3,.note-4{top:auto;right:auto;bottom:auto;left:auto}
+  .note-1:hover,.note-2:hover,.note-3:hover,.note-4:hover{transform:translateY(-2px) !important}
+  .hero-cta{
+    position:relative;
+    left:auto;bottom:auto;transform:none;
+    margin:20px auto 0;
+    padding:10px 14px;
+  }
+  .hero-cta:hover,.hero-cta:focus-visible{transform:translateY(-2px)}
+  .hero-bar{height:50px;padding:0 16px}
+  .hbar-txt{font-size:.48rem;line-height:1.45;max-width:92px}
+  .hbar-center{font-size:.74rem}
+  .about-grid{grid-template-columns:1fr}
+  .about-col:first-child{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .skills-page-grid{grid-template-columns:1fr}
   .skill-block{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .work-col-header{display:none}
@@ -573,7 +618,28 @@ nav{
   .portfolio-gallery{grid-template-columns:1fr;gap:12px}
   .gallery-slot{min-height:170px}
   .page-hero-strip,.about-col,.contact-hl-row,.contact-action{padding-left:20px;padding-right:20px}
+  .page-hero-strip{padding-top:42px;padding-bottom:34px}
+  .page-strip-title{font-size:clamp(3rem,18vw,5.4rem)}
+  .page-strip-num{right:18px;font-size:4.6rem}
+  .contact-hl-row{padding-top:36px;padding-bottom:28px}
+  .contact-hl{font-size:clamp(2.4rem,14vw,4.2rem)}
+  .contact-action{flex-direction:column;align-items:stretch;gap:14px;padding-top:20px;padding-bottom:22px}
+  .contact-btn{width:100%;white-space:normal}
+  .contact-addr{font-size:.64rem;line-height:1.7}
+  .clinks{grid-template-columns:1fr}
+  .clink{border-right:none;min-height:62px;padding:18px 20px}
+  .clink:nth-child(2n){border-right:none}
 }
+
+@media(max-width:420px){
+  .hero{padding-left:14px;padding-right:14px}
+  .hero-stage{max-width:310px;grid-template-columns:1fr;gap:15px}
+  .hero-photo-placeholder,.hero-photo{width:min(62vw,205px);max-width:205px}
+  .note{min-height:142px}
+  .hero-bar{gap:8px}
+  .hbar-center{font-size:.68rem}
+}
+
 @media(pointer:coarse){
   body{cursor:auto}
   #cur{display:none}
@@ -640,7 +706,6 @@ nav{
         <p class="note-label">Over Mij</p>
         <p class="note-sub">Grafisch ontwerp<br>student — 2025<br>Nederland</p>
         <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
       </button>
 
@@ -655,7 +720,6 @@ nav{
         <p class="note-label">Portfolio</p>
         <p class="note-sub">Posters<br>Designs<br>Videos</p>
         <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
       </button>
 
@@ -670,7 +734,6 @@ nav{
         <p class="note-label">Vaardig&shy;heden</p>
         <p class="note-sub">Illustrator<br>InDesign<br>Figma</p>
         <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
       </button>
 
@@ -685,7 +748,6 @@ nav{
         <p class="note-label">Contact</p>
         <p class="note-sub">Laten we samen<br>werken!</p>
         <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
       </button>
 
@@ -711,7 +773,7 @@ nav{
       <h1 class="page-strip-title">Over<br><em>Mij.</em></h1>
       <div class="page-strip-num">01</div>
     </div>
-    <div class="page-body">
+    <div class="page-body portfolio-body">
       <div class="about-grid">
         <div class="about-col">
           <p class="about-section-label">Wie ik ben</p>
@@ -753,45 +815,45 @@ nav{
       <h1 class="page-strip-title">Port<br><em>folio.</em></h1>
       <div class="page-strip-num">02</div>
     </div>
-    <div class="page-body portfolio-body">
+    <div class="page-body">
       <div class="work-col-header">
         <div class="wch">#</div>
         <div class="wch">Naam</div>
         <div class="wch">Type</div>
         <div class="wch">Jaar</div>
       </div>
-      <button type="button" class="work-row" data-work="posters">
-        <span class="work-td"><span class="td-num">01</span></span>
-        <span class="work-td"><span class="td-name">Posters</span></span>
-        <span class="work-td"><span class="td-cat">Print</span></span>
-        <span class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></span>
-      </button>
-      <button type="button" class="work-row" data-work="designs">
-        <span class="work-td"><span class="td-num">02</span></span>
-        <span class="work-td"><span class="td-name">Designs</span></span>
-        <span class="work-td"><span class="td-cat">Visual</span></span>
-        <span class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></span>
-      </button>
-      <button type="button" class="work-row" data-work="videos">
-        <span class="work-td"><span class="td-num">04</span></span>
-        <span class="work-td"><span class="td-name">Videos</span></span>
-        <span class="work-td"><span class="td-cat">Motion</span></span>
-        <span class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></span>
-      </button>
-      <button type="button" class="work-row" data-work="photos">
-        <span class="work-td"><span class="td-num">05</span></span>
-        <span class="work-td"><span class="td-name">Photos</span></span>
-        <span class="work-td"><span class="td-cat">Photo</span></span>
-        <span class="work-td"><span class="td-year">2024</span><span class="td-arr">→</span></span>
-      </button>
-      <button type="button" class="work-row" data-work="tekenen">
-        <span class="work-td"><span class="td-num">06</span></span>
-        <span class="work-td"><span class="td-name">Tekenen</span></span>
-        <span class="work-td"><span class="td-cat">Drawing</span></span>
-        <span class="work-td"><span class="td-year">2023</span><span class="td-arr">→</span></span>
-      </button>
+      <div class="work-row" role="button" tabindex="0" data-work="posters">
+        <div class="work-td"><span class="td-num">01</span></div>
+        <div class="work-td"><span class="td-name">Posters</span></div>
+        <div class="work-td"><span class="td-cat">Print</span></div>
+        <div class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></div>
+      </div>
+      <div class="work-row" role="button" tabindex="0" data-work="designs">
+        <div class="work-td"><span class="td-num">02</span></div>
+        <div class="work-td"><span class="td-name">Designs</span></div>
+        <div class="work-td"><span class="td-cat">Visual</span></div>
+        <div class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></div>
+      </div>
+      <div class="work-row" role="button" tabindex="0" data-work="videos">
+        <div class="work-td"><span class="td-num">04</span></div>
+        <div class="work-td"><span class="td-name">Videos</span></div>
+        <div class="work-td"><span class="td-cat">Motion</span></div>
+        <div class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></div>
+      </div>
+      <div class="work-row" role="button" tabindex="0" data-work="photos">
+        <div class="work-td"><span class="td-num">05</span></div>
+        <div class="work-td"><span class="td-name">Photos</span></div>
+        <div class="work-td"><span class="td-cat">Photo</span></div>
+        <div class="work-td"><span class="td-year">2024</span><span class="td-arr">→</span></div>
+      </div>
+      <div class="work-row" role="button" tabindex="0" data-work="tekenen">
+        <div class="work-td"><span class="td-num">06</span></div>
+        <div class="work-td"><span class="td-name">Tekenen</span></div>
+        <div class="work-td"><span class="td-cat">Drawing</span></div>
+        <div class="work-td"><span class="td-year">2023</span><span class="td-arr">→</span></div>
+      </div>
       <div class="portfolio-detail" id="portfolio-detail" hidden>
-        <button type="button" class="portfolio-back" id="portfolio-back">← Terug naar lijst</button>
+        <button type="button" class="portfolio-back" id="portfolio-back">Terug naar lijst</button>
         <p class="portfolio-kicker">Geselecteerd werk</p>
         <h2 class="portfolio-detail-title" id="portfolio-detail-title">Posters</h2>
         <div class="portfolio-gallery" id="portfolio-gallery"></div>
@@ -956,8 +1018,14 @@ document.querySelectorAll('.note[data-target],.hero-cta[data-target]').forEach(n
 });
 document.querySelectorAll('.work-row[data-work]').forEach(row=>{
   row.addEventListener('click',()=>openWorkDetail(row.dataset.work));
+  row.addEventListener('keydown',e=>{
+    if(e.key==='Enter' || e.key===' '){
+      e.preventDefault();
+      openWorkDetail(row.dataset.work);
+    }
+  });
 });
-portfolioBack.addEventListener('click',closeWorkDetail);
+if(portfolioBack)portfolioBack.addEventListener('click',closeWorkDetail);
 backBtn.addEventListener('click',closePage);
 document.getElementById('logo-link').addEventListener('click',e=>{e.preventDefault();closePage()});
 </script>
