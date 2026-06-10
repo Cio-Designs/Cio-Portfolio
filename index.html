@@ -23,23 +23,8 @@ html,body{height:100%;overflow:hidden}
 body{background:var(--green);color:var(--cream);font-family:'Inter',sans-serif;cursor:none}
 
 /* ── CURSOR ── */
-#cur{
-  position:fixed;z-index:9999;
-  width:16px;height:16px;
-  border:2px solid var(--brown);
-  background:rgba(245,240,232,.94);
-  box-shadow:0 0 0 3px rgba(28,43,30,.5),0 0 0 6px rgba(245,240,232,.45);
-  border-radius:50%;
-  pointer-events:none;
-  transform:translate(-50%,-50%);
-  transition:width .2s,height .2s,background .2s,box-shadow .2s,border-color .2s;
-}
-#cur.hover{
-  width:42px;height:42px;
-  background:rgba(107,66,38,.95);
-  border-color:var(--cream);
-  box-shadow:0 0 0 3px rgba(28,43,30,.7),0 0 0 7px rgba(245,240,232,.72);
-}
+#cur{position:fixed;z-index:9999;width:14px;height:14px;border:1.5px solid var(--cream);pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s,border-radius .2s}
+#cur.hover{width:44px;height:44px;background:rgba(245,240,232,.1);border-radius:50%}
 
 /* ── NAV ── */
 nav{
@@ -101,6 +86,18 @@ nav{
   display:flex;align-items:flex-end;justify-content:center;
 }
 
+/* Big faded name */
+.hero-bg-name{
+  position:absolute;bottom:6%;left:50%;transform:translateX(-50%);
+  font-family:'Syne',sans-serif;
+  font-size:clamp(4rem,14vw,9rem);
+  font-weight:800;
+  line-height:1;letter-spacing:.08em;white-space:nowrap;
+  color:transparent;-webkit-text-stroke:1.5px rgba(245,240,232,.07);
+  z-index:1;user-select:none;
+  animation:fadeIn 1s ease .5s both;
+}
+
 /* ── PHOTO — larger & centered ── */
 .hero-photo{
   position:absolute;
@@ -137,12 +134,6 @@ nav{
   position:absolute;z-index:3;
   width:clamp(170px,24%,210px);
   background:transparent;
-  border:none;
-  color:inherit;
-  font:inherit;
-  text-align:left;
-  appearance:none;
-  -webkit-appearance:none;
   padding:36px 16px 22px 24px;
   cursor:none;
   box-shadow:
@@ -260,11 +251,17 @@ nav{
   line-height:1.6;margin-top:2px;
   position:relative;z-index:4;
 }
+.note-arrow{
+  font-family:'Caveat',cursive;font-size:1.5rem;
+  position:absolute;bottom:20px;right:16px;
+  color:rgba(26,21,16,.5);
+  transition:transform .2s;z-index:4;
+}
 .note:hover{
   box-shadow:3px 6px 28px rgba(0,0,0,.22),6px 12px 40px rgba(0,0,0,.1);
 }
 .note:hover .note-bg{filter:url(#crumple) brightness(1.03)}
-.note:focus-visible{outline:2px solid var(--cream);outline-offset:7px}
+.note:hover .note-arrow{transform:translate(3px,-3px)}
 
 /* Note positions — wider spread around centered photo */
 .note-1{
@@ -305,29 +302,6 @@ nav{
 }
 .hbar-txt{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
 .hbar-center{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--cream)}
-.hero-cta{
-  position:absolute;
-  left:50%;bottom:68px;transform:translateX(-50%);
-  z-index:7;
-  border:1.5px solid rgba(245,240,232,.35);
-  background:var(--cream);
-  color:var(--green);
-  font-family:'Space Mono',monospace;
-  font-size:.58rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  padding:12px 18px;
-  cursor:none;
-  transition:background .2s,color .2s,transform .2s,border-color .2s;
-}
-.hero-cta:hover,
-.hero-cta:focus-visible{
-  background:var(--brown);
-  border-color:var(--brown);
-  color:var(--cream);
-  transform:translateX(-50%) translateY(-2px);
-  outline:none;
-}
 
 /* ══════════════════════
    INNER PAGES SHARED
@@ -355,12 +329,7 @@ nav{
   color:var(--cream);
 }
 .page-strip-title em{font-style:normal;color:rgba(245,240,232,.35)}
-.page-strip-num{
-  position:absolute;right:40px;bottom:16px;
-  font-family:'Syne',sans-serif;font-weight:800;
-  font-size:7rem;line-height:1;letter-spacing:.04em;text-transform:uppercase;
-  color:rgba(245,240,232,.06);user-select:none;
-}
+.page-strip-num{display:none}
 .page-body{flex:1;background:var(--cream)}
 
 /* ══════════════════════
@@ -418,24 +387,9 @@ nav{
 .work-col-header{display:grid;grid-template-columns:52px 1fr 150px 100px;height:44px;border-bottom:1.5px solid rgba(28,43,30,.15)}
 .wch{display:flex;align-items:center;padding:0 20px;font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);border-right:1.5px solid rgba(28,43,30,.15)}
 .wch:last-child{border-right:none}
-.work-row{
-  display:grid;grid-template-columns:52px 1fr 150px 100px;
-  width:100%;
-  border:none;
-  border-bottom:1.5px solid rgba(28,43,30,.12);
-  background:transparent;
-  color:inherit;
-  font:inherit;
-  text-align:left;
-  appearance:none;
-  -webkit-appearance:none;
-  min-height:76px;
-  transition:background .15s;
-  cursor:none;
-}
+.work-row{display:grid;grid-template-columns:52px 1fr 150px 100px;border-bottom:1.5px solid rgba(28,43,30,.12);min-height:76px;transition:background .15s;cursor:none}
 .work-row:last-child{border-bottom:none}
 .work-row:hover{background:var(--green);color:var(--cream)}
-.work-row:focus-visible{outline:2px solid var(--brown);outline-offset:-6px}
 .work-td{display:flex;align-items:center;padding:0 20px;border-right:1.5px solid rgba(28,43,30,.12);transition:border-color .15s,color .15s}
 .work-td:last-child{border-right:none;justify-content:space-between}
 .work-row:hover .work-td{border-color:rgba(245,240,232,.1)}
@@ -449,33 +403,6 @@ nav{
 .work-row:hover .td-year{color:rgba(245,240,232,.45)}
 .td-arr{font-size:.9rem;opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s;color:var(--cream)}
 .work-row:hover .td-arr{opacity:1;transform:none}
-.portfolio-body.show-detail .work-col-header,
-.portfolio-body.show-detail .work-row{display:none}
-.portfolio-detail{padding:44px 48px 56px;background:var(--cream);color:var(--green);min-height:55vh}
-.portfolio-back{
-  border:none;background:transparent;color:var(--brown);
-  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
-  margin-bottom:24px;cursor:none;
-}
-.portfolio-back:hover,.portfolio-back:focus-visible{color:var(--green);outline:none}
-.portfolio-kicker{
-  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--brown);margin-bottom:12px;
-}
-.portfolio-detail-title{
-  font-family:'Syne',sans-serif;font-weight:800;
-  font-size:clamp(2.8rem,7vw,5.5rem);line-height:.9;text-transform:uppercase;
-  margin-bottom:32px;color:var(--green);
-}
-.portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.gallery-slot{
-  min-height:210px;
-  border:1.5px dashed rgba(28,43,30,.28);
-  background:rgba(28,43,30,.04);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--brown);text-align:center;padding:18px;
-}
 
 /* ══════════════════════
    VAARDIGHEDEN (SKILLS)
@@ -493,17 +420,17 @@ nav{
 /* ══════════════════════
    CONTACT
 ══════════════════════ */
-.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,260px);min-height:55vh}
+.contact-grid{display:grid;grid-template-columns:1fr 220px;min-height:55vh}
 .contact-main{border-right:1.5px solid rgba(28,43,30,.15);display:flex;flex-direction:column}
 .contact-hl-row{padding:48px 48px 36px;border-bottom:1.5px solid rgba(28,43,30,.15)}
 .contact-hl{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3rem,6.5vw,6rem);line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--green)}
 .contact-hl em{font-style:normal;color:var(--brown)}
-.contact-action{padding:24px 48px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
-.contact-addr{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:var(--green);overflow-wrap:anywhere;min-width:0}
-.contact-btn{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--cream);background:var(--brown);padding:11px 22px;transition:opacity .2s;text-align:center;white-space:nowrap}
+.contact-action{padding:24px 48px;display:flex;align-items:center;justify-content:space-between}
+.contact-addr{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:var(--green)}
+.contact-btn{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--cream);background:var(--brown);padding:11px 22px;transition:opacity .2s}
 .contact-btn:hover{opacity:.8}
 .clinks{display:flex;flex-direction:column}
-.clink{flex:1;border-bottom:1.5px solid rgba(28,43,30,.12);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 24px;text-decoration:none;color:var(--green);font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:background .15s,color .15s;min-height:56px}
+.clink{flex:1;border-bottom:1.5px solid rgba(28,43,30,.12);display:flex;align-items:center;justify-content:space-between;padding:0 24px;text-decoration:none;color:var(--green);font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:background .15s,color .15s;min-height:56px}
 .clink:last-child{border-bottom:none}
 .clink:hover{background:var(--green);color:var(--cream)}
 .clink span{opacity:.4}
@@ -527,18 +454,86 @@ nav{
   .wch:nth-child(3),.work-td:nth-child(3){display:none}
   .page-hero-strip,.about-col,.contact-hl-row,.contact-action{padding-left:20px;padding-right:20px}
 }
-/* Responsive overrides */
+/* Final responsive fixes */
+#cur{
+  width:16px;height:16px;
+  border:2px solid var(--brown);
+  background:rgba(245,240,232,.94);
+  box-shadow:0 0 0 3px rgba(28,43,30,.5),0 0 0 6px rgba(245,240,232,.45);
+  border-radius:50%;
+  transition:width .2s,height .2s,background .2s,box-shadow .2s,border-color .2s;
+}
+#cur.hover{
+  width:42px;height:42px;
+  background:rgba(107,66,38,.95);
+  border-color:var(--cream);
+  box-shadow:0 0 0 3px rgba(28,43,30,.7),0 0 0 7px rgba(245,240,232,.72);
+}
+.hero-bg-name,
+.hero-photo,
+.hero-photo-placeholder,
+.note-arrow{display:none!important}
+.note{
+  border:none;
+  color:inherit;
+  font:inherit;
+  text-align:left;
+  appearance:none;
+  -webkit-appearance:none;
+}
+.note:focus-visible{outline:2px solid var(--cream);outline-offset:7px}
+.work-row{
+  border:none;
+  border-bottom:1.5px solid rgba(28,43,30,.12);
+  background:transparent;
+  color:inherit;
+  font:inherit;
+  text-align:left;
+  appearance:none;
+  -webkit-appearance:none;
+  width:100%;
+}
+.work-row:focus-visible{outline:2px solid var(--brown);outline-offset:-6px}
+.portfolio-body.show-detail .work-col-header,
+.portfolio-body.show-detail .work-row{display:none}
+.portfolio-detail{padding:44px 48px 56px;background:var(--cream);color:var(--green);min-height:55vh}
+.portfolio-back{
+  border:none;background:transparent;color:var(--brown);
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:24px;cursor:none;
+}
+.portfolio-kicker{
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--brown);margin-bottom:12px;
+}
+.portfolio-detail-title{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(2.8rem,7vw,5.5rem);line-height:.9;text-transform:uppercase;
+  margin-bottom:32px;color:var(--green);
+}
+.portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.gallery-slot{
+  min-height:210px;
+  border:1.5px dashed rgba(28,43,30,.28);
+  background:rgba(28,43,30,.04);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--brown);text-align:center;padding:18px;
+}
+.contact-grid{grid-template-columns:minmax(0,1fr) minmax(220px,260px)}
+.contact-action{gap:18px;flex-wrap:wrap}
+.contact-addr{overflow-wrap:anywhere;min-width:0}
+.contact-btn{text-align:center;white-space:nowrap}
+
 @media(max-width:1024px){
   nav{padding:0 24px}
-  .hero-stage{width:min(720px,92vw);height:min(720px,82vh)}
+  .hero-stage{width:min(680px,92vw);height:auto;min-height:calc(100svh - 150px)}
   .note{width:clamp(150px,22vw,190px)}
-  .hero-photo-placeholder,.hero-photo{width:44%;max-width:310px}
   .contact-grid{grid-template-columns:1fr}
   .contact-main{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .clinks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
   .clink{min-height:70px;border-right:1.5px solid rgba(28,43,30,.12);padding:18px 22px}
   .clink:nth-child(2n){border-right:none}
-  .clink:last-child{border-bottom:1.5px solid rgba(28,43,30,.12)}
   .portfolio-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
@@ -554,30 +549,20 @@ nav{
     height:auto;
     overflow:visible;
     display:flex;
-    flex-direction:column;
     align-items:center;
-    justify-content:flex-start;
-    padding:24px 16px 64px;
+    justify-content:center;
+    padding:28px 16px 74px;
   }
   .hero-stage{
     width:100%;
     max-width:520px;
     height:auto;
+    min-height:0;
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:18px 16px;
     align-items:stretch;
     justify-content:stretch;
-  }
-  .hero-photo-placeholder,
-  .hero-photo{
-    position:relative;
-    left:auto;bottom:auto;transform:none;
-    grid-column:1 / -1;
-    justify-self:center;
-    width:min(54vw,230px);
-    max-width:230px;
-    z-index:2;
   }
   .note{
     position:relative;
@@ -586,32 +571,24 @@ nav{
     min-height:158px;
     padding:34px 14px 20px 23px;
     animation:none;
-    transform:none !important;
+    transform:none!important;
   }
   .note-label{font-size:1.34rem}
   .note-sub{font-size:.96rem;line-height:1.55}
   .note-1,.note-2,.note-3,.note-4{top:auto;right:auto;bottom:auto;left:auto}
-  .note-1:hover,.note-2:hover,.note-3:hover,.note-4:hover{transform:translateY(-2px) !important}
-  .hero-cta{
-    position:relative;
-    left:auto;bottom:auto;transform:none;
-    margin:20px auto 0;
-    padding:10px 14px;
-  }
-  .hero-cta:hover,.hero-cta:focus-visible{transform:translateY(-2px)}
+  .note-1:hover,.note-2:hover,.note-3:hover,.note-4:hover{transform:translateY(-2px)!important}
   .hero-bar{height:50px;padding:0 16px}
   .hbar-txt{font-size:.48rem;line-height:1.45;max-width:92px}
   .hbar-center{font-size:.74rem}
-  .about-grid{grid-template-columns:1fr}
+  .about-grid,.skills-page-grid{grid-template-columns:1fr}
   .about-col:first-child{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
-  .skills-page-grid{grid-template-columns:1fr}
   .skill-block{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .work-col-header{display:none}
   .work-row{grid-template-columns:44px 1fr;min-height:0;padding:18px 0}
   .work-td{border-right:none;padding:0 18px}
   .work-td:nth-child(1){grid-row:1 / span 3;align-items:flex-start;padding-top:4px;padding-right:8px}
   .work-td:nth-child(2){grid-column:2;padding-bottom:8px}
-  .work-td:nth-child(3){display:flex;grid-column:2;padding-bottom:8px}
+  .work-td:nth-child(3){display:flex!important;grid-column:2;padding-bottom:8px}
   .work-td:nth-child(4){grid-column:2;justify-content:flex-start;gap:12px}
   .td-arr{opacity:.55;transform:none;color:var(--brown)}
   .portfolio-detail{padding:32px 20px 44px}
@@ -621,6 +598,8 @@ nav{
   .page-hero-strip{padding-top:42px;padding-bottom:34px}
   .page-strip-title{font-size:clamp(3rem,18vw,5.4rem)}
   .page-strip-num{right:18px;font-size:4.6rem}
+  .contact-grid{display:flex;flex-direction:column;min-height:auto}
+  .contact-main{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .contact-hl-row{padding-top:36px;padding-bottom:28px}
   .contact-hl{font-size:clamp(2.4rem,14vw,4.2rem)}
   .contact-action{flex-direction:column;align-items:stretch;gap:14px;padding-top:20px;padding-bottom:22px}
@@ -628,13 +607,11 @@ nav{
   .contact-addr{font-size:.64rem;line-height:1.7}
   .clinks{grid-template-columns:1fr}
   .clink{border-right:none;min-height:62px;padding:18px 20px}
-  .clink:nth-child(2n){border-right:none}
 }
 
 @media(max-width:420px){
   .hero{padding-left:14px;padding-right:14px}
   .hero-stage{max-width:310px;grid-template-columns:1fr;gap:15px}
-  .hero-photo-placeholder,.hero-photo{width:min(62vw,205px);max-width:205px}
   .note{min-height:142px}
   .hero-bar{gap:8px}
   .hbar-center{font-size:.68rem}
@@ -643,7 +620,7 @@ nav{
 @media(pointer:coarse){
   body{cursor:auto}
   #cur{display:none}
-  .logo,.back-btn,.note,.hero-cta,.work-row,.portfolio-back{cursor:pointer}
+  .logo,.back-btn,.note,.work-row,.portfolio-back{cursor:pointer}
 }
 </style>
 </head>
@@ -688,15 +665,8 @@ nav{
       <!-- ▼ FOTO TOEVOEGEN:
            Verwijder dit blok en vervang door:
            <img class="hero-photo" src="foto.png" alt=""> -->
-      <div class="hero-photo-placeholder">
-        <div class="php-inner">
-          <span>Voeg jouw foto<br>hier toe</span>
-          <span style="opacity:.45">PNG aanbevolen</span>
-        </div>
-      </div>
-
       <!-- NOTITIE 1 → Over Mij -->
-      <button type="button" class="note note-1" data-target="about" aria-label="Open Over Mij">
+      <div class="note note-1" data-target="about">
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -707,10 +677,10 @@ nav{
         <p class="note-sub">Grafisch ontwerp<br>student — 2025<br>Nederland</p>
         <div class="note-fold"></div>
         <div class="note-torn"></div>
-      </button>
+      </div>
 
       <!-- NOTITIE 2 → Portfolio -->
-      <button type="button" class="note note-2" data-target="portfolio" aria-label="Open Portfolio">
+      <div class="note note-2" data-target="portfolio">
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -721,10 +691,10 @@ nav{
         <p class="note-sub">Posters<br>Designs<br>Videos</p>
         <div class="note-fold"></div>
         <div class="note-torn"></div>
-      </button>
+      </div>
 
       <!-- NOTITIE 3 → Vaardigheden -->
-      <button type="button" class="note note-3" data-target="skills" aria-label="Open Vaardigheden">
+      <div class="note note-3" data-target="skills">
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -735,10 +705,10 @@ nav{
         <p class="note-sub">Illustrator<br>InDesign<br>Figma</p>
         <div class="note-fold"></div>
         <div class="note-torn"></div>
-      </button>
+      </div>
 
       <!-- NOTITIE 4 → Contact -->
-      <button type="button" class="note note-4" data-target="contact" aria-label="Open Contact">
+      <div class="note note-4" data-target="contact">
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -749,11 +719,9 @@ nav{
         <p class="note-sub">Laten we samen<br>werken!</p>
         <div class="note-fold"></div>
         <div class="note-torn"></div>
-      </button>
+      </div>
 
     </div><!-- /hero-stage -->
-
-    <button type="button" class="hero-cta" data-target="portfolio">Bekijk Portfolio</button>
 
     <div class="hero-bar">
       <span class="hbar-txt">Portfolio — Grafisch Ontwerp</span>
@@ -769,11 +737,10 @@ nav{
 <div class="page inner" id="about">
   <div class="page-inner">
     <div class="page-hero-strip">
-      <p class="page-strip-eyebrow">01 — Over Mij</p>
+      <p class="page-strip-eyebrow">Over Mij</p>
       <h1 class="page-strip-title">Over<br><em>Mij.</em></h1>
-      <div class="page-strip-num">01</div>
     </div>
-    <div class="page-body portfolio-body">
+    <div class="page-body">
       <div class="about-grid">
         <div class="about-col">
           <p class="about-section-label">Wie ik ben</p>
@@ -811,11 +778,10 @@ nav{
 <div class="page inner" id="portfolio">
   <div class="page-inner">
     <div class="page-hero-strip">
-      <p class="page-strip-eyebrow">02 — Werk</p>
+      <p class="page-strip-eyebrow">Werk</p>
       <h1 class="page-strip-title">Port<br><em>folio.</em></h1>
-      <div class="page-strip-num">02</div>
     </div>
-    <div class="page-body">
+    <div class="page-body portfolio-body">
       <div class="work-col-header">
         <div class="wch">#</div>
         <div class="wch">Naam</div>
@@ -868,9 +834,8 @@ nav{
 <div class="page inner" id="skills">
   <div class="page-inner">
     <div class="page-hero-strip">
-      <p class="page-strip-eyebrow">03 — Vaardigheden</p>
+      <p class="page-strip-eyebrow">Vaardigheden</p>
       <h1 class="page-strip-title">Mijn<br><em>Skills.</em></h1>
-      <div class="page-strip-num">03</div>
     </div>
     <div class="page-body">
       <div class="skills-page-grid" id="skills-grid">
@@ -906,9 +871,8 @@ nav{
 <div class="page inner" id="contact">
   <div class="page-inner">
     <div class="page-hero-strip">
-      <p class="page-strip-eyebrow">04 — Contact</p>
+      <p class="page-strip-eyebrow">Contact</p>
       <h1 class="page-strip-title">Laten we<br><em>Praten.</em></h1>
-      <div class="page-strip-num">04</div>
     </div>
     <div class="page-body">
       <div class="contact-grid">
@@ -960,13 +924,7 @@ const workGroups={
   photos:['Photo werk 01','Photo werk 02','Photo werk 03','Photo werk 04','Photo werk 05','Photo werk 06'],
   tekenen:['Tekenen werk 01','Tekenen werk 02','Tekenen werk 03','Tekenen werk 04','Tekenen werk 05','Tekenen werk 06']
 };
-const workTitles={
-  posters:'Posters',
-  designs:'Designs',
-  videos:'Videos',
-  photos:'Photos',
-  tekenen:'Tekenen'
-};
+const workTitles={posters:'Posters',designs:'Designs',videos:'Videos',photos:'Photos',tekenen:'Tekenen'};
 
 function closeWorkDetail(){
   if(!portfolioBody || !portfolioDetail)return;
@@ -1013,17 +971,19 @@ function closePage(){
   backBtn.classList.remove('visible');
 }
 
-document.querySelectorAll('.note[data-target],.hero-cta[data-target]').forEach(n=>{
+document.querySelectorAll('.note[data-target]').forEach(n=>{
   n.addEventListener('click',()=>openPage(n.dataset.target));
 });
-document.querySelectorAll('.work-row[data-work]').forEach(row=>{
-  row.addEventListener('click',()=>openWorkDetail(row.dataset.work));
-  row.addEventListener('keydown',e=>{
-    if(e.key==='Enter' || e.key===' '){
-      e.preventDefault();
-      openWorkDetail(row.dataset.work);
-    }
-  });
+document.addEventListener('click',e=>{
+  const row=e.target.closest('.work-row[data-work]');
+  if(row)openWorkDetail(row.dataset.work);
+});
+document.addEventListener('keydown',e=>{
+  const row=e.target.closest('.work-row[data-work]');
+  if(row && (e.key==='Enter' || e.key===' ')){
+    e.preventDefault();
+    openWorkDetail(row.dataset.work);
+  }
 });
 if(portfolioBack)portfolioBack.addEventListener('click',closeWorkDetail);
 backBtn.addEventListener('click',closePage);
