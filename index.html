@@ -477,7 +477,18 @@ body,
 .work-row:focus-visible{outline:2px solid var(--brown);outline-offset:-2px}
 .portfolio-detail{display:none;padding:30px 48px 72px;background:var(--cream);color:var(--green)}
 .portfolio-body.detail-open .portfolio-detail{display:block}
-.portfolio-back{border:0;background:transparent;color:var(--brown);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:24px;cursor:none}
+.portfolio-back{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  min-height:48px;max-width:100%;padding:14px 22px;margin-bottom:28px;
+  border:2px solid var(--brown);background:var(--brown);color:var(--cream);
+  font-size:.95rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  cursor:none;box-shadow:0 3px 0 rgba(28,43,30,.18);
+  transition:background .15s,border-color .15s,transform .15s;
+}
+.portfolio-back:hover{background:var(--green);border-color:var(--green);transform:translateY(-1px)}
+.portfolio-back:focus-visible{outline:3px solid var(--green);outline-offset:4px}
+.portfolio-back:active{transform:translateY(1px);box-shadow:none}
+.portfolio-back-arrow{font-size:1.4rem;line-height:1}
 .portfolio-detail-kicker{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--brown);margin-bottom:10px}
 .portfolio-detail-title{font-size:clamp(2.4rem,7vw,5.5rem);line-height:.9;text-transform:uppercase;margin-bottom:34px;color:var(--green)}
 .portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
@@ -743,7 +754,7 @@ body,
         </button>
       </div>
       <div class="portfolio-detail" id="portfolio-detail" aria-live="polite">
-        <button class="portfolio-back" type="button">Terug naar lijst</button>
+        <button class="portfolio-back" type="button"><span class="portfolio-back-arrow" aria-hidden="true">←</span>Terug naar lijst</button>
         <p class="portfolio-detail-kicker">Geselecteerd werk</p>
         <h2 class="portfolio-detail-title"></h2>
         <div class="portfolio-gallery"></div>
