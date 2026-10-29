@@ -357,22 +357,6 @@ nav{
   font-family:'Space Mono',monospace;font-size:.52rem;
   letter-spacing:.08em;text-transform:uppercase;color:var(--brown);text-align:center;line-height:1.7;
 }
-.about-note-mini{
-  flex:1;background:var(--note);
-  padding:26px 12px 12px;
-  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 19px,var(--line) 19px,var(--line) 20px);
-  background-size:100% 20px;background-position:0 26px;
-  position:relative;transform:rotate(2deg);
-  box-shadow:2px 3px 10px rgba(28,43,30,.15);
-  filter:url(#crumple);
-}
-.about-note-mini::before{
-  content:'';position:absolute;top:-8px;left:50%;
-  transform:translateX(-50%);width:30px;height:16px;
-  background:var(--tape);opacity:.85;
-}
-.about-note-mini p{font-family:'Caveat',cursive;font-size:.95rem;line-height:1.7;color:#4a3020}
-
 .skill-row{padding:10px 0;border-bottom:1px solid rgba(28,43,30,.1);display:flex;flex-direction:column;gap:6px}
 .skill-top{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.01em;color:var(--green)}
 .skill-pct{color:var(--brown);font-weight:600}
@@ -687,9 +671,6 @@ body,
           <div class="about-photo-wrap">
             <!-- Vervang door: <img class="about-photo-box" src="foto.jpg" style="object-fit:cover"> -->
             <div class="about-photo-box">Foto<br>hier</div>
-            <div class="about-note-mini">
-              <p>Ontwerp maakt<br>het onzichtbare<br>zichtbaar.</p>
-            </div>
           </div>
         </div>
         <div class="about-col" id="about-skills">
