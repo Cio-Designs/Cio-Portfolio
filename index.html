@@ -460,6 +460,13 @@ body,
 .hero-stage .note{
   position:relative;inset:auto;width:100%;min-height:210px;
 }
+.hero-stage .note[data-target="portfolio"]{
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+.note[data-target="portfolio"] .note-label{
+  margin:0;font-size:clamp(2rem,3.6vw,3.5rem);text-align:center;
+}
 .note-3{animation-delay:.7s}
 .page-strip-eyebrow{font-size:.72rem}
 .page-strip-title{font-size:clamp(3rem,9vw,7.2rem);letter-spacing:0}
@@ -618,7 +625,6 @@ body,
           <div class="note-hole"></div>
         </div>
         <p class="note-label">Portfolio</p>
-        <p class="note-sub">Branding<br>Typografie<br>Redactioneel</p>
         <div class="note-fold"></div>
         <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
