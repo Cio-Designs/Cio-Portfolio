@@ -277,12 +277,6 @@ nav{
   --rot:rotate(7deg);
 }
 .note-3{
-  bottom:16%;left:1%;
-  transform:rotate(-6deg);
-  animation:noteIn .7s cubic-bezier(.22,1,.36,1) .7s both;
-  --rot:rotate(-6deg);
-}
-.note-4{
   bottom:14%;right:1%;
   transform:rotate(10deg);
   animation:noteIn .7s cubic-bezier(.22,1,.36,1) .85s both;
@@ -290,8 +284,7 @@ nav{
 }
 .note-1:hover{transform:rotate(-9deg) scale(1.06) translateY(-4px)}
 .note-2:hover{transform:rotate(7deg) scale(1.06) translateY(-4px)}
-.note-3:hover{transform:rotate(-6deg) scale(1.06) translateY(-4px)}
-.note-4:hover{transform:rotate(10deg) scale(1.06) translateY(-4px)}
+.note-3:hover{transform:rotate(10deg) scale(1.06) translateY(-4px)}
 
 /* Bottom bar */
 .hero-bar{
@@ -410,19 +403,6 @@ nav{
 .work-row:hover .td-arr{opacity:1;transform:none}
 
 /* ══════════════════════
-   VAARDIGHEDEN (SKILLS)
-══════════════════════ */
-.skills-page-grid{display:grid;grid-template-columns:repeat(3,1fr)}
-.skill-block{border-right:1.5px solid rgba(28,43,30,.15);padding:48px 36px}
-.skill-block:last-child{border-right:none}
-.skill-block-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:.04em;text-transform:uppercase;border-bottom:1.5px solid rgba(28,43,30,.15);padding-bottom:12px;margin-bottom:20px;color:var(--green)}
-.skill-item{padding:10px 0;border-bottom:1px solid rgba(28,43,30,.08);display:flex;flex-direction:column;gap:6px}
-.skill-item-top{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.01em;color:var(--green)}
-.sip{color:var(--brown);font-weight:600}
-.si-bg{height:2px;background:rgba(28,43,30,.1)}
-.si-fill{height:2px;background:var(--brown);width:0;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
-
-/* ══════════════════════
    CONTACT
 ══════════════════════ */
 .contact-grid{display:grid;grid-template-columns:1fr 220px;min-height:55vh}
@@ -453,8 +433,6 @@ nav{
   .about-col:first-child{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .contact-grid{grid-template-columns:1fr}
   .contact-main{border-right:none}
-  .skills-page-grid{grid-template-columns:1fr}
-  .skill-block{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .work-col-header,.work-row{grid-template-columns:44px 1fr 90px}
   .wch:nth-child(3),.work-td:nth-child(3){display:none}
   .page-hero-strip,.about-col,.contact-hl-row,.contact-action{padding-left:20px;padding-right:20px}
@@ -481,8 +459,6 @@ body,
 .about-headline,
 .about-text,
 .skill-top,
-.skill-block-title,
-.skill-item-top,
 .contact-hl,
 .contact-addr,
 .contact-btn,
@@ -492,11 +468,15 @@ body,
 .portfolio-card-title,
 .empty-work{font-family:Georgia,'Times New Roman',serif!important}
 
-.hero-stage{width:min(760px,92vw);height:min(650px,86vh)}
-.note-1{top:5%;left:5%}
-.note-2{top:5%;right:5%}
-.note-3{bottom:15%;left:7%}
-.note-4{bottom:14%;right:7%}
+.hero-stage{
+  width:min(1100px,88vw);height:auto;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:center;gap:clamp(28px,6vw,88px);
+}
+.hero-stage .note{
+  position:relative;inset:auto;width:100%;min-height:210px;
+}
+.note-3{animation-delay:.7s}
 .page-strip-eyebrow{font-size:.72rem}
 .page-strip-title{font-size:clamp(3rem,9vw,7.2rem);letter-spacing:0}
 .portfolio-body{position:relative;overflow:hidden}
@@ -548,9 +528,9 @@ body,
   .logo,.back-btn,.note,.work-row,.portfolio-back{cursor:pointer}
   .page{padding-top:56px}
   .hero{min-height:calc(100svh - 56px);height:auto;overflow:visible;padding:28px 16px 74px}
-  .hero-stage{width:100%;max-width:520px;height:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 16px}
+  .hero-stage{width:100%;max-width:700px;gap:28px}
   .note{position:relative;inset:auto;width:100%;min-height:158px;padding:34px 14px 18px 22px}
-  .note-1,.note-2,.note-3,.note-4{top:auto;right:auto;bottom:auto;left:auto;transform:none}
+  .note-1,.note-2,.note-3{transform:none;--rot:rotate(0deg)}
   .page-hero-strip{padding:44px 20px 32px}
   .page-strip-title{font-size:clamp(2.1rem,14vw,3.4rem);line-height:.92}
   .portfolio-detail{padding:32px 20px 52px}
@@ -564,6 +544,14 @@ body,
   .contact-btn{width:100%;text-align:center;white-space:normal}
   .clinks{display:grid;grid-template-columns:1fr}
   .clink{min-height:58px}
+}
+
+@media(max-width:600px){
+  .hero-stage{max-width:300px;grid-template-columns:1fr;gap:32px}
+  .hero-stage .note{min-height:180px}
+  .hero-bar{padding:0 12px;gap:12px}
+  .hbar-txt{font-size:.48rem}
+  .hbar-center{font-size:.75rem}
 }
 
 @media(pointer:coarse){
@@ -652,23 +640,8 @@ body,
         <div class="note-torn"></div>
       </div>
 
-      <!-- NOTITIE 3 → Vaardigheden -->
-      <div class="note note-3" data-target="skills">
-        <div class="note-bg"></div>
-        <div class="note-holes">
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div>
-        </div>
-        <p class="note-label">Vaardig&shy;heden</p>
-        <p class="note-sub">Illustrator<br>InDesign<br>Figma</p>
-        <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
-        <div class="note-torn"></div>
-      </div>
-
-      <!-- NOTITIE 4 → Contact -->
-      <div class="note note-4" data-target="contact">
+      <!-- NOTITIE 3 → Contact -->
+      <div class="note note-3" data-target="contact">
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -794,52 +767,14 @@ body,
 </div>
 
 <!-- ══════════════════════════════════
-     PAGINA 3 — VAARDIGHEDEN
-══════════════════════════════════ -->
-<div class="page inner" id="skills">
-  <div class="page-inner">
-    <div class="page-hero-strip">
-      <p class="page-strip-eyebrow">Vaardigheden</p>
-      <h1 class="page-strip-title">Mijn<br><em>Skills.</em></h1>
-      <div class="page-strip-num">03</div>
-    </div>
-    <div class="page-body">
-      <div class="skills-page-grid" id="skills-grid">
-        <div class="skill-block">
-          <div class="skill-block-title">Software</div>
-          <div class="skill-item"><div class="skill-item-top"><span>Adobe Illustrator</span><span class="sip">90%</span></div><div class="si-bg"><div class="si-fill" data-w="90"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Adobe Photoshop</span><span class="sip">85%</span></div><div class="si-bg"><div class="si-fill" data-w="85"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Adobe InDesign</span><span class="sip">75%</span></div><div class="si-bg"><div class="si-fill" data-w="75"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Figma</span><span class="sip">65%</span></div><div class="si-bg"><div class="si-fill" data-w="65"></div></div></div>
-        </div>
-        <div class="skill-block">
-          <div class="skill-block-title">Ontwerp</div>
-          <div class="skill-item"><div class="skill-item-top"><span>Typografie</span><span class="sip">88%</span></div><div class="si-bg"><div class="si-fill" data-w="88"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Merkidentiteit</span><span class="sip">78%</span></div><div class="si-bg"><div class="si-fill" data-w="78"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Gridsysteem</span><span class="sip">82%</span></div><div class="si-bg"><div class="si-fill" data-w="82"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Verpakkingsontwerp</span><span class="sip">72%</span></div><div class="si-bg"><div class="si-fill" data-w="72"></div></div></div>
-        </div>
-        <div class="skill-block">
-          <div class="skill-block-title">Overig</div>
-          <div class="skill-item"><div class="skill-item-top"><span>Redactioneel Ontwerp</span><span class="sip">76%</span></div><div class="si-bg"><div class="si-fill" data-w="76"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Illustratie</span><span class="sip">68%</span></div><div class="si-bg"><div class="si-fill" data-w="68"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>Presentatieontwerp</span><span class="sip">80%</span></div><div class="si-bg"><div class="si-fill" data-w="80"></div></div></div>
-          <div class="skill-item"><div class="skill-item-top"><span>UI Ontwerp</span><span class="sip">60%</span></div><div class="si-bg"><div class="si-fill" data-w="60"></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════
-     PAGINA 4 — CONTACT
+     PAGINA 3 — CONTACT
 ══════════════════════════════════ -->
 <div class="page inner" id="contact">
   <div class="page-inner">
     <div class="page-hero-strip">
       <p class="page-strip-eyebrow">Contact</p>
       <h1 class="page-strip-title">Laten we<br><em>Praten.</em></h1>
-      <div class="page-strip-num">04</div>
+      <div class="page-strip-num">03</div>
     </div>
     <div class="page-body">
       <div class="contact-grid">
@@ -954,11 +889,6 @@ function openPage(id){
   home.classList.add('pushed');
   backBtn.classList.add('visible');
   if(id==='portfolio')closeWorkDetail();
-  if(id==='skills'){
-    setTimeout(()=>{
-      document.querySelectorAll('#skills-grid .si-fill').forEach(b=>{b.style.width=b.dataset.w+'%'});
-    },350);
-  }
   if(id==='about'){
     setTimeout(()=>{
       document.querySelectorAll('#about-skills .skill-fill').forEach(b=>{b.style.width=b.dataset.w+'%'});
