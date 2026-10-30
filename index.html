@@ -367,10 +367,10 @@ nav{
 /* ══════════════════════
    PORTFOLIO
 ══════════════════════ */
-.work-col-header{display:grid;grid-template-columns:52px 1fr 150px 100px;height:44px;border-bottom:1.5px solid rgba(28,43,30,.15)}
+.work-col-header{display:grid;grid-template-columns:52px 1fr 150px;height:44px;border-bottom:1.5px solid rgba(28,43,30,.15)}
 .wch{display:flex;align-items:center;padding:0 20px;font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);border-right:1.5px solid rgba(28,43,30,.15)}
 .wch:last-child{border-right:none}
-.work-row{display:grid;grid-template-columns:52px 1fr 150px 100px;border-bottom:1.5px solid rgba(28,43,30,.12);min-height:76px;transition:background .15s;cursor:none}
+.work-row{display:grid;grid-template-columns:52px 1fr 150px;border-bottom:1.5px solid rgba(28,43,30,.12);min-height:76px;transition:background .15s;cursor:none}
 .work-row:last-child{border-bottom:none}
 .work-row:hover{background:var(--green);color:var(--cream)}
 .work-td{display:flex;align-items:center;padding:0 20px;border-right:1.5px solid rgba(28,43,30,.12);transition:border-color .15s,color .15s}
@@ -418,7 +418,7 @@ nav{
   .about-col:first-child{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .contact-grid{grid-template-columns:1fr}
   .contact-main{border-right:none}
-  .work-col-header,.work-row{grid-template-columns:44px 1fr 90px}
+  .work-col-header,.work-row{grid-template-columns:44px 1fr}
   .wch:nth-child(3),.work-td:nth-child(3){display:none}
   .page-hero-strip,.about-col,.contact-hl-row,.contact-action{padding-left:20px;padding-right:20px}
 }
@@ -492,6 +492,11 @@ body,
 .portfolio-back-arrow{font-size:1.4rem;line-height:1}
 .portfolio-detail-kicker{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--brown);margin-bottom:10px}
 .portfolio-detail-title{font-size:clamp(2.4rem,7vw,5.5rem);line-height:.9;text-transform:uppercase;margin-bottom:34px;color:var(--green)}
+.portfolio-years{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.portfolio-years[hidden]{display:none}
+.portfolio-year{border:1px solid var(--green);padding:10px 18px;background:transparent;color:var(--green);font:inherit;cursor:pointer}
+.portfolio-year[aria-pressed="true"],.portfolio-year:hover{background:var(--green);color:var(--cream)}
+.portfolio-year:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
 .portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .portfolio-card{min-height:230px;aspect-ratio:4/3;border:1.5px dashed rgba(28,43,30,.25);background:rgba(28,43,30,.03);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .portfolio-card img,
@@ -721,42 +726,37 @@ body,
           <div class="wch">#</div>
           <div class="wch">Naam</div>
           <div class="wch">Type</div>
-          <div class="wch">Jaar</div>
         </div>
         <button class="work-row" type="button" data-work="posters">
           <div class="work-td"><span class="td-num">01</span></div>
           <div class="work-td"><span class="td-name">Posters</span></div>
           <div class="work-td"><span class="td-cat">Print</span></div>
-          <div class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></div>
         </button>
         <button class="work-row" type="button" data-work="designs">
           <div class="work-td"><span class="td-num">02</span></div>
           <div class="work-td"><span class="td-name">Designs</span></div>
           <div class="work-td"><span class="td-cat">Visual</span></div>
-          <div class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></div>
         </button>
         <button class="work-row" type="button" data-work="videos">
           <div class="work-td"><span class="td-num">04</span></div>
           <div class="work-td"><span class="td-name">Videos</span></div>
           <div class="work-td"><span class="td-cat">Motion</span></div>
-          <div class="work-td"><span class="td-year">2025</span><span class="td-arr">→</span></div>
         </button>
         <button class="work-row" type="button" data-work="photos">
           <div class="work-td"><span class="td-num">05</span></div>
           <div class="work-td"><span class="td-name">Photos</span></div>
           <div class="work-td"><span class="td-cat">Photo</span></div>
-          <div class="work-td"><span class="td-year">2024</span><span class="td-arr">→</span></div>
         </button>
         <button class="work-row" type="button" data-work="tekenen">
           <div class="work-td"><span class="td-num">06</span></div>
           <div class="work-td"><span class="td-name">Tekenen</span></div>
           <div class="work-td"><span class="td-cat">Drawing</span></div>
-          <div class="work-td"><span class="td-year">2023</span><span class="td-arr">→</span></div>
         </button>
       </div>
       <div class="portfolio-detail" id="portfolio-detail" aria-live="polite">
         <button class="portfolio-back" type="button"><span class="portfolio-back-arrow" aria-hidden="true">←</span>Terug naar lijst</button>
         <h2 class="portfolio-detail-title"></h2>
+        <nav class="portfolio-years" aria-label="Filter op jaar"></nav>
         <div class="portfolio-gallery"></div>
       </div>
     </div>
@@ -810,35 +810,35 @@ const workData={
   posters:{
     title:'Posters',
     items:[
-      {type:'image',src:'POSTER/ChePoster-BG-02.png',title:'Poster 01'},
-      {type:'image',src:'posters/poster-02.png',title:'Poster 02'},
-      {type:'image',src:'posters/poster-03.png',title:'Poster 03'},
-      {type:'image',src:'posters/poster-04.png',title:'Poster 04'}
+      {year:2025,type:'image',src:'POSTER/ChePoster-BG-02.png',title:'Poster 01'},
+      {year:2025,type:'image',src:'posters/poster-02.png',title:'Poster 02'},
+      {year:2025,type:'image',src:'posters/poster-03.png',title:'Poster 03'},
+      {year:2025,type:'image',src:'posters/poster-04.png',title:'Poster 04'}
     ]
   },
   designs:{
     title:'Designs',
     items:[
-      {type:'image',src:'designs/design-01.png',title:'Design 01'},
-      {type:'image',src:'designs/design-02.png',title:'Design 02'},
-      {type:'image',src:'designs/design-03.png',title:'Design 03'},
-      {type:'image',src:'designs/design-04.png',title:'Design 04'}
+      {year:2025,type:'image',src:'designs/design-01.png',title:'Design 01'},
+      {year:2025,type:'image',src:'designs/design-02.png',title:'Design 02'},
+      {year:2025,type:'image',src:'designs/design-03.png',title:'Design 03'},
+      {year:2025,type:'image',src:'designs/design-04.png',title:'Design 04'}
     ]
   },
   videos:{
     title:'Videos',
     items:[
-      {type:'video',src:'videos/cihan-copur-motion-poster.mp4',title:'Cihan Copur — Motion Poster'}
+      {year:2025,type:'video',src:'videos/cihan-copur-motion-poster.mp4',title:'Cihan Copur — Motion Poster'}
     ]
   },
   photos:{
     title:'Photos',
     items:[
-      {type:'image',src:'photos/photo-01.jpg',title:'Photo 01'},
-      {type:'image',src:'photos/photo-02.jpg',title:'Photo 02'},
-      {type:'image',src:'photos/photo-03.jpg',title:'Photo 03'},
-      {type:'image',src:'photos/photo-04.jpg',title:'Photo 04'},
-      {type:'image',src:'photos/photo-05.jpg',title:'Photo 05'}
+      {year:2024,type:'image',src:'photos/photo-01.jpg',title:'Photo 01'},
+      {year:2024,type:'image',src:'photos/photo-02.jpg',title:'Photo 02'},
+      {year:2024,type:'image',src:'photos/photo-03.jpg',title:'Photo 03'},
+      {year:2024,type:'image',src:'photos/photo-04.jpg',title:'Photo 04'},
+      {year:2024,type:'image',src:'photos/photo-05.jpg',title:'Photo 05'}
     ]
   },
   tekenen:{title:'Tekenen',items:[]}
@@ -849,26 +849,44 @@ const portfolioDetail=document.getElementById('portfolio-detail');
 const portfolioTitle=portfolioDetail.querySelector('.portfolio-detail-title');
 const portfolioGallery=portfolioDetail.querySelector('.portfolio-gallery');
 
+const portfolioYears=portfolioDetail.querySelector('.portfolio-years');
+let activeWorkKey=null;
+
+function renderWorkYear(year){
+  const data=workData[activeWorkKey];
+  if(!data)return;
+  // Stop playback before replacing a year's media.
+  portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+  portfolioYears.querySelectorAll('button').forEach(button=>{
+    button.setAttribute('aria-pressed',String(button.dataset.year===String(year)));
+  });
+  const items=data.items.filter(item=>item.year===year);
+  portfolioGallery.innerHTML=items.length ? items.map(item=>{
+    const media=item.type==='video'
+      ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
+      : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
+    return `<article class="portfolio-card">${media}</article>`;
+  }).join('') : '<div class="empty-work">Nog leeg</div>';
+}
+
 function openWorkDetail(key){
   const data=workData[key];
   if(!data)return;
+  activeWorkKey=key;
   portfolioTitle.textContent=data.title;
-  if(data.items.length){
-    portfolioGallery.innerHTML=data.items.map(item=>{
-      const media=item.type==='video'
-        ? `<video src="${item.src}" controls playsinline></video>`
-        : `<img src="${item.src}" alt="${item.title}">`;
-      return `<article class="portfolio-card">${media}</article>`;
-    }).join('');
-  }else{
-    portfolioGallery.innerHTML='<div class="empty-work">Nog leeg</div>';
-  }
+  const years=[...new Set(data.items.map(item=>item.year))].sort((a,b)=>b-a);
+  portfolioYears.innerHTML=years.map(year=>
+    `<button class="portfolio-year" type="button" data-year="${year}" aria-pressed="false">${year}</button>`
+  ).join('');
+  portfolioYears.hidden=years.length===0;
+  renderWorkYear(years[0]);
   portfolioBody.classList.add('detail-open');
   portfolioDetail.scrollIntoView({block:'start'});
 }
 
 function closeWorkDetail(){
   if(!portfolioBody)return;
+  portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
   portfolioBody.classList.remove('detail-open');
 }
 
@@ -903,6 +921,11 @@ function closePage(){
 }
 
 document.addEventListener('click',e=>{
+  const yearButton=e.target.closest('.portfolio-year[data-year]');
+  if(yearButton){
+    renderWorkYear(Number(yearButton.dataset.year));
+    return;
+  }
   const row=e.target.closest('.work-row[data-work]');
   if(row){
     openWorkDetail(row.dataset.work);
