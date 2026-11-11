@@ -28,7 +28,7 @@ body{background:var(--green);color:var(--cream);font-family:'Inter',sans-serif;c
 #cur.hover{width:44px;height:44px;background:rgba(245,240,232,.1);border-radius:50%}
 
 /* ── NAV ── */
-nav{
+body > nav{
   position:fixed;top:0;left:0;right:0;z-index:300;
   height:52px;
   display:flex;align-items:center;justify-content:space-between;
@@ -532,7 +532,7 @@ body,
   html,body{overflow:auto}
   body{cursor:auto}
   #cur{display:none!important}
-  nav{height:56px;padding:0 18px}
+  body > nav{height:56px;padding:0 18px}
   .logo,.back-btn,.note,.work-row,.portfolio-back{cursor:pointer}
   .page{padding-top:56px}
   .hero{min-height:calc(100svh - 56px);height:auto;overflow:visible;padding:28px 16px 74px}
