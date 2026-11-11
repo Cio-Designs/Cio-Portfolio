@@ -756,6 +756,7 @@ body,
       <div class="portfolio-detail" id="portfolio-detail" aria-live="polite">
         <button class="portfolio-back" type="button"><span class="portfolio-back-arrow" aria-hidden="true">←</span>Terug naar lijst</button>
         <h2 class="portfolio-detail-title"></h2>
+        <nav class="portfolio-photo-categories portfolio-years" aria-label="Fotocategorieën" hidden></nav>
         <nav class="portfolio-years" aria-label="Filter op jaar"></nav>
         <div class="portfolio-gallery"></div>
       </div>
@@ -849,7 +850,28 @@ const portfolioDetail=document.getElementById('portfolio-detail');
 const portfolioTitle=portfolioDetail.querySelector('.portfolio-detail-title');
 const portfolioGallery=portfolioDetail.querySelector('.portfolio-gallery');
 
-const portfolioYears=portfolioDetail.querySelector('.portfolio-years');
+const portfolioYears=portfolioDetail.querySelector('nav[aria-label="Filter op jaar"]');
+const photoCategories=portfolioDetail.querySelector('.portfolio-photo-categories');
+const photoCategoryLabels={portretten:'Portretten',producten:'Producten',natuur:'Natuur',overige:'Overige'};
+let activePhotoCategory=null;
+function selectedWorkItems(){
+  const items=workData[activeWorkKey].items;
+  return activeWorkKey==='photos' ? items.filter(item=>(item.category||'overige')===activePhotoCategory) : items;
+}
+function showWorkYears(){
+  const years=[...new Set(selectedWorkItems().map(item=>item.year))].sort((a,b)=>b-a);
+  portfolioYears.innerHTML=years.map(year=>
+    `<button class="portfolio-year" type="button" data-year="${year}" aria-pressed="false">${year}</button>`
+  ).join('');
+  portfolioYears.hidden=years.length===0;
+  renderWorkYear(years[0]);
+}
+function selectPhotoCategory(category){
+  if(activeWorkKey!=='photos'||!Object.hasOwn(photoCategoryLabels,category))return;
+  activePhotoCategory=category;
+  photoCategories.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.photoCategory===category)));
+  showWorkYears();
+}
 let activeWorkKey=null;
 
 function renderWorkYear(year){
@@ -860,7 +882,7 @@ function renderWorkYear(year){
   portfolioYears.querySelectorAll('button').forEach(button=>{
     button.setAttribute('aria-pressed',String(button.dataset.year===String(year)));
   });
-  const items=data.items.filter(item=>item.year===year);
+  const items=selectedWorkItems().filter(item=>item.year===year);
   portfolioGallery.innerHTML=items.length ? items.map(item=>{
     const media=item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
@@ -874,12 +896,19 @@ function openWorkDetail(key){
   if(!data)return;
   activeWorkKey=key;
   portfolioTitle.textContent=data.title;
-  const years=[...new Set(data.items.map(item=>item.year))].sort((a,b)=>b-a);
-  portfolioYears.innerHTML=years.map(year=>
-    `<button class="portfolio-year" type="button" data-year="${year}" aria-pressed="false">${year}</button>`
-  ).join('');
-  portfolioYears.hidden=years.length===0;
-  renderWorkYear(years[0]);
+  activePhotoCategory=null;
+  photoCategories.hidden=key!=='photos';
+  photoCategories.innerHTML=key==='photos' ? Object.entries(photoCategoryLabels).map(([category,label])=>
+    `<button class="portfolio-year" type="button" data-photo-category="${category}" aria-pressed="false">${label}</button>`
+  ).join('') : '';
+  if(key==='photos'){
+    portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+    portfolioYears.innerHTML='';
+    portfolioYears.hidden=true;
+    portfolioGallery.innerHTML='<p>Kies een categorie om de foto’s te bekijken.</p>';
+  }else{
+    showWorkYears();
+  }
   portfolioBody.classList.add('detail-open');
   portfolioDetail.scrollIntoView({block:'start'});
 }
@@ -921,6 +950,11 @@ function closePage(){
 }
 
 document.addEventListener('click',e=>{
+  const categoryButton=e.target.closest('[data-photo-category]');
+  if(categoryButton){
+    selectPhotoCategory(categoryButton.dataset.photoCategory);
+    return;
+  }
   const yearButton=e.target.closest('.portfolio-year[data-year]');
   if(yearButton){
     renderWorkYear(Number(yearButton.dataset.year));
