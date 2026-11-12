@@ -502,11 +502,12 @@ body,
 .portfolio-year[aria-pressed="true"],.portfolio-year:hover{background:var(--green);color:var(--cream)}
 .portfolio-year:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
 .portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.portfolio-card{min-height:230px;aspect-ratio:4/3;border:1.5px dashed rgba(28,43,30,.25);background:rgba(28,43,30,.03);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.portfolio-card{width:100%;min-width:0;min-height:230px;aspect-ratio:4/3;border:1.5px dashed rgba(28,43,30,.25);background:rgba(28,43,30,.03);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .portfolio-card img,
 .portfolio-card video{width:100%;height:100%;display:block;object-fit:contain}
 .portfolio-work{min-width:0}
 .portfolio-description{margin-top:12px;min-height:1.5em;font-family:'Inter',sans-serif;font-size:.82rem;line-height:1.6;color:var(--green);white-space:pre-line;overflow-wrap:anywhere}
+.portfolio-description-line{display:block;min-height:1.6em}
 .portfolio-description hr{border:0;border-top:1px solid rgba(28,43,30,.25);width:36px;margin:8px 0}
 .portfolio-card-title{padding:18px;text-align:center;color:var(--brown);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
 .empty-work{min-height:280px;border:1.5px dashed rgba(28,43,30,.22);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--brown);font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
@@ -818,10 +819,10 @@ const workData={
   posters:{
     title:'Designs',
     items:[
-      {topic:'activism',year:2026,type:'image',src:'POSTER/ChePoster-BG-02.png',title:'Che Guevara Poster',description:'Che Guevara Poster\n---\n2026'},
-      {topic:'activism',year:2026,type:'image',src:'posters/poster-02.png',title:'Zapatistas Poster',description:'Zapatistas Poster\n---\n2026'},
-      {topic:'activism',year:2026,type:'image',src:'posters/poster-03.png',title:'Vladimir Lenin Poster',description:'Vladimir Lenin Poster\n---\n2026'},
-      {topic:'event',year:2024,type:'image',src:'posters/poster-04.png',title:'Concept Concert Poster',description:'Concept Concert Poster\n---\n2024'}
+      {topic:'activism',year:2026,type:'image',src:'POSTER/ChePoster-BG-02.png',title:'Che Guevara Poster',client:'The Red Archive'},
+      {topic:'activism',year:2026,type:'image',src:'posters/poster-02.png',title:'Zapatistas Poster',client:'The Red Archive'},
+      {topic:'activism',year:2026,type:'image',src:'posters/poster-03.png',title:'Vladimir Lenin Poster',client:'The Red Archive'},
+      {topic:'event',year:2024,type:'image',src:'posters/poster-04.png',title:'Concept Concert Poster',client:'School Opdracht'}
     ]
   },
   designs:{
@@ -922,7 +923,7 @@ function renderWorkItems(items){
     const media=item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
       : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
-    return `<article class="portfolio-work"><div class="portfolio-card">${media}</div><div class="portfolio-description">${escapeDescription(item.description).replace(/\n---\n/g,'<hr>')}</div></article>`;
+    return `<article class="portfolio-work"><div class="portfolio-card">${media}</div><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div></article>`;
   }).join('') : '<div class="empty-work">Nog leeg</div>';
 }
 
