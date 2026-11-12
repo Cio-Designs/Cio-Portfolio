@@ -729,12 +729,12 @@ body,
         </div>
         <button class="work-row" type="button" data-work="posters">
           <div class="work-td"><span class="td-num">01</span></div>
-          <div class="work-td"><span class="td-name">Posters</span></div>
+          <div class="work-td"><span class="td-name">Designs</span></div>
           <div class="work-td"><span class="td-cat">Print</span></div>
         </button>
         <button class="work-row" type="button" data-work="designs">
           <div class="work-td"><span class="td-num">02</span></div>
-          <div class="work-td"><span class="td-name">Designs</span></div>
+          <div class="work-td"><span class="td-name">Branding</span></div>
           <div class="work-td"><span class="td-cat">Visual</span></div>
         </button>
         <button class="work-row" type="button" data-work="videos">
@@ -756,7 +756,7 @@ body,
       <div class="portfolio-detail" id="portfolio-detail" aria-live="polite">
         <button class="portfolio-back" type="button"><span class="portfolio-back-arrow" aria-hidden="true">←</span>Terug naar lijst</button>
         <h2 class="portfolio-detail-title"></h2>
-        <nav class="portfolio-photo-categories portfolio-years" aria-label="Fotocategorieën" hidden></nav>
+        <nav class="portfolio-categories portfolio-years" aria-label="Werkcategorieën" hidden></nav>
         <nav class="portfolio-years" aria-label="Filter op jaar"></nav>
         <div class="portfolio-gallery"></div>
       </div>
@@ -809,7 +809,7 @@ document.addEventListener('mouseout',e=>{
 
 const workData={
   posters:{
-    title:'Posters',
+    title:'Designs',
     items:[
       {year:2025,type:'image',src:'POSTER/ChePoster-BG-02.png',title:'Poster 01'},
       {year:2025,type:'image',src:'posters/poster-02.png',title:'Poster 02'},
@@ -818,7 +818,7 @@ const workData={
     ]
   },
   designs:{
-    title:'Designs',
+    title:'Branding',
     items:[
       {year:2025,type:'image',src:'designs/design-01.png',title:'Design 01'},
       {year:2025,type:'image',src:'designs/design-02.png',title:'Design 02'},
@@ -851,12 +851,14 @@ const portfolioTitle=portfolioDetail.querySelector('.portfolio-detail-title');
 const portfolioGallery=portfolioDetail.querySelector('.portfolio-gallery');
 
 const portfolioYears=portfolioDetail.querySelector('nav[aria-label="Filter op jaar"]');
-const photoCategories=portfolioDetail.querySelector('.portfolio-photo-categories');
+const workCategories=portfolioDetail.querySelector('.portfolio-categories');
 const photoCategoryLabels={portretten:'Portretten',producten:'Producten',natuur:'Natuur',evenementen:'Evenementen',overige:'Overige'};
-let activePhotoCategory=null;
+const workCategoryLabels={photos:photoCategoryLabels,posters:{posters:'Posters',logos:"Logo’s",'3d':'3D'}};
+let activeCategory=null;
 function selectedWorkItems(){
   const items=workData[activeWorkKey].items;
-  return activeWorkKey==='photos' ? items.filter(item=>(item.category||'overige')===activePhotoCategory) : items;
+  const fallback=activeWorkKey==='photos'?'overige':'posters';
+  return workCategoryLabels[activeWorkKey] ? items.filter(item=>(item.category||fallback)===activeCategory) : items;
 }
 function showWorkYears(){
   const years=[...new Set(selectedWorkItems().map(item=>item.year))].sort((a,b)=>b-a);
@@ -866,10 +868,11 @@ function showWorkYears(){
   portfolioYears.hidden=years.length===0;
   renderWorkYear(years[0]);
 }
-function selectPhotoCategory(category){
-  if(activeWorkKey!=='photos'||!Object.hasOwn(photoCategoryLabels,category))return;
-  activePhotoCategory=category;
-  photoCategories.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.photoCategory===category)));
+function selectWorkCategory(category){
+  const labels=workCategoryLabels[activeWorkKey];
+  if(!labels||!Object.hasOwn(labels,category))return;
+  activeCategory=category;
+  workCategories.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.workCategory===category)));
   showWorkYears();
 }
 let activeWorkKey=null;
@@ -896,16 +899,17 @@ function openWorkDetail(key){
   if(!data)return;
   activeWorkKey=key;
   portfolioTitle.textContent=data.title;
-  activePhotoCategory=null;
-  photoCategories.hidden=key!=='photos';
-  photoCategories.innerHTML=key==='photos' ? Object.entries(photoCategoryLabels).map(([category,label])=>
-    `<button class="portfolio-year" type="button" data-photo-category="${category}" aria-pressed="false">${label}</button>`
+  activeCategory=null;
+  const labels=workCategoryLabels[key];
+  workCategories.hidden=!labels;
+  workCategories.innerHTML=labels ? Object.entries(labels).map(([category,label])=>
+    `<button class="portfolio-year" type="button" data-work-category="${category}" aria-pressed="false">${label}</button>`
   ).join('') : '';
-  if(key==='photos'){
+  if(labels){
     portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
     portfolioYears.innerHTML='';
     portfolioYears.hidden=true;
-    portfolioGallery.innerHTML='<p>Kies een categorie om de foto’s te bekijken.</p>';
+    portfolioGallery.innerHTML='<p>Kies een categorie om het werk te bekijken.</p>';
   }else{
     showWorkYears();
   }
@@ -950,9 +954,9 @@ function closePage(){
 }
 
 document.addEventListener('click',e=>{
-  const categoryButton=e.target.closest('[data-photo-category]');
+  const categoryButton=e.target.closest('[data-work-category]');
   if(categoryButton){
-    selectPhotoCategory(categoryButton.dataset.photoCategory);
+    selectWorkCategory(categoryButton.dataset.workCategory);
     return;
   }
   const yearButton=e.target.closest('.portfolio-year[data-year]');
