@@ -507,6 +507,9 @@ body,
 .portfolio-card img,
 .portfolio-card video{width:100%;height:100%;display:block;object-fit:contain}
 .portfolio-work{min-width:0}
+.portfolio-pdf-link{display:inline-block;margin-top:4px;padding:9px 14px;border:1px solid var(--green);color:var(--green);text-decoration:none;font-size:.82rem}
+.portfolio-pdf-link:hover{background:var(--green);color:var(--cream)}
+.portfolio-pdf-link:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
 .portfolio-description{margin-top:12px;min-height:1.5em;font-family:'Inter',sans-serif;font-size:.82rem;line-height:1.6;color:var(--green);white-space:pre-line;overflow-wrap:anywhere}
 .portfolio-description-line{display:block;min-height:1.6em}
 .portfolio-description hr{border:0;border-top:1px solid rgba(28,43,30,.25);width:36px;margin:8px 0}
@@ -817,7 +820,8 @@ const workData={
       {topic:'event',year:2026,type:'image',src:'posters/munzur-feest-2026.png',title:'Munzur Feest (Cultureel gemeenschapsfestival)',client:'Gemeente Dersim (Tunceli)'},
       {category:'overig',year:2025,type:'image',src:'designs/diamonds-from-sierra-leone-2025.png',title:'Single Cover',client:'Diamonds from Sierra Leone'},
       {category:'logos',year:2026,type:'image',src:'designs/cio-design-logo-2026.png',title:'CIO DESIGN LOGO',client:'Cihan Copur'},
-      {category:'logos',year:2026,type:'image',src:'designs/kcr-logo-2026.png',title:'KCR Logo',client:'komunaciwanrenas.org'}
+      {category:'logos',year:2026,type:'image',src:'designs/kcr-logo-2026.png',title:'KCR Logo',client:'komunaciwanrenas.org'},
+      {category:'publicaties',year:2026,type:'image',src:'publications/munzur-feest-brochure-2026.png',pdf:'publications/munzur-feest-brochure-2026.pdf',title:'Munzur Feest (Cultureel gemeenschapsfestival)',client:'Gemeente Dersim (Tunceli)'}
     ]
   },
   designs:{
@@ -918,7 +922,8 @@ function renderWorkItems(items){
     const media=item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
       : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
-    return `<article class="portfolio-work"><div class="portfolio-card">${media}</div><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div></article>`;
+    const pdfLink=item.pdf ? `<a class="portfolio-pdf-link" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">Bekijk PDF ↗</a>` : '';
+    return `<article class="portfolio-work"><div class="portfolio-card">${media}</div><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div>${pdfLink}</article>`;
   }).join('') : '<div class="empty-work">Nog leeg</div>';
 }
 
