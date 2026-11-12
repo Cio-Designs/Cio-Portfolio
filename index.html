@@ -536,6 +536,17 @@ body,
 :is(#portfolio,#about,#contact) .page-strip-title{font-size:clamp(2rem,5vw,4rem);line-height:1;white-space:nowrap}
 #contact .page-strip-title{font-size:clamp(1.5rem,4.5vw,4rem)}
 .portfolio-body{position:relative;overflow:hidden}
+.portfolio-featured{padding:30px 48px 36px;border-bottom:1px solid rgba(28,43,30,.15)}
+.portfolio-section-title{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;margin-bottom:20px;color:var(--green)}
+.portfolio-featured-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.portfolio-featured-grid .portfolio-card{min-height:180px}
+.portfolio-featured-grid .portfolio-card-dark{background:var(--green)}
+.portfolio-featured-grid .portfolio-work-info{align-items:start;gap:8px}
+.portfolio-featured-grid .portfolio-description{font-size:.76rem}
+.portfolio-featured-grid .portfolio-pdf-link{font-size:.76rem;padding:8px 10px}
+.portfolio-feature-go{margin-top:12px}
+@media(max-width:1000px){.portfolio-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.portfolio-featured{padding:24px 20px}.portfolio-featured-grid{grid-template-columns:1fr}}
 .portfolio-list{transition:opacity .25s ease,transform .25s ease}
 .portfolio-body.detail-open .portfolio-list{opacity:0;transform:translateY(12px);pointer-events:none;position:absolute;inset:0}
 .work-row{border:none;background:transparent;text-align:left;width:100%;color:var(--green);padding:0;appearance:none;font:inherit}
@@ -794,6 +805,10 @@ body,
     </div>
     <div class="page-body portfolio-body">
       <div class="portfolio-list">
+        <section class="portfolio-featured" aria-labelledby="featured-title">
+          <h2 class="portfolio-section-title" id="featured-title">Uitgelicht</h2>
+          <div class="portfolio-featured-grid"></div>
+        </section>
         <div class="work-col-header">
           <div class="wch">#</div>
           <div class="wch">Naam</div>
@@ -945,6 +960,13 @@ const workData={
   ]}
 };
 
+const featuredWorks=[
+  {key:'posters',category:'posters',src:'POSTER/ChePoster-BG-02.png',label:'Posters'},
+  {key:'photos',category:'evenementen',src:'photos/hayko-cepkin-2026-02.jpeg',label:'Evenementen'},
+  {key:'tekenen',src:'drawings/leeuw-2024.png',label:'Tekenen'},
+  {key:'posters',category:'logos',src:'designs/smaax-logo-2026.png',label:'Logo’s',darkBackground:true}
+].map(feature=>({...feature,item:workData[feature.key].items.find(item=>item.src===feature.src)}));
+
 const portfolioBody=document.querySelector('#portfolio .portfolio-body');
 const portfolioDetail=document.getElementById('portfolio-detail');
 const portfolioTitle=portfolioDetail.querySelector('.portfolio-detail-title');
@@ -1058,11 +1080,11 @@ function stepViewer(direction){
   viewerIndex=(viewerIndex+direction+viewerItems.length)%viewerItems.length;
   renderViewerItem();
 }
-function openWorkViewer(index){
-  const item=visibleWorkItems[index];
+function openWorkViewer(index,items=visibleWorkItems){
+  const item=items[index];
   if(!item||item.pdf)return;
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
-  viewerItems=visibleWorkItems.filter(work=>!work.pdf);
+  viewerItems=items.filter(work=>!work.pdf);
   viewerIndex=viewerItems.indexOf(item);
   renderViewerItem();
   workViewer.showModal();
@@ -1096,22 +1118,27 @@ workViewer.addEventListener('close',()=>{
   workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
   workViewerMedia.replaceChildren();
 });
-function renderWorkItems(items){
-  visibleWorkItems=items;
-  portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
-  portfolioGallery.innerHTML=items.length ? items.map((item,index)=>{
+function workCardMarkup(item,index,feature=null){
+  const viewAttribute=feature?'data-view-feature':'data-view-work';
+  const cardClass='portfolio-card portfolio-card-button'+(feature?.darkBackground?' portfolio-card-dark':'');
+  const categoryLink=feature ? `<button class="portfolio-pdf-link portfolio-feature-go" type="button" data-feature-go="${index}">Ga naar ${escapeDescription(feature.label)} →</button>` : '';
     const media=item.cropHeight ? croppedWorkMarkup(item) : item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
       : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
     const card=item.type==='video'
       ? `<div class="portfolio-card">${media}</div>`
       : item.pdf
-        ? `<a class="portfolio-card portfolio-card-button" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">${media}</a>`
-        : `<button class="portfolio-card portfolio-card-button" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(item.title)}">${media}</button>`;
-    const viewLink=item.pdf ? `<a class="portfolio-pdf-link" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">Bekijk PDF ↗</a>` : `<button class="portfolio-pdf-link" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Bekijk: ${escapeDescription(item.title)}">Bekijk ↗</button>`;
-    return `<article class="portfolio-work">${card}<div class="portfolio-work-info"><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div>${viewLink}</div></article>`;
-  }).join('') : '<div class="empty-work">Nog leeg</div>';
+        ? `<a class="${cardClass}" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">${media}</a>`
+        : `<button class="${cardClass}" type="button" ${viewAttribute}="${index}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(item.title)}">${media}</button>`;
+    const viewLink=item.pdf ? `<a class="portfolio-pdf-link" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">Bekijk PDF ↗</a>` : `<button class="portfolio-pdf-link" type="button" ${viewAttribute}="${index}" aria-haspopup="dialog" aria-label="Bekijk: ${escapeDescription(item.title)}">Bekijk ↗</button>`;
+    return `<article class="portfolio-work">${card}<div class="portfolio-work-info"><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div>${viewLink}</div>${categoryLink}</article>`;
 }
+function renderWorkItems(items){
+  visibleWorkItems=items;
+  portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+  portfolioGallery.innerHTML=items.length ? items.map((item,index)=>workCardMarkup(item,index)).join('') : '<div class="empty-work">Nog leeg</div>';
+}
+document.querySelector('.portfolio-featured-grid').innerHTML=featuredWorks.map((feature,index)=>workCardMarkup(feature.item,index,feature)).join('');
 
 function openWorkDetail(key){
   const data=workData[key];
@@ -1133,6 +1160,7 @@ function openWorkDetail(key){
   }else{
     showWorkYears();
   }
+  portfolioBody.querySelector('.portfolio-list').inert=true;
   portfolioBody.classList.add('detail-open');
   portfolioDetail.scrollIntoView({block:'start'});
   if(labels)startCategoryHint();
@@ -1142,6 +1170,7 @@ function closeWorkDetail(){
   if(!portfolioBody)return;
   stopCategoryHint();
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+  portfolioBody.querySelector('.portfolio-list').inert=false;
   portfolioBody.classList.remove('detail-open');
 }
 
@@ -1176,6 +1205,18 @@ function closePage(){
 }
 
 document.addEventListener('click',e=>{
+  const featureGo=e.target.closest('[data-feature-go]');
+  if(featureGo){
+    const feature=featuredWorks[Number(featureGo.dataset.featureGo)];
+    openWorkDetail(feature.key);
+    if(feature.category)selectWorkCategory(feature.category);
+    return;
+  }
+  const featureView=e.target.closest('[data-view-feature]');
+  if(featureView){
+    openWorkViewer(Number(featureView.dataset.viewFeature),featuredWorks.map(feature=>feature.item));
+    return;
+  }
   const viewButton=e.target.closest('[data-view-work]');
   if(viewButton){
     openWorkViewer(Number(viewButton.dataset.viewWork));
