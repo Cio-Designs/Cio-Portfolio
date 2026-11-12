@@ -1123,9 +1123,11 @@ function renderWorkYear(year){
 function escapeDescription(value){
   return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
+let cropClipSequence=0;
 function croppedWorkMarkup(item){
   // Clip only the displayed viewport; preserve every pixel in the uploaded artwork.
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4500 ${item.cropHeight}" role="img" aria-label="${escapeDescription(item.title)}" overflow="hidden"><image href="${escapeDescription(item.src)}" width="4500" height="4500"/></svg>`;
+  const clipId=`work-crop-${++cropClipSequence}`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4500 ${item.cropHeight}" role="img" aria-label="${escapeDescription(item.title)}" overflow="hidden"><defs><clipPath id="${clipId}" clipPathUnits="userSpaceOnUse"><rect width="4500" height="${item.cropHeight}"/></clipPath></defs><image href="${escapeDescription(item.src)}" width="4500" height="4500" clip-path="url(#${clipId})"/></svg>`;
 }
 let visibleWorkItems=[];
 const workViewer=document.getElementById('work-viewer');
