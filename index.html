@@ -540,6 +540,7 @@ body,
   position:relative;inset:auto;width:100%;min-height:210px;
 }
 .hero-stage .note[data-target]{
+  text-decoration:none;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:24px;
 }
@@ -547,6 +548,7 @@ body,
   margin:0;font-size:clamp(2rem,3.6vw,3.5rem);text-align:center;
 }
 .hero-stage .note .note-sub{margin-top:8px;text-align:center}
+.hero-stage .note:focus-visible{outline:2px solid var(--cream);outline-offset:6px}
 .note-3{animation-delay:.7s}
 .page-strip-eyebrow{font-size:.72rem}
 .page-strip-title{font-size:clamp(3rem,9vw,7.2rem);letter-spacing:0}
@@ -585,7 +587,7 @@ body,
 @media(prefers-reduced-motion:reduce){.portfolio-scroll-hint{animation:none}}
 .portfolio-list{transition:opacity .25s ease,transform .25s ease}
 .portfolio-body.detail-open .portfolio-list{opacity:0;transform:translateY(12px);pointer-events:none;position:absolute;inset:0}
-.work-row{border:none;background:transparent;text-align:center;width:100%;color:var(--green);padding:0;appearance:none;font:inherit}
+.work-row{text-decoration:none;border:none;background:transparent;text-align:center;width:100%;color:var(--green);padding:0;appearance:none;font:inherit}
 .work-row:focus-visible{outline:2px solid var(--brown);outline-offset:-2px}
 .portfolio-detail{display:none;scroll-margin-top:80px;padding:30px 48px 72px;background:var(--cream);color:var(--green)}
 .portfolio-body.detail-open .portfolio-detail{display:block}
@@ -606,8 +608,8 @@ body,
 .portfolio-years{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
 .portfolio-years[hidden]{display:none}
 .portfolio-year{border:1px solid var(--green);padding:10px 18px;background:transparent;color:var(--green);font:inherit;cursor:pointer}
-.portfolio-year{transition:background .25s ease,color .25s ease}
-.portfolio-year[aria-pressed="true"],.portfolio-year:hover,.portfolio-year.is-suggested{background:var(--green);color:var(--cream)}
+.portfolio-year{text-decoration:none;display:inline-block;transition:background .25s ease,color .25s ease}
+.portfolio-year[aria-current="page"],.portfolio-year:hover,.portfolio-year.is-suggested{background:var(--green);color:var(--cream)}
 @media(prefers-reduced-motion:reduce){.portfolio-year{transition:none}}
 .portfolio-year:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
 .portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
@@ -743,7 +745,7 @@ body,
       </div>
 
       <!-- NOTITIE 1 → Over Mij -->
-      <div class="note note-1" data-target="about">
+      <a class="note note-1" data-target="about" href="#over-mij" data-route-link>
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -754,10 +756,10 @@ body,
         <div class="note-fold"></div>
         <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
-      </div>
+      </a>
 
       <!-- NOTITIE 2 → Portfolio -->
-      <div class="note note-2" data-target="portfolio">
+      <a class="note note-2" data-target="portfolio" href="#portfolio" data-route-link>
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -768,10 +770,10 @@ body,
         <div class="note-fold"></div>
         <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
-      </div>
+      </a>
 
       <!-- NOTITIE 3 → Contact -->
-      <div class="note note-3" data-target="contact">
+      <a class="note note-3" data-target="contact" href="#contact" data-route-link>
         <div class="note-bg"></div>
         <div class="note-holes">
           <div class="note-hole"></div><div class="note-hole"></div>
@@ -782,7 +784,7 @@ body,
         <div class="note-fold"></div>
         <div class="note-arrow">↗</div>
         <div class="note-torn"></div>
-      </div>
+      </a>
 
     </div><!-- /hero-stage -->
 
@@ -848,21 +850,21 @@ body,
           <h2 class="portfolio-section-title" id="featured-title">Uitgelicht</h2>
           <div class="portfolio-featured-grid"></div>
         </section>
-        <button class="work-row" type="button" data-work="posters">
+        <a class="work-row" data-work="posters" href="#portfolio/designs" data-route-link>
           <div class="work-td"><span class="td-name">Designs</span></div>
-        </button>
-        <button class="work-row" type="button" data-work="designs">
+        </a>
+        <a class="work-row" data-work="designs" href="#portfolio/branding" data-route-link>
           <div class="work-td"><span class="td-name">Branding</span></div>
-        </button>
-        <button class="work-row" type="button" data-work="videos">
+        </a>
+        <a class="work-row" data-work="videos" href="#portfolio/videos" data-route-link>
           <div class="work-td"><span class="td-name">Videos</span></div>
-        </button>
-        <button class="work-row" type="button" data-work="photos">
+        </a>
+        <a class="work-row" data-work="photos" href="#portfolio/photos" data-route-link>
           <div class="work-td"><span class="td-name">Photos</span></div>
-        </button>
-        <button class="work-row" type="button" data-work="tekenen">
+        </a>
+        <a class="work-row" data-work="tekenen" href="#portfolio/tekenen" data-route-link>
           <div class="work-td"><span class="td-name">Tekenen</span></div>
-        </button>
+        </a>
       </div>
       <div class="portfolio-detail" id="portfolio-detail" aria-live="polite">
         <button class="portfolio-back" type="button"><span class="portfolio-back-arrow" aria-hidden="true">←</span>Terug naar lijst</button>
@@ -999,6 +1001,8 @@ const workData={
   ]}
 };
 
+const publicWorkSlugs={posters:'designs',designs:'branding',videos:'videos',photos:'photos',tekenen:'tekenen'};
+
 const workDescriptions={
   "POSTER/ChePoster-BG-02.png": "Een poster voor The Red Archive waarin Che Guevara en revolutionaire slogans centraal staan. Het gele papiergevoel, de rode accenten en de grote letters geven het ontwerp een uitgesproken karakter.",
   "posters/poster-02.png": "Een poster voor The Red Archive rond de Zapatistas. De rode ster, bloemen en de tekst “Love the flowers, kill the fascists” brengen natuurbeelden en politieke beeldtaal samen.",
@@ -1068,7 +1072,7 @@ function stopCategoryHint(){
 }
 function startCategoryHint(){
   stopCategoryHint();
-  const buttons=[...workCategories.querySelectorAll('button')];
+  const buttons=[...workCategories.querySelectorAll('[data-work-category]')];
   if(buttons.length<2||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   let index=0;
   buttons[index].classList.add('is-suggested');
@@ -1097,7 +1101,7 @@ function showWorkYears(){
   portfolioYears.setAttribute('aria-label','Filter op jaar');
   const years=[...new Set(selectedWorkItems().map(item=>item.year))].sort((a,b)=>b-a);
   portfolioYears.innerHTML=years.map(year=>
-    `<button class="portfolio-year" type="button" data-year="${year}" aria-pressed="false">${year}</button>`
+    `<a class="portfolio-year" href="${portfolioRoute(activeWorkKey,activeCategory,year)}" data-route-link data-year="${year}" aria-current="false">${year}</a>`
   ).join('');
   portfolioYears.hidden=years.length===0;
   renderWorkYear(years[0]);
@@ -1107,7 +1111,7 @@ function selectWorkCategory(category){
   if(!labels||!Object.hasOwn(labels,category))return;
   stopCategoryHint();
   activeCategory=category;
-  workCategories.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.workCategory===category)));
+  workCategories.querySelectorAll('[data-work-category]').forEach(link=>link.setAttribute('aria-current',link.dataset.workCategory===category?'page':'false'));
   showWorkYears();
 }
 let activeWorkKey=null;
@@ -1117,8 +1121,8 @@ function renderWorkYear(year){
   if(!data)return;
   // Stop playback before replacing a year's media.
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
-  portfolioYears.querySelectorAll('button').forEach(button=>{
-    button.setAttribute('aria-pressed',String(button.dataset.year===String(year)));
+  portfolioYears.querySelectorAll('[data-year]').forEach(link=>{
+    link.setAttribute('aria-current',link.dataset.year===String(year)?'page':'false');
   });
   const items=selectedWorkItems().filter(item=>item.year===year);
   renderWorkItems(items);
@@ -1217,7 +1221,7 @@ workViewer.addEventListener('close',()=>{
 function workCardMarkup(item,index,feature=null){
   const viewAttribute=feature?'data-view-feature':'data-view-work';
   const cardClass='portfolio-card portfolio-card-button'+(item.darkBackground?' portfolio-card-dark':'')+(item.whiteBackground?' portfolio-card-white':'');
-  const categoryLink=feature ? `<button class="portfolio-pdf-link portfolio-feature-go" type="button" data-feature-go="${index}">Ga naar ${escapeDescription(feature.label)} →</button>` : '';
+  const categoryLink=feature ? `<a class="portfolio-pdf-link portfolio-feature-go" href="${portfolioRoute(feature.key,feature.category)}" data-route-link>Ga naar ${escapeDescription(feature.label)} →</a>` : '';
     const media=item.cropHeight ? croppedWorkMarkup(item) : item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
       : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
@@ -1261,7 +1265,7 @@ function openWorkDetail(key){
   const labels=workCategoryLabels[key];
   workCategories.hidden=!labels;
   workCategories.innerHTML=labels ? Object.entries(labels).map(([category,label])=>
-    `<button class="portfolio-year" type="button" data-work-category="${category}" aria-pressed="false">${label}</button>`
+    `<a class="portfolio-year" href="${portfolioRoute(key,category)}" data-route-link data-work-category="${category}" aria-current="false">${label}</a>`
   ).join('') : '';
   if(labels){
     portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
@@ -1322,12 +1326,49 @@ function closePage(){
   backBtn.classList.remove('visible');
 }
 
+function portfolioRoute(key,category=null,year=null){
+  const segments=['portfolio',publicWorkSlugs[key]];
+  if(category)segments.push(category);
+  if(year!==null)segments.push(String(year));
+  return '#'+segments.map(encodeURIComponent).join('/');
+}
+function navigateTo(hash){
+  if(location.hash===hash)applyLocationRoute();
+  else location.hash=hash;
+}
+function applyLocationRoute(){
+  if(workViewer.open)workViewer.close();
+  let parts;
+  try{parts=location.hash.slice(1).split('/').filter(Boolean).map(decodeURIComponent);}catch{closePage();return;}
+  if(!parts.length){closePage();return;}
+  if(parts[0]==='over-mij'||parts[0]==='contact'){
+    openPage(parts[0]==='over-mij'?'about':'contact');
+    return;
+  }
+  if(parts[0]!=='portfolio'){closePage();return;}
+  openPage('portfolio');
+  const key=Object.keys(publicWorkSlugs).find(key=>publicWorkSlugs[key]===parts[1]);
+  if(!key)return;
+  openWorkDetail(key);
+  let rest=parts.slice(2);
+  const labels=workCategoryLabels[key];
+  if(labels&&rest.length&&Object.hasOwn(labels,rest[0])){
+    selectWorkCategory(rest[0]);
+    rest=rest.slice(1);
+  }
+  if(rest.length===1&&/^\d{4}$/.test(rest[0])){
+    const year=Number(rest[0]);
+    if(!portfolioYears.hidden&&selectedWorkItems().some(item=>item.year===year))renderWorkYear(year);
+  }
+}
+window.addEventListener('hashchange',applyLocationRoute);
+
 document.addEventListener('click',e=>{
-  const featureGo=e.target.closest('[data-feature-go]');
-  if(featureGo){
-    const feature=featuredWorks[Number(featureGo.dataset.featureGo)];
-    openWorkDetail(feature.key);
-    if(feature.category)selectWorkCategory(feature.category);
+  const routeLink=e.target.closest('a[data-route-link]');
+  if(routeLink){
+    if(e.button!==0||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+    e.preventDefault();
+    navigateTo(routeLink.hash);
     return;
   }
   const featureView=e.target.closest('[data-view-feature]');
@@ -1340,31 +1381,14 @@ document.addEventListener('click',e=>{
     openWorkViewer(Number(viewButton.dataset.viewWork));
     return;
   }
-  const categoryButton=e.target.closest('[data-work-category]');
-  if(categoryButton){
-    selectWorkCategory(categoryButton.dataset.workCategory);
-    return;
-  }
-  const yearButton=e.target.closest('.portfolio-year[data-year]');
-  if(yearButton){
-    renderWorkYear(Number(yearButton.dataset.year));
-    return;
-  }
-  const row=e.target.closest('.work-row[data-work]');
-  if(row){
-    openWorkDetail(row.dataset.work);
-    return;
-  }
   if(e.target.closest('.portfolio-back')){
-    closeWorkDetail();
+    navigateTo('#portfolio');
   }
 });
 
-document.querySelectorAll('.note[data-target]').forEach(n=>{
-  n.addEventListener('click',()=>openPage(n.dataset.target));
-});
-backBtn.addEventListener('click',closePage);
-document.getElementById('logo-link').addEventListener('click',e=>{e.preventDefault();closePage()});
+backBtn.addEventListener('click',()=>navigateTo(''));
+document.getElementById('logo-link').addEventListener('click',e=>{e.preventDefault();navigateTo('')});
+applyLocationRoute();
 </script>
 </body>
 </html>
