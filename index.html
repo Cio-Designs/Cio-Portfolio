@@ -559,7 +559,7 @@ body,
 .portfolio-section-title{font-family:Georgia,'Times New Roman',serif;font-size:1.6rem;margin-bottom:20px;color:var(--green)}
 .portfolio-featured-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .portfolio-featured-grid .portfolio-card{min-height:180px}
-.portfolio-featured-grid .portfolio-card-dark{background:var(--green)}
+.portfolio-card.portfolio-card-dark,.work-viewer-media.work-viewer-media-dark{background:#000}
 .portfolio-featured-grid .portfolio-work-info{align-items:start;gap:8px}
 .portfolio-featured-grid .portfolio-description{font-size:.76rem}
 .portfolio-featured-grid .portfolio-pdf-link{font-size:.76rem;padding:8px 10px}
@@ -950,7 +950,7 @@ const workData={
       {category:'overig',year:2025,type:'image',src:'designs/diamonds-from-sierra-leone-2025.png',title:'Single Cover',client:'Diamonds from Sierra Leone'},
       {category:'logos',year:2026,type:'image',src:'designs/cio-design-logo-2026.png',title:'CIO DESIGN LOGO',client:'Cihan Copur'},
       {category:'logos',year:2026,type:'image',src:'designs/kcr-logo-2026.png',title:'KCR Logo',client:'komunaciwanrenas.org'},
-      {category:'logos',year:2026,type:'image',src:'designs/smaax-logo-2026.png',title:'SmaaX Logo',client:'SmaaX Weert'},
+      {category:'logos',year:2026,type:'image',src:'designs/smaax-logo-2026.png',title:'SmaaX Logo',client:'SmaaX Weert',darkBackground:true},
       {category:'publicaties',year:2026,type:'image',src:'publications/munzur-feest-brochure-2026.png',pdf:'publications/munzur-feest-brochure-2026.pdf',title:'Munzur Feest (Cultureel gemeenschapsfestival)',client:'Gemeente Dersim (Tunceli)'}
     ]
   },
@@ -1044,7 +1044,7 @@ const featuredWorks=[
   {key:'posters',category:'posters',src:'POSTER/ChePoster-BG-02.png',label:'Posters'},
   {key:'photos',category:'evenementen',src:'photos/hayko-cepkin-2026-02.jpeg',label:'Evenementen'},
   {key:'tekenen',src:'drawings/leeuw-2024.png',label:'Tekenen'},
-  {key:'posters',category:'logos',src:'designs/smaax-logo-2026.png',label:'Logo’s',darkBackground:true}
+  {key:'posters',category:'logos',src:'designs/smaax-logo-2026.png',label:'Logo’s'}
 ].map(feature=>({...feature,item:workData[feature.key].items.find(item=>item.src===feature.src)}));
 
 const portfolioBody=document.querySelector('#portfolio .portfolio-body');
@@ -1136,6 +1136,7 @@ let viewerItems=[];
 let viewerIndex=0;
 function renderViewerItem(){
   const item=viewerItems[viewerIndex];
+  workViewerMedia.classList.toggle('work-viewer-media-dark',!!item.darkBackground);
   workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
   document.getElementById('work-viewer-title').textContent=item.title;
   const meta=workViewer.querySelector('.work-viewer-meta');
@@ -1209,7 +1210,7 @@ workViewer.addEventListener('close',()=>{
 });
 function workCardMarkup(item,index,feature=null){
   const viewAttribute=feature?'data-view-feature':'data-view-work';
-  const cardClass='portfolio-card portfolio-card-button'+(feature?.darkBackground?' portfolio-card-dark':'');
+  const cardClass='portfolio-card portfolio-card-button'+(item.darkBackground?' portfolio-card-dark':'');
   const categoryLink=feature ? `<button class="portfolio-pdf-link portfolio-feature-go" type="button" data-feature-go="${index}">Ga naar ${escapeDescription(feature.label)} →</button>` : '';
     const media=item.cropHeight ? croppedWorkMarkup(item) : item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
