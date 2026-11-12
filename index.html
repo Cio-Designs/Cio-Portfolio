@@ -490,11 +490,23 @@ body,
 .work-viewer,.work-viewer::backdrop{cursor:auto}
 #cur[popover]{margin:0;padding:0;inset:auto;overflow:visible}
 @media(min-width:769px) and (pointer:fine){
-  .work-viewer,.work-viewer::backdrop,.work-viewer .portfolio-pdf-link{cursor:none}
+  .work-viewer,.work-viewer::backdrop,.work-viewer button{cursor:none}
 }
 .work-viewer-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
 .work-viewer-title{font-size:1rem;overflow-wrap:anywhere}
 .work-viewer-close{flex-shrink:0}
+.work-viewer-stage{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:16px}
+.work-viewer-media{min-width:0}
+.work-viewer-arrow{width:48px;height:48px;padding:0;border:1px solid var(--green);background:transparent;color:var(--brown);font-size:1.8rem;line-height:1;cursor:pointer}
+.work-viewer-arrow:hover{background:var(--green);color:var(--cream)}
+.work-viewer-arrow:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
+.work-viewer-arrow[hidden]{display:none}
+.work-viewer-stage.single-work{grid-template-columns:minmax(0,1fr)}
+@media(max-width:600px){
+  .work-viewer{padding:12px}
+  .work-viewer-stage{grid-template-columns:36px minmax(0,1fr) 36px;gap:8px}
+  .work-viewer-arrow{width:36px;height:44px;font-size:1.4rem}
+}
 .work-viewer-media img,.work-viewer-media video{display:block;width:100%;max-height:calc(94dvh - 120px);object-fit:contain}
 
 
@@ -843,10 +855,14 @@ body,
 
 <dialog class="work-viewer" id="work-viewer" aria-labelledby="work-viewer-title">
   <div class="work-viewer-header">
-    <h2 class="work-viewer-title" id="work-viewer-title"></h2>
+    <h2 class="work-viewer-title" id="work-viewer-title" aria-live="polite"></h2>
     <button class="portfolio-pdf-link work-viewer-close" type="button" autofocus>Sluiten ×</button>
   </div>
-  <div class="work-viewer-media"></div>
+  <div class="work-viewer-stage">
+    <button class="work-viewer-arrow" type="button" data-viewer-step="-1" aria-label="Vorig werk">←</button>
+    <div class="work-viewer-media"></div>
+    <button class="work-viewer-arrow" type="button" data-viewer-step="1" aria-label="Volgend werk">→</button>
+  </div>
 </dialog>
 <script>
 // Cursor
@@ -990,10 +1006,11 @@ const workViewer=document.getElementById('work-viewer');
 const workViewerMedia=workViewer.querySelector('.work-viewer-media');
 const cursorHome=cur.parentNode;
 const cursorNextSibling=cur.nextSibling;
-function openWorkViewer(index){
-  const item=visibleWorkItems[index];
-  if(!item||item.pdf)return;
-  portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+let viewerItems=[];
+let viewerIndex=0;
+function renderViewerItem(){
+  const item=viewerItems[viewerIndex];
+  workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
   document.getElementById('work-viewer-title').textContent=item.title;
   const media=document.createElement(item.type==='video'?'video':'img');
   media.src=item.src;
@@ -1004,12 +1021,38 @@ function openWorkViewer(index){
     media.alt=item.title;
   }
   workViewerMedia.replaceChildren(media);
+  const single=viewerItems.length<2;
+  workViewer.querySelector('.work-viewer-stage').classList.toggle('single-work',single);
+  workViewer.querySelectorAll('[data-viewer-step]').forEach(button=>button.hidden=single);
+}
+function stepViewer(direction){
+  if(!workViewer.open||viewerItems.length<2)return;
+  viewerIndex=(viewerIndex+direction+viewerItems.length)%viewerItems.length;
+  renderViewerItem();
+}
+function openWorkViewer(index){
+  const item=visibleWorkItems[index];
+  if(!item||item.pdf)return;
+  portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+  viewerItems=visibleWorkItems.filter(work=>!work.pdf);
+  viewerIndex=viewerItems.indexOf(item);
+  renderViewerItem();
   workViewer.showModal();
   // Keep the same cursor above the modal's top layer, including its backdrop.
   workViewer.append(cur);
   cur.setAttribute('popover','manual');
   cur.showPopover();
 }
+workViewer.querySelectorAll('[data-viewer-step]').forEach(button=>{
+  button.addEventListener('click',()=>stepViewer(Number(button.dataset.viewerStep)));
+});
+workViewer.addEventListener('keydown',event=>{
+  if(event.target.closest('video')||event.altKey||event.ctrlKey||event.metaKey)return;
+  if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+    event.preventDefault();
+    stepViewer(event.key==='ArrowLeft'?-1:1);
+  }
+});
 workViewer.querySelector('.work-viewer-close').addEventListener('click',()=>workViewer.close());
 workViewer.addEventListener('click',event=>{
   if(event.target!==workViewer)return;
@@ -1017,6 +1060,8 @@ workViewer.addEventListener('click',event=>{
   if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)workViewer.close();
 });
 workViewer.addEventListener('close',()=>{
+  viewerItems=[];
+  viewerIndex=0;
   if(cur.matches(':popover-open'))cur.hidePopover();
   cur.removeAttribute('popover');
   cursorHome.insertBefore(cur,cursorNextSibling);
