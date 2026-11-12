@@ -367,10 +367,10 @@ body > nav{
 /* ══════════════════════
    PORTFOLIO
 ══════════════════════ */
-.work-col-header{display:grid;grid-template-columns:52px 1fr 150px;height:44px;border-bottom:1.5px solid rgba(28,43,30,.15)}
+.work-col-header{display:grid;grid-template-columns:52px 1fr;height:44px;border-bottom:1.5px solid rgba(28,43,30,.15)}
 .wch{display:flex;align-items:center;padding:0 20px;font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);border-right:1.5px solid rgba(28,43,30,.15)}
 .wch:last-child{border-right:none}
-.work-row{display:grid;grid-template-columns:52px 1fr 150px;border-bottom:1.5px solid rgba(28,43,30,.12);min-height:76px;transition:background .15s;cursor:none}
+.work-row{display:grid;grid-template-columns:52px 1fr;border-bottom:1.5px solid rgba(28,43,30,.12);min-height:76px;transition:background .15s;cursor:none}
 .work-row:last-child{border-bottom:none}
 .work-row:hover{background:var(--green);color:var(--cream)}
 .work-td{display:flex;align-items:center;padding:0 20px;border-right:1.5px solid rgba(28,43,30,.12);transition:border-color .15s,color .15s}
@@ -733,32 +733,26 @@ body,
         <div class="work-col-header">
           <div class="wch">#</div>
           <div class="wch">Naam</div>
-          <div class="wch">Type</div>
         </div>
         <button class="work-row" type="button" data-work="posters">
           <div class="work-td"><span class="td-num">01</span></div>
           <div class="work-td"><span class="td-name">Designs</span></div>
-          <div class="work-td"><span class="td-cat">Print</span></div>
         </button>
         <button class="work-row" type="button" data-work="designs">
           <div class="work-td"><span class="td-num">02</span></div>
           <div class="work-td"><span class="td-name">Branding</span></div>
-          <div class="work-td"><span class="td-cat">Visual</span></div>
         </button>
         <button class="work-row" type="button" data-work="videos">
           <div class="work-td"><span class="td-num">04</span></div>
           <div class="work-td"><span class="td-name">Videos</span></div>
-          <div class="work-td"><span class="td-cat">Motion</span></div>
         </button>
         <button class="work-row" type="button" data-work="photos">
           <div class="work-td"><span class="td-num">05</span></div>
           <div class="work-td"><span class="td-name">Photos</span></div>
-          <div class="work-td"><span class="td-cat">Photo</span></div>
         </button>
         <button class="work-row" type="button" data-work="tekenen">
           <div class="work-td"><span class="td-num">06</span></div>
           <div class="work-td"><span class="td-name">Tekenen</span></div>
-          <div class="work-td"><span class="td-cat">Drawing</span></div>
         </button>
       </div>
       <div class="portfolio-detail" id="portfolio-detail" aria-live="polite">
