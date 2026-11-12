@@ -864,6 +864,12 @@ function selectPosterTopic(topic){
   renderWorkItems(selectedWorkItems().filter(item=>(item.topic||'overig')===topic));
 }
 function showWorkYears(){
+  if(activeWorkKey==='photos'&&activeCategory==='overige'){
+    portfolioYears.innerHTML='';
+    portfolioYears.hidden=true;
+    renderWorkItems(selectedWorkItems());
+    return;
+  }
   if(activeWorkKey==='posters'&&activeCategory==='posters'){
     portfolioYears.setAttribute('aria-label','Postercategorieën');
     portfolioYears.innerHTML=Object.entries(posterTopicLabels).map(([topic,label])=>
