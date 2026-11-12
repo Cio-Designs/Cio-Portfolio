@@ -461,13 +461,14 @@ body,
 .hero-stage .note{
   position:relative;inset:auto;width:100%;min-height:210px;
 }
-.hero-stage .note[data-target="portfolio"]{
-  display:flex;align-items:center;justify-content:center;
+.hero-stage .note[data-target]{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:24px;
 }
-.note[data-target="portfolio"] .note-label{
+.hero-stage .note .note-label{
   margin:0;font-size:clamp(2rem,3.6vw,3.5rem);text-align:center;
 }
+.hero-stage .note .note-sub{margin-top:8px;text-align:center}
 .note-3{animation-delay:.7s}
 .page-strip-eyebrow{font-size:.72rem}
 .page-strip-title{font-size:clamp(3rem,9vw,7.2rem);letter-spacing:0}
