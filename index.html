@@ -488,7 +488,10 @@ body,
 .work-viewer{width:min(94vw,1400px);max-height:94dvh;margin:auto;padding:20px;border:1px solid var(--green);background:var(--cream);color:var(--green);overflow:auto}
 .work-viewer::backdrop{background:rgba(0,0,0,.8)}
 .work-viewer,.work-viewer::backdrop{cursor:auto}
-body:has(.work-viewer[open]) #cur{visibility:hidden}
+#cur[popover]{margin:0;padding:0;inset:auto;overflow:visible}
+@media(min-width:769px) and (pointer:fine){
+  .work-viewer,.work-viewer::backdrop,.work-viewer .portfolio-pdf-link{cursor:none}
+}
 .work-viewer-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
 .work-viewer-title{font-size:1rem;overflow-wrap:anywhere}
 .work-viewer-close{flex-shrink:0}
@@ -970,6 +973,8 @@ function escapeDescription(value){
 let visibleWorkItems=[];
 const workViewer=document.getElementById('work-viewer');
 const workViewerMedia=workViewer.querySelector('.work-viewer-media');
+const cursorHome=cur.parentNode;
+const cursorNextSibling=cur.nextSibling;
 function openWorkViewer(index){
   const item=visibleWorkItems[index];
   if(!item||item.pdf)return;
@@ -985,6 +990,10 @@ function openWorkViewer(index){
   }
   workViewerMedia.replaceChildren(media);
   workViewer.showModal();
+  // Keep the same cursor above the modal's top layer, including its backdrop.
+  workViewer.append(cur);
+  cur.setAttribute('popover','manual');
+  cur.showPopover();
 }
 workViewer.querySelector('.work-viewer-close').addEventListener('click',()=>workViewer.close());
 workViewer.addEventListener('click',event=>{
@@ -993,6 +1002,9 @@ workViewer.addEventListener('click',event=>{
   if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)workViewer.close();
 });
 workViewer.addEventListener('close',()=>{
+  if(cur.matches(':popover-open'))cur.hidePopover();
+  cur.removeAttribute('popover');
+  cursorHome.insertBefore(cur,cursorNextSibling);
   workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
   workViewerMedia.replaceChildren();
 });
