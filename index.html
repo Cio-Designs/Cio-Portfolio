@@ -483,6 +483,12 @@ body,
 .portfolio-back,
 .portfolio-detail-title,
 .portfolio-card-title,
+.work-viewer{width:min(94vw,1400px);max-height:94dvh;margin:auto;padding:20px;border:1px solid var(--green);background:var(--cream);color:var(--green);overflow:auto}
+.work-viewer::backdrop{background:rgba(0,0,0,.8)}
+.work-viewer-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.work-viewer-title{font-size:1rem;overflow-wrap:anywhere}
+.work-viewer-close{flex-shrink:0}
+.work-viewer-media img,.work-viewer-media video{display:block;width:100%;max-height:calc(94dvh - 120px);object-fit:contain}
 .empty-work{font-family:Georgia,'Times New Roman',serif!important}
 
 .hero-stage{
@@ -539,10 +545,11 @@ body,
 .portfolio-card img,
 .portfolio-card video{width:100%;height:100%;display:block;object-fit:contain}
 .portfolio-work{min-width:0}
-.portfolio-pdf-link{display:inline-block;margin-top:4px;padding:9px 14px;border:1px solid var(--green);color:var(--green);text-decoration:none;font-size:.82rem}
+.portfolio-work-info{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;margin-top:12px}
+.portfolio-pdf-link{display:inline-block;padding:9px 14px;border:1px solid var(--green);background:transparent;color:var(--green);text-decoration:none;font:inherit;font-size:.82rem;cursor:pointer;white-space:nowrap}
 .portfolio-pdf-link:hover{background:var(--green);color:var(--cream)}
 .portfolio-pdf-link:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
-.portfolio-description{margin-top:12px;min-height:1.5em;font-family:'Inter',sans-serif;font-size:.82rem;line-height:1.6;color:var(--green);white-space:pre-line;overflow-wrap:anywhere}
+.portfolio-description{margin-top:0;min-height:1.5em;font-family:'Inter',sans-serif;font-size:.82rem;line-height:1.6;color:var(--green);white-space:pre-line;overflow-wrap:anywhere}
 .portfolio-description-line{display:block;min-height:1.6em}
 .portfolio-description hr{border:0;border-top:1px solid rgba(28,43,30,.25);width:36px;margin:8px 0}
 .portfolio-card-title{padding:18px;text-align:center;color:var(--brown);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
@@ -827,6 +834,13 @@ body,
   </div>
 </div>
 
+<dialog class="work-viewer" id="work-viewer" aria-labelledby="work-viewer-title">
+  <div class="work-viewer-header">
+    <h2 class="work-viewer-title" id="work-viewer-title"></h2>
+    <button class="portfolio-pdf-link work-viewer-close" type="button" autofocus>Sluiten ×</button>
+  </div>
+  <div class="work-viewer-media"></div>
+</dialog>
 <script>
 // Cursor
 const cur=document.getElementById('cur');
@@ -949,14 +963,44 @@ function renderWorkYear(year){
 function escapeDescription(value){
   return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
-function renderWorkItems(items){
+let visibleWorkItems=[];
+const workViewer=document.getElementById('work-viewer');
+const workViewerMedia=workViewer.querySelector('.work-viewer-media');
+function openWorkViewer(index){
+  const item=visibleWorkItems[index];
+  if(!item||item.pdf)return;
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
-  portfolioGallery.innerHTML=items.length ? items.map(item=>{
+  document.getElementById('work-viewer-title').textContent=item.title;
+  const media=document.createElement(item.type==='video'?'video':'img');
+  media.src=item.src;
+  if(item.type==='video'){
+    media.controls=true;
+    media.playsInline=true;
+  }else{
+    media.alt=item.title;
+  }
+  workViewerMedia.replaceChildren(media);
+  workViewer.showModal();
+}
+workViewer.querySelector('.work-viewer-close').addEventListener('click',()=>workViewer.close());
+workViewer.addEventListener('click',event=>{
+  if(event.target!==workViewer)return;
+  const bounds=workViewer.getBoundingClientRect();
+  if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)workViewer.close();
+});
+workViewer.addEventListener('close',()=>{
+  workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
+  workViewerMedia.replaceChildren();
+});
+function renderWorkItems(items){
+  visibleWorkItems=items;
+  portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+  portfolioGallery.innerHTML=items.length ? items.map((item,index)=>{
     const media=item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
       : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
-    const pdfLink=item.pdf ? `<a class="portfolio-pdf-link" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">Bekijk PDF ↗</a>` : '';
-    return `<article class="portfolio-work"><div class="portfolio-card">${media}</div><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div>${pdfLink}</article>`;
+    const viewLink=item.pdf ? `<a class="portfolio-pdf-link" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">Bekijk PDF ↗</a>` : `<button class="portfolio-pdf-link" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Bekijk: ${escapeDescription(item.title)}">Bekijk ↗</button>`;
+    return `<article class="portfolio-work"><div class="portfolio-card">${media}</div><div class="portfolio-work-info"><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div>${viewLink}</div></article>`;
   }).join('') : '<div class="empty-work">Nog leeg</div>';
 }
 
@@ -1020,6 +1064,11 @@ function closePage(){
 }
 
 document.addEventListener('click',e=>{
+  const viewButton=e.target.closest('[data-view-work]');
+  if(viewButton){
+    openWorkViewer(Number(viewButton.dataset.viewWork));
+    return;
+  }
   const categoryButton=e.target.closest('[data-work-category]');
   if(categoryButton){
     selectWorkCategory(categoryButton.dataset.workCategory);
