@@ -831,10 +831,10 @@ const workData={
     title:'Photos',
     items:[
       {category:'producten',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-01.jpg',title:'Photo 01'},
-      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-02.jpg',title:'Photo 02'},
-      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-03.jpg',title:'Photo 03'},
-      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-04.jpg',title:'Photo 04'},
-      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-05.jpg',title:'Photo 05'}
+      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-02.jpg',title:'Daan van der Rijt'},
+      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-03.jpg',title:'Daan van der Rijt'},
+      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-04.jpg',title:'Daan van der Rijt'},
+      {category:'model',client:'School Opdracht',year:2024,type:'image',src:'photos/photo-05.jpg',title:'Daan van der Rijt'}
     ]
   },
   tekenen:{title:'Tekenen',items:[]}
@@ -862,7 +862,7 @@ function selectPosterTopic(topic){
   renderWorkItems(selectedWorkItems().filter(item=>(item.topic||'overig')===topic));
 }
 function showWorkYears(){
-  if(activeWorkKey==='videos'||(activeWorkKey==='photos'&&activeCategory==='overige')){
+  if(activeWorkKey==='videos'||activeWorkKey==='photos'){
     portfolioYears.innerHTML='';
     portfolioYears.hidden=true;
     renderWorkItems(selectedWorkItems());
