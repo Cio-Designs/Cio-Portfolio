@@ -508,6 +508,7 @@ body,
   .work-viewer-stage{grid-template-columns:36px minmax(0,1fr) 36px;gap:8px}
   .work-viewer-arrow{width:36px;height:44px;font-size:1.4rem}
 }
+.work-viewer-media svg{display:block;width:100%;height:calc(94dvh - 120px);overflow:hidden}
 .work-viewer-media img,.work-viewer-media video{display:block;width:100%;max-height:calc(94dvh - 120px);object-fit:contain}
 
 
@@ -563,6 +564,7 @@ body,
 .portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .portfolio-card{width:100%;min-width:0;min-height:230px;aspect-ratio:4/3;border:1.5px dashed rgba(28,43,30,.25);background:rgba(28,43,30,.03);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .portfolio-card img,
+.portfolio-card svg,
 .portfolio-card video{width:100%;height:100%;display:block;object-fit:contain}
 .portfolio-card-button{padding:0;appearance:none;font:inherit;cursor:pointer}
 .portfolio-card-button:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
@@ -932,7 +934,11 @@ const workData={
       {"category":"overige","client":"","year":2025,"type":"image","src":"photos/katten-in-griekenland-2025.jpeg","title":"Katten in Griekenland"}
     ]
   },
-  tekenen:{title:'Tekenen',items:[]}
+  tekenen:{title:'Tekenen',items:[
+    {type:'image',src:'drawings/leeuw-2024.png',title:'Leeuw',client:'School Opdracht',year:2024,cropHeight:3350},
+    {type:'image',src:'drawings/hond-2024.png',title:'Hond',client:'School Opdracht',year:2024,cropHeight:3350},
+    {type:'image',src:'drawings/kat-2024.png',title:'Kat',client:'School Opdracht',year:2024,cropHeight:3350}
+  ]}
 };
 
 const portfolioBody=document.querySelector('#portfolio .portfolio-body');
@@ -988,6 +994,10 @@ function renderWorkYear(year){
 function escapeDescription(value){
   return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
+function croppedWorkMarkup(item){
+  // Clip only the displayed viewport; preserve every pixel in the uploaded artwork.
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4500 ${item.cropHeight}" role="img" aria-label="${escapeDescription(item.title)}" overflow="hidden"><image href="${escapeDescription(item.src)}" width="4500" height="4500"/></svg>`;
+}
 let visibleWorkItems=[];
 const workViewer=document.getElementById('work-viewer');
 const workViewerMedia=workViewer.querySelector('.work-viewer-media');
@@ -1007,7 +1017,11 @@ function renderViewerItem(){
   }else{
     media.alt=item.title;
   }
-  workViewerMedia.replaceChildren(media);
+  if(item.cropHeight){
+    workViewerMedia.innerHTML=croppedWorkMarkup(item);
+  }else{
+    workViewerMedia.replaceChildren(media);
+  }
   const single=viewerItems.length<2;
   workViewer.querySelector('.work-viewer-stage').classList.toggle('single-work',single);
   workViewer.querySelectorAll('[data-viewer-step]').forEach(button=>button.hidden=single);
@@ -1059,7 +1073,7 @@ function renderWorkItems(items){
   visibleWorkItems=items;
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
   portfolioGallery.innerHTML=items.length ? items.map((item,index)=>{
-    const media=item.type==='video'
+    const media=item.cropHeight ? croppedWorkMarkup(item) : item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
       : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
     const card=item.type==='video'
