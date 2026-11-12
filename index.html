@@ -949,27 +949,11 @@ function selectedWorkItems(){
   const fallback=activeWorkKey==='photos'?'overige':'posters';
   return workCategoryLabels[activeWorkKey] ? items.filter(item=>(item.category||fallback)===activeCategory) : items;
 }
-const posterTopicLabels={event:'Event',business:'Business',activism:'Activism',overig:'Overig'};
-function selectPosterTopic(topic){
-  if(activeWorkKey!=='posters'||activeCategory!=='posters'||!Object.hasOwn(posterTopicLabels,topic))return;
-  portfolioYears.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.posterTopic===topic)));
-  renderWorkItems(selectedWorkItems().filter(item=>(item.topic||'overig')===topic));
-}
 function showWorkYears(){
-  if(activeWorkKey==='videos'||activeWorkKey==='photos'){
+  if(activeWorkKey==='videos'||activeWorkKey==='photos'||(activeWorkKey==='posters'&&activeCategory==='posters')){
     portfolioYears.innerHTML='';
     portfolioYears.hidden=true;
     renderWorkItems(selectedWorkItems());
-    return;
-  }
-  if(activeWorkKey==='posters'&&activeCategory==='posters'){
-    portfolioYears.setAttribute('aria-label','Postercategorieën');
-    portfolioYears.innerHTML=Object.entries(posterTopicLabels).map(([topic,label])=>
-      `<button class="portfolio-year" type="button" data-poster-topic="${topic}" aria-pressed="false">${label}</button>`
-    ).join('');
-    portfolioYears.hidden=false;
-    renderWorkItems([]);
-    portfolioGallery.innerHTML='<p>Kies een categorie om de posters te bekijken.</p>';
     return;
   }
   portfolioYears.setAttribute('aria-label','Filter op jaar');
@@ -1155,11 +1139,6 @@ document.addEventListener('click',e=>{
   const categoryButton=e.target.closest('[data-work-category]');
   if(categoryButton){
     selectWorkCategory(categoryButton.dataset.workCategory);
-    return;
-  }
-  const topicButton=e.target.closest('[data-poster-topic]');
-  if(topicButton){
-    selectPosterTopic(topicButton.dataset.posterTopic);
     return;
   }
   const yearButton=e.target.closest('.portfolio-year[data-year]');
