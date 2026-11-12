@@ -471,9 +471,10 @@ body,
 .note-3{animation-delay:.7s}
 .page-strip-eyebrow{font-size:.72rem}
 .page-strip-title{font-size:clamp(3rem,9vw,7.2rem);letter-spacing:0}
-#portfolio .page-hero-strip{padding-top:24px;padding-bottom:24px}
-#portfolio .page-strip-eyebrow{margin-bottom:10px}
-#portfolio .page-strip-title{font-size:clamp(2rem,5vw,4rem);line-height:1;white-space:nowrap}
+:is(#portfolio,#about,#contact) .page-hero-strip{padding-top:24px;padding-bottom:24px}
+:is(#portfolio,#about,#contact) .page-strip-eyebrow{margin-bottom:10px}
+:is(#portfolio,#about,#contact) .page-strip-title{font-size:clamp(2rem,5vw,4rem);line-height:1;white-space:nowrap}
+#contact .page-strip-title{font-size:clamp(1.5rem,4.5vw,4rem)}
 .portfolio-body{position:relative;overflow:hidden}
 .portfolio-list{transition:opacity .25s ease,transform .25s ease}
 .portfolio-body.detail-open .portfolio-list{opacity:0;transform:translateY(12px);pointer-events:none;position:absolute;inset:0}
@@ -685,7 +686,7 @@ body,
   <div class="page-inner">
     <div class="page-hero-strip">
       <p class="page-strip-eyebrow">Over Mij</p>
-      <h1 class="page-strip-title">Over<br><em>Mij.</em></h1>
+      <h1 class="page-strip-title">Over mij.</h1>
       <div class="page-strip-num">01</div>
     </div>
     <div class="page-body">
@@ -777,7 +778,7 @@ body,
   <div class="page-inner">
     <div class="page-hero-strip">
       <p class="page-strip-eyebrow">Contact</p>
-      <h1 class="page-strip-title">Laten we<br><em>Praten.</em></h1>
+      <h1 class="page-strip-title">Laten we praten.</h1>
       <div class="page-strip-num">03</div>
     </div>
     <div class="page-body">
