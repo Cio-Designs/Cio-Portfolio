@@ -560,6 +560,7 @@ body,
 .portfolio-featured-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .portfolio-featured-grid .portfolio-card{min-height:180px}
 .portfolio-card.portfolio-card-dark,.work-viewer-media.work-viewer-media-dark{background:#000}
+.portfolio-card.portfolio-card-white,.work-viewer-media.work-viewer-media-white{background:#fff}
 .portfolio-featured-grid .portfolio-work-info{align-items:start;gap:8px}
 .portfolio-featured-grid .portfolio-description{font-size:.76rem}
 .portfolio-featured-grid .portfolio-pdf-link{font-size:.76rem;padding:8px 10px}
@@ -951,6 +952,7 @@ const workData={
       {category:'logos',year:2026,type:'image',src:'designs/cio-design-logo-2026.png',title:'CIO DESIGN LOGO',client:'Cihan Copur'},
       {category:'logos',year:2026,type:'image',src:'designs/kcr-logo-2026.png',title:'KCR Logo',client:'komunaciwanrenas.org'},
       {category:'logos',year:2026,type:'image',src:'designs/smaax-logo-2026.png',title:'SmaaX Logo',client:'SmaaX Weert',darkBackground:true},
+      {category:'logos',year:2026,type:'image',src:'designs/the-red-archive-logo-2026.png',title:'The Red Archive Logo',client:'School Project',whiteBackground:true},
       {category:'publicaties',year:2026,type:'image',src:'publications/munzur-feest-brochure-2026.png',pdf:'publications/munzur-feest-brochure-2026.pdf',title:'Munzur Feest (Cultureel gemeenschapsfestival)',client:'Gemeente Dersim (Tunceli)'}
     ]
   },
@@ -1009,6 +1011,7 @@ const workDescriptions={
   "designs/cio-design-logo-2026.png": "Het logo van Cio Design, de ontwerpidentiteit van Cihan Copur. De rode en zwarte vormen geven het beeldmerk een herkenbaar, speels karakter.",
   "designs/kcr-logo-2026.png": "Een logo voor komunaciwanrenas.org. De ronde vorm, rode ster en omlopende naam vormen samen een compact embleem met een duidelijke symbolische uitstraling.",
   "designs/smaax-logo-2026.png": "Een logo voor SmaaX Weert. De gestileerde letters en compacte vorm komen samen in een uitgesproken woordmerk dat ook als los beeld herkenbaar blijft.",
+  "designs/the-red-archive-logo-2026.png": "Een typografisch logo voor The Red Archive, gemaakt als schoolproject. De zwarte serifletters, het rode woord ‘Red’ en de rode lijn vormen samen een helder woordmerk op een witte achtergrond.",
   "publications/munzur-feest-brochure-2026.png": "Een brochure voor het Munzur-feest van Gemeente Dersim (Tunceli). De publicatie brengt festivalinformatie samen met de culturele en natuurlijke context van het evenement. Via “Bekijk PDF” is de volledige brochure te bekijken.",
   "videos/cihan-copur-motion-poster.mp4": "Een motion poster rond de naam Cihan Copur. Dit werk laat zien hoe een poster ook als bewegend beeld kan worden gepresenteerd.",
   "videos/charli-xcx-365-2024.mp4": "Een korte video-edit op “365” van Charli XCX, gemaakt als schoolopdracht. Muziek en montage komen samen in een verticaal videoformaat.",
@@ -1139,6 +1142,7 @@ let viewerIndex=0;
 function renderViewerItem(){
   const item=viewerItems[viewerIndex];
   workViewerMedia.classList.toggle('work-viewer-media-dark',!!item.darkBackground);
+  workViewerMedia.classList.toggle('work-viewer-media-white',!!item.whiteBackground);
   workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
   document.getElementById('work-viewer-title').textContent=item.title;
   const meta=workViewer.querySelector('.work-viewer-meta');
@@ -1212,7 +1216,7 @@ workViewer.addEventListener('close',()=>{
 });
 function workCardMarkup(item,index,feature=null){
   const viewAttribute=feature?'data-view-feature':'data-view-work';
-  const cardClass='portfolio-card portfolio-card-button'+(item.darkBackground?' portfolio-card-dark':'');
+  const cardClass='portfolio-card portfolio-card-button'+(item.darkBackground?' portfolio-card-dark':'')+(item.whiteBackground?' portfolio-card-white':'');
   const categoryLink=feature ? `<button class="portfolio-pdf-link portfolio-feature-go" type="button" data-feature-go="${index}">Ga naar ${escapeDescription(feature.label)} →</button>` : '';
     const media=item.cropHeight ? croppedWorkMarkup(item) : item.type==='video'
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
