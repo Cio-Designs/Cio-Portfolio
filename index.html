@@ -559,7 +559,9 @@ body,
 .portfolio-years{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
 .portfolio-years[hidden]{display:none}
 .portfolio-year{border:1px solid var(--green);padding:10px 18px;background:transparent;color:var(--green);font:inherit;cursor:pointer}
-.portfolio-year[aria-pressed="true"],.portfolio-year:hover{background:var(--green);color:var(--cream)}
+.portfolio-year{transition:background .25s ease,color .25s ease}
+.portfolio-year[aria-pressed="true"],.portfolio-year:hover,.portfolio-year.is-suggested{background:var(--green);color:var(--cream)}
+@media(prefers-reduced-motion:reduce){.portfolio-year{transition:none}}
 .portfolio-year:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
 .portfolio-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .portfolio-card{width:100%;min-width:0;min-height:230px;aspect-ratio:4/3;border:1.5px dashed rgba(28,43,30,.25);background:rgba(28,43,30,.03);display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -953,6 +955,28 @@ const workCategories=portfolioDetail.querySelector('.portfolio-categories');
 const photoCategoryLabels={portretten:'Portretten',producten:'Producten',model:'Model',natuur:'Natuur',evenementen:'Evenementen',overige:'Overige'};
 const workCategoryLabels={videos:{'short-films':'Short Films','motion-design':'Motion Design','social-media':'Social Media',overig:'Overig'},photos:photoCategoryLabels,posters:{posters:'Posters',logos:"Logo’s",'3d':'3D',publicaties:'Print & Publicaties',overig:'Overig'}};
 let activeCategory=null;
+let categoryHintTimer=null;
+function stopCategoryHint(){
+  clearInterval(categoryHintTimer);
+  categoryHintTimer=null;
+  workCategories.querySelectorAll('.is-suggested').forEach(button=>button.classList.remove('is-suggested'));
+}
+function startCategoryHint(){
+  stopCategoryHint();
+  const buttons=[...workCategories.querySelectorAll('button')];
+  if(buttons.length<2||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  let index=0;
+  buttons[index].classList.add('is-suggested');
+  categoryHintTimer=setInterval(()=>{
+    if(document.hidden)return;
+    buttons[index].classList.remove('is-suggested');
+    index=(index+1)%buttons.length;
+    buttons[index].classList.add('is-suggested');
+  },1000);
+}
+document.addEventListener('pointerdown',stopCategoryHint,true);
+document.addEventListener('click',stopCategoryHint,true);
+document.addEventListener('keydown',stopCategoryHint,true);
 function selectedWorkItems(){
   const items=workData[activeWorkKey].items;
   const fallback=activeWorkKey==='photos'?'overige':'posters';
@@ -976,6 +1000,7 @@ function showWorkYears(){
 function selectWorkCategory(category){
   const labels=workCategoryLabels[activeWorkKey];
   if(!labels||!Object.hasOwn(labels,category))return;
+  stopCategoryHint();
   activeCategory=category;
   workCategories.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.workCategory===category)));
   showWorkYears();
@@ -1091,6 +1116,7 @@ function renderWorkItems(items){
 function openWorkDetail(key){
   const data=workData[key];
   if(!data)return;
+  stopCategoryHint();
   activeWorkKey=key;
   portfolioTitle.textContent=data.title;
   activeCategory=null;
@@ -1109,10 +1135,12 @@ function openWorkDetail(key){
   }
   portfolioBody.classList.add('detail-open');
   portfolioDetail.scrollIntoView({block:'start'});
+  if(labels)startCategoryHint();
 }
 
 function closeWorkDetail(){
   if(!portfolioBody)return;
+  stopCategoryHint();
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
   portfolioBody.classList.remove('detail-open');
 }
