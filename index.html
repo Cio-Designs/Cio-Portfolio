@@ -626,6 +626,10 @@ body,
 .brand-palette-color{display:flex;align-items:center;gap:8px;font-size:.8rem}
 .brand-palette-swatch{display:inline-block;width:28px;height:28px;border:1px solid rgba(28,43,30,.15)}
 .brand-project-section+.brand-project-section{margin-top:40px}
+.brand-book{display:grid;grid-template-columns:minmax(130px,200px) minmax(0,1fr);align-items:center;gap:28px;padding:24px;border:1px solid rgba(28,43,30,.18);margin-bottom:32px}
+.brand-book .brand-book-cover{aspect-ratio:419.528/595.276;min-height:0;border:1px solid rgba(28,43,30,.15)}
+.brand-book-title{font-family:Georgia,'Times New Roman',serif;font-size:1.8rem;margin-bottom:12px}
+.brand-book-description{max-width:620px;font-size:.95rem;line-height:1.8;margin-bottom:20px}
 .brand-section-title{font-family:Georgia,'Times New Roman',serif;font-size:1.7rem;margin-bottom:8px}
 .brand-section-intro{max-width:700px;font-size:.9rem;line-height:1.7;margin-bottom:20px}
 .brand-section-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
@@ -634,6 +638,7 @@ body,
 .brand-card-title{font-family:Georgia,'Times New Roman',serif;font-size:1rem;line-height:1.4}
 .brand-overview-card{display:block;color:var(--green);text-decoration:none;border:1px solid rgba(28,43,30,.18)}
 .brand-overview-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.brand-overview-card img.brand-overview-logo{object-fit:contain;padding:24px;background:#fff}
 .brand-overview-caption{padding:20px}
 .brand-overview-caption h3{font-size:1.7rem;margin-bottom:8px}
 .brand-overview-caption p{font-size:.9rem;line-height:1.6;margin-bottom:12px}
@@ -642,6 +647,8 @@ body,
   .brand-project-header{padding:20px}
   .brand-section-grid,.brand-section-grid.brand-section-pair{grid-template-columns:1fr}
   .brand-card-info{gap:8px}
+  .brand-book{grid-template-columns:1fr;gap:20px;padding:20px}
+  .brand-book-cover{max-width:200px}
 }
 
 .portfolio-card-button{padding:0;appearance:none;font:inherit;cursor:pointer}
@@ -995,6 +1002,7 @@ const workData={
   designs:{
     title:'Branding',
     items:[
+      {category:'smaax',section:'brandbook',type:'image',src:'branding/smaax/brandboek-cover-2026.png',pdf:'branding/smaax/brandboek-2026.pdf',title:'SmaaX — Brandboek',client:'SmaaX Weert',year:2026},
       {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/logo.png","title":"SmaaX — Hoofdlogo","client":"SmaaX Weert","year":2026,"whiteBackground":true},
       {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/icon.png","title":"SmaaX — Icoon","client":"SmaaX Weert","year":2026,"whiteBackground":true},
       {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/logo-lockup-1.png","title":"SmaaX — Woordmerk","client":"SmaaX Weert","year":2026,"whiteBackground":true},
@@ -1048,9 +1056,9 @@ const workData={
 };
 
 const brandProjects={
-  smaax:{title:'SmaaX',client:'SmaaX Weert',year:2026,preview:'branding/smaax/visitekaartje-mockup.png',
+  smaax:{title:'SmaaX',client:'SmaaX Weert',year:2026,preview:'branding/smaax/logo.png',previewLogo:true,
     intro:'Een samenhangende visuele identiteit voor SmaaX in Weert. Het ontwerp verbindt burgers en pizza’s met hoekige letters, warme kleuren en herkenbare vormen.',
-    palette:[{name:'Roodoranje',color:'#EA4E24'},{name:'Zand',color:'#D8884F'},{name:'Crème',color:'#F2E5C9'}],
+    palette:[{name:'Pizzaorange',color:'#EB5125'},{name:'Bunbrown',color:'#D8884F'},{name:'Doughcream',color:'#F1E6C9'}],
     sections:[{key:'logo',title:'Logo & beeldmerk',intro:'Het hoofdlogo, een compact icoon en verschillende logovarianten vormen samen een flexibel logosysteem.'},
       {key:'cards',title:'Visitekaartjes',intro:'De identiteit toegepast op de voor- en achterzijde van een visitekaartje, met een mockup van het geheel.'},
       {key:'menus',title:'Menukaarten',intro:'Dezelfde kleuren en typografische hiërarchie komen terug op de pizza- en burgerkaart.'}]
@@ -1060,6 +1068,7 @@ const brandProjects={
 const publicWorkSlugs={posters:'designs',designs:'branding',videos:'videos',photos:'photos',tekenen:'tekenen'};
 
 const workDescriptions={
+  "branding/smaax/brandboek-cover-2026.png": "Het brandboek brengt de visuele identiteit van SmaaX samen: het logo en de varianten, het kleurenpalet, de typografie en toepassingen op menukaarten, visitekaartjes en een bezorgauto. Open de PDF om het volledige document te bekijken.",
   "branding/smaax/logo.png": "Het hoofdlogo combineert de naam SmaaX met een burger en een pizzapunt. De schuine letters en warme kleuren vormen de basis van de visuele identiteit.",
   "branding/smaax/icon.png": "Een compact icoon met een witte X op een roodoranje cirkel. Deze variant brengt het merk terug tot één eenvoudig, herkenbaar teken.",
   "branding/smaax/logo-lockup-1.png": "Een woordmerk met de naam SmaaX, de aanduiding Burger & Pizza en het oprichtingsjaar. De hoekige letters sluiten aan bij de vormen van het hoofdlogo.",
@@ -1308,11 +1317,13 @@ function workCardMarkup(item,index,feature=null){
 function renderBrandOverview(){
   portfolioGallery.classList.remove('brand-project');
   portfolioGallery.innerHTML=Object.entries(brandProjects).map(([key,project])=>
-    `<a class="brand-overview-card" href="${portfolioRoute('designs',key)}" data-route-link><img src="${escapeDescription(project.preview)}" alt="${escapeDescription(project.title)} — visuele identiteit" loading="lazy"><div class="brand-overview-caption"><h3>${escapeDescription(project.title)}</h3><p>Logo, visitekaartjes & menukaarten</p><span>Bekijk merkidentiteit →</span></div></a>`
+    `<a class="brand-overview-card" href="${portfolioRoute('designs',key)}" data-route-link><img${project.previewLogo?' class="brand-overview-logo"':''} src="${escapeDescription(project.preview)}" alt="${escapeDescription(project.title)} — visuele identiteit" loading="lazy"><div class="brand-overview-caption"><h3>${escapeDescription(project.title)}</h3><p>Logo, visitekaartjes & menukaarten</p><span>Bekijk merkidentiteit →</span></div></a>`
   ).join('');
 }
 function renderBrandProject(items){
   const project=brandProjects[activeCategory];
+  const book=items.find(item=>item.section==='brandbook'&&item.pdf);
+  const brandbook=book?`<section class="brand-book" aria-label="Brandboek"><button class="portfolio-card portfolio-card-button brand-book-cover" type="button" data-view-work="${items.indexOf(book)}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(book.title)}"><img src="${escapeDescription(book.src)}" alt="${escapeDescription(book.title)} — omslag"></button><div><h3 class="brand-book-title">Brandboek</h3><p class="brand-book-description">Ontdek de visuele identiteit van ${escapeDescription(project.title)}: van het logo, de kleuren en de typografie tot de toepassingen van de huisstijl.</p><a class="portfolio-pdf-link" href="${escapeDescription(book.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk het brandboek van ${escapeDescription(project.title)} als PDF">Bekijk brandboek (PDF) ↗</a></div></section>`:'';
   const palette=project.palette.map(color=>`<span class="brand-palette-color"><span class="brand-palette-swatch" style="background:${color.color}" aria-hidden="true"></span>${escapeDescription(color.name)}</span>`).join('');
   const sections=project.sections.map(section=>{
     const works=items.filter(item=>item.section===section.key);
@@ -1322,7 +1333,7 @@ function renderBrandProject(items){
     }).join('');
     return `<section class="brand-project-section"><h4 class="brand-section-title">${escapeDescription(section.title)}</h4><p class="brand-section-intro">${escapeDescription(section.intro)}</p><div class="brand-section-grid${works.length===2?' brand-section-pair':''}">${cards}</div></section>`;
   }).join('');
-  portfolioGallery.innerHTML=`<header class="brand-project-header"><p class="brand-project-kicker">Visuele identiteit · ${project.year}</p><h3 class="brand-project-title">${escapeDescription(project.title)}</h3><p class="brand-project-intro">${escapeDescription(project.intro)}</p><div class="brand-palette" aria-label="Merkkleuren">${palette}</div></header>${sections}`;
+  portfolioGallery.innerHTML=`${brandbook}<header class="brand-project-header"><p class="brand-project-kicker">Visuele identiteit · ${project.year}</p><h3 class="brand-project-title">${escapeDescription(project.title)}</h3><p class="brand-project-intro">${escapeDescription(project.intro)}</p><div class="brand-palette" aria-label="Merkkleuren">${palette}</div></header>${sections}`;
 }
 
 function renderWorkItems(items){
