@@ -617,6 +617,33 @@ body,
 .portfolio-card img,
 .portfolio-card svg,
 .portfolio-card video{width:100%;height:100%;display:block;object-fit:contain}
+.portfolio-gallery.brand-project{display:block}
+.brand-project-header{padding:28px;background:rgba(28,43,30,.04);border:1px solid rgba(28,43,30,.15);margin-bottom:32px}
+.brand-project-kicker{font-size:.72rem;color:var(--brown);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.brand-project-title{font-family:Georgia,'Times New Roman',serif;font-size:clamp(2.4rem,6vw,4rem);line-height:1.05;margin-bottom:16px}
+.brand-project-intro{max-width:720px;font-size:.95rem;line-height:1.8}
+.brand-palette{display:flex;flex-wrap:wrap;gap:20px;margin-top:24px}
+.brand-palette-color{display:flex;align-items:center;gap:8px;font-size:.8rem}
+.brand-palette-swatch{display:inline-block;width:28px;height:28px;border:1px solid rgba(28,43,30,.15)}
+.brand-project-section+.brand-project-section{margin-top:40px}
+.brand-section-title{font-family:Georgia,'Times New Roman',serif;font-size:1.7rem;margin-bottom:8px}
+.brand-section-intro{max-width:700px;font-size:.9rem;line-height:1.7;margin-bottom:20px}
+.brand-section-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.brand-section-grid.brand-section-pair{grid-template-columns:repeat(2,minmax(0,1fr))}
+.brand-card-info{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-top:12px}
+.brand-card-title{font-family:Georgia,'Times New Roman',serif;font-size:1rem;line-height:1.4}
+.brand-overview-card{display:block;color:var(--green);text-decoration:none;border:1px solid rgba(28,43,30,.18)}
+.brand-overview-card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.brand-overview-caption{padding:20px}
+.brand-overview-caption h3{font-size:1.7rem;margin-bottom:8px}
+.brand-overview-caption p{font-size:.9rem;line-height:1.6;margin-bottom:12px}
+.brand-overview-card:focus-visible{outline:2px solid var(--brown);outline-offset:4px}
+@media(max-width:768px){
+  .brand-project-header{padding:20px}
+  .brand-section-grid,.brand-section-grid.brand-section-pair{grid-template-columns:1fr}
+  .brand-card-info{gap:8px}
+}
+
 .portfolio-card-button{padding:0;appearance:none;font:inherit;cursor:pointer}
 .portfolio-card-button:focus-visible{outline:2px solid var(--brown);outline-offset:3px}
 .portfolio-work{min-width:0}
@@ -967,7 +994,18 @@ const workData={
   },
   designs:{
     title:'Branding',
-    items:[]
+    items:[
+      {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/logo.png","title":"SmaaX — Hoofdlogo","client":"SmaaX Weert","year":2026,"whiteBackground":true},
+      {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/icon.png","title":"SmaaX — Icoon","client":"SmaaX Weert","year":2026,"whiteBackground":true},
+      {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/logo-lockup-1.png","title":"SmaaX — Woordmerk","client":"SmaaX Weert","year":2026,"whiteBackground":true},
+      {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/logo-lockup-2.png","title":"SmaaX — Rond embleem","client":"SmaaX Weert","year":2026,"whiteBackground":true},
+      {"category":"smaax","section":"logo","type":"image","src":"branding/smaax/logo-lockup-3.png","title":"SmaaX — Beeldmerk","client":"SmaaX Weert","year":2026,"whiteBackground":true},
+      {"category":"smaax","section":"cards","type":"image","src":"branding/smaax/visitekaartje-voorzijde.png","title":"SmaaX — Visitekaartje voorzijde","client":"SmaaX Weert","year":2026},
+      {"category":"smaax","section":"cards","type":"image","src":"branding/smaax/visitekaartje-achterzijde.png","title":"SmaaX — Visitekaartje achterzijde","client":"SmaaX Weert","year":2026},
+      {"category":"smaax","section":"cards","type":"image","src":"branding/smaax/visitekaartje-mockup.png","title":"SmaaX — Visitekaartje mockup","client":"SmaaX Weert","year":2026},
+      {"category":"smaax","section":"menus","type":"image","src":"branding/smaax/menukaart-mockup-1.png","title":"SmaaX — Menukaart pizza’s","client":"SmaaX Weert","year":2026},
+      {"category":"smaax","section":"menus","type":"image","src":"branding/smaax/menukaart-mockup-2.png","title":"SmaaX — Menukaart burgers","client":"SmaaX Weert","year":2026}
+    ]
   },
   videos:{
     title:'Videos',
@@ -1009,9 +1047,29 @@ const workData={
   ]}
 };
 
+const brandProjects={
+  smaax:{title:'SmaaX',client:'SmaaX Weert',year:2026,preview:'branding/smaax/visitekaartje-mockup.png',
+    intro:'Een samenhangende visuele identiteit voor SmaaX in Weert. Het ontwerp verbindt burgers en pizza’s met hoekige letters, warme kleuren en herkenbare vormen.',
+    palette:[{name:'Roodoranje',color:'#EA4E24'},{name:'Zand',color:'#D8884F'},{name:'Crème',color:'#F2E5C9'}],
+    sections:[{key:'logo',title:'Logo & beeldmerk',intro:'Het hoofdlogo, een compact icoon en verschillende logovarianten vormen samen een flexibel logosysteem.'},
+      {key:'cards',title:'Visitekaartjes',intro:'De identiteit toegepast op de voor- en achterzijde van een visitekaartje, met een mockup van het geheel.'},
+      {key:'menus',title:'Menukaarten',intro:'Dezelfde kleuren en typografische hiërarchie komen terug op de pizza- en burgerkaart.'}]
+  }
+};
+
 const publicWorkSlugs={posters:'designs',designs:'branding',videos:'videos',photos:'photos',tekenen:'tekenen'};
 
 const workDescriptions={
+  "branding/smaax/logo.png": "Het hoofdlogo combineert de naam SmaaX met een burger en een pizzapunt. De schuine letters en warme kleuren vormen de basis van de visuele identiteit.",
+  "branding/smaax/icon.png": "Een compact icoon met een witte X op een roodoranje cirkel. Deze variant brengt het merk terug tot één eenvoudig, herkenbaar teken.",
+  "branding/smaax/logo-lockup-1.png": "Een woordmerk met de naam SmaaX, de aanduiding Burger & Pizza en het oprichtingsjaar. De hoekige letters sluiten aan bij de vormen van het hoofdlogo.",
+  "branding/smaax/logo-lockup-2.png": "Een ronde logovariant met het beeldmerk in het midden en de slogan langs de rand. De crèmekleurige cirkel verbindt de verschillende onderdelen tot één embleem.",
+  "branding/smaax/logo-lockup-3.png": "De burger en pizzapunt worden hier zonder de merknaam gebruikt. Zo blijft de combinatie van de twee producten ook als zelfstandig beeld herkenbaar.",
+  "branding/smaax/visitekaartje-voorzijde.png": "De voorzijde van het visitekaartje combineert het woordmerk met adresgegevens en een QR-code. Het lichte patroon op de achtergrond sluit aan bij de rest van de identiteit.",
+  "branding/smaax/visitekaartje-achterzijde.png": "De achterzijde geeft het hoofdlogo de ruimte op een warme, lichte achtergrond. Het terugkerende patroon maakt de kaart onderdeel van dezelfde visuele familie.",
+  "branding/smaax/visitekaartje-mockup.png": "Een mockup van het visitekaartje op een warme, gestructureerde ondergrond. De presentatie laat zien hoe typografie, kleur en contactgegevens samenkomen op het kleine formaat.",
+  "branding/smaax/menukaart-mockup-1.png": "Een menukaart voor pizza’s met duidelijke productnamen, prijzen en ingrediënten. Rode koppen en kleine symbolen brengen structuur aan in de informatie. De mockup toont de kaart op een bord in een warme omgeving.",
+  "branding/smaax/menukaart-mockup-2.png": "Een menukaart voor burgers binnen dezelfde visuele stijl. Grote rode productnamen, zwarte prijzen en compacte ingrediëntenlijsten zorgen voor een duidelijke hiërarchie op de kaart.",
   "posters/1-mei-2026.png": "Een poster rond 1 mei voor CIO Design. Een gele ruimtelijke lettervorm, een rode cirkel en kleine figuren steken af tegen een donkere achtergrond met een groepsfoto. De combinatie van typografie en perspectief geeft het ontwerp diepte.",
   "posters/che-guevara-argantina-2026.png": "Een poster waarin het portret van Che Guevara wordt gecombineerd met de kleuren van de Argentijnse vlag. Het vereenvoudigde portret en de grote landnaam vormen een rustige, herkenbare compositie.",
   "posters/jin-jiyan-azadi-2026.png": "Een poster rond ‘Jin, Jiyan, Azadi’ en Internationale Vrouwendag. Roze en paarse vlakken, grote letters en meertalige tekst brengen de boodschap ‘Vrouw, leven, vrijheid’ naar voren.",
@@ -1078,7 +1136,7 @@ const portfolioGallery=portfolioDetail.querySelector('.portfolio-gallery');
 const portfolioYears=portfolioDetail.querySelector('nav[aria-label="Filter op jaar"]');
 const workCategories=portfolioDetail.querySelector('.portfolio-categories');
 const photoCategoryLabels={portretten:'Portretten',producten:'Producten',model:'Model',natuur:'Natuur',evenementen:'Evenementen',overige:'Overige'};
-const workCategoryLabels={videos:{'short-films':'Short Films','motion-design':'Motion Design','social-media':'Social Media',overig:'Overig'},photos:photoCategoryLabels,posters:{posters:'Posters',logos:"Logo’s",'3d':'3D',publicaties:'Print & Publicaties',overig:'Overig'}};
+const workCategoryLabels={designs:{...Object.fromEntries(Object.entries(brandProjects).map(([key,project])=>[key,project.title])),overig:'Overig'},videos:{'short-films':'Short Films','motion-design':'Motion Design','social-media':'Social Media',overig:'Overig'},photos:photoCategoryLabels,posters:{posters:'Posters',logos:"Logo’s",'3d':'3D',publicaties:'Print & Publicaties',overig:'Overig'}};
 let activeCategory=null;
 let categoryHintTimer=null;
 function stopCategoryHint(){
@@ -1104,11 +1162,11 @@ document.addEventListener('click',stopCategoryHint,true);
 document.addEventListener('keydown',stopCategoryHint,true);
 function selectedWorkItems(){
   const items=workData[activeWorkKey].items;
-  const fallback=activeWorkKey==='photos'?'overige':'posters';
+  const fallback=activeWorkKey==='photos'?'overige':activeWorkKey==='designs'?'overig':'posters';
   return workCategoryLabels[activeWorkKey] ? items.filter(item=>(item.category||fallback)===activeCategory) : items;
 }
 function showWorkYears(){
-  if(activeWorkKey==='videos'||activeWorkKey==='photos'||(activeWorkKey==='posters'&&activeCategory==='posters')){
+  if(activeWorkKey==='videos'||activeWorkKey==='photos'||activeWorkKey==='designs'||(activeWorkKey==='posters'&&activeCategory==='posters')){
     portfolioYears.innerHTML='';
     portfolioYears.hidden=true;
     renderWorkItems(selectedWorkItems());
@@ -1247,9 +1305,32 @@ function workCardMarkup(item,index,feature=null){
     const viewLink=item.pdf ? `<a class="portfolio-pdf-link" href="${escapeDescription(item.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk PDF: ${escapeDescription(item.title)}">Bekijk PDF ↗</a>` : `<button class="portfolio-pdf-link" type="button" ${viewAttribute}="${index}" aria-haspopup="dialog" aria-label="Bekijk: ${escapeDescription(item.title)}">Bekijk ↗</button>`;
     return `<article class="portfolio-work">${card}<div class="portfolio-work-info"><div class="portfolio-description"><span class="portfolio-description-line">${escapeDescription(item.title)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.client)}</span><hr><span class="portfolio-description-line">${escapeDescription(item.year)}</span><hr></div>${viewLink}</div>${categoryLink}</article>`;
 }
+function renderBrandOverview(){
+  portfolioGallery.classList.remove('brand-project');
+  portfolioGallery.innerHTML=Object.entries(brandProjects).map(([key,project])=>
+    `<a class="brand-overview-card" href="${portfolioRoute('designs',key)}" data-route-link><img src="${escapeDescription(project.preview)}" alt="${escapeDescription(project.title)} — visuele identiteit" loading="lazy"><div class="brand-overview-caption"><h3>${escapeDescription(project.title)}</h3><p>Logo, visitekaartjes & menukaarten</p><span>Bekijk merkidentiteit →</span></div></a>`
+  ).join('');
+}
+function renderBrandProject(items){
+  const project=brandProjects[activeCategory];
+  const palette=project.palette.map(color=>`<span class="brand-palette-color"><span class="brand-palette-swatch" style="background:${color.color}" aria-hidden="true"></span>${escapeDescription(color.name)}</span>`).join('');
+  const sections=project.sections.map(section=>{
+    const works=items.filter(item=>item.section===section.key);
+    const cards=works.map(item=>{
+      const index=items.indexOf(item);
+      return `<article class="portfolio-work"><button class="portfolio-card portfolio-card-button${item.whiteBackground?' portfolio-card-white':''}" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(item.title)}"><img src="${escapeDescription(item.src)}" alt="${escapeDescription(item.title)}" loading="lazy"></button><div class="brand-card-info"><h5 class="brand-card-title">${escapeDescription(item.title)}</h5><button class="portfolio-pdf-link" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Bekijk: ${escapeDescription(item.title)}">Bekijk ↗</button></div></article>`;
+    }).join('');
+    return `<section class="brand-project-section"><h4 class="brand-section-title">${escapeDescription(section.title)}</h4><p class="brand-section-intro">${escapeDescription(section.intro)}</p><div class="brand-section-grid${works.length===2?' brand-section-pair':''}">${cards}</div></section>`;
+  }).join('');
+  portfolioGallery.innerHTML=`<header class="brand-project-header"><p class="brand-project-kicker">Visuele identiteit · ${project.year}</p><h3 class="brand-project-title">${escapeDescription(project.title)}</h3><p class="brand-project-intro">${escapeDescription(project.intro)}</p><div class="brand-palette" aria-label="Merkkleuren">${palette}</div></header>${sections}`;
+}
+
 function renderWorkItems(items){
   visibleWorkItems=items;
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+  const project=activeWorkKey==='designs'&&brandProjects[activeCategory]&&items.length;
+  portfolioGallery.classList.toggle('brand-project',!!project);
+  if(project){renderBrandProject(items);return;}
   portfolioGallery.innerHTML=items.length ? items.map((item,index)=>workCardMarkup(item,index)).join('') : '<div class="empty-work">Nog leeg</div>';
 }
 document.querySelector('.portfolio-featured-grid').innerHTML=featuredWorks.map((feature,index)=>workCardMarkup(feature.item,index,feature)).join('');
@@ -1277,6 +1358,7 @@ function openWorkDetail(key){
   stopCategoryHint();
   activeWorkKey=key;
   portfolioTitle.textContent=data.title;
+  portfolioGallery.classList.remove('brand-project');
   activeCategory=null;
   const labels=workCategoryLabels[key];
   workCategories.hidden=!labels;
@@ -1287,7 +1369,8 @@ function openWorkDetail(key){
     portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
     portfolioYears.innerHTML='';
     portfolioYears.hidden=true;
-    portfolioGallery.innerHTML='<p>Kies een categorie om het werk te bekijken.</p>';
+    if(key==='designs')renderBrandOverview();
+    else portfolioGallery.innerHTML='<p>Kies een categorie om het werk te bekijken.</p>';
   }else{
     showWorkYears();
   }
