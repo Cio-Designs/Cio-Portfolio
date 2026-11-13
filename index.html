@@ -122,7 +122,7 @@ body > nav{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
   text-decoration:none;color:#1a1510;
 }
-.home-link-label,.nav-home,.contact-channel{font-family:'Caveat',cursive;font-weight:700}
+.home-link-label,.nav-home,.contact-channel,.td-name{font-family:'Caveat',cursive;font-weight:700}
 .home-link-label{
   font-size:clamp(2.4rem,4vw,3.5rem);line-height:1.15;text-align:center;
 }
@@ -201,25 +201,13 @@ body > nav{
 /* ══════════════════════
    PORTFOLIO
 ══════════════════════ */
-.work-col-header{display:grid;grid-template-columns:52px 1fr;height:44px;border-bottom:1.5px solid rgba(0,0,0,.15)}
-.wch{display:flex;align-items:center;padding:0 20px;font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown);border-right:1.5px solid rgba(0,0,0,.15)}
-.wch:last-child{border-right:none}
-.work-row{display:grid;grid-template-columns:1fr;border-bottom:1.5px solid rgba(0,0,0,.12);min-height:76px;transition:background .15s;cursor:none}
-.work-row:last-child{border-bottom:none}
-.work-row:hover{background:var(--ink);color:var(--canvas)}
-.work-td{display:flex;align-items:center;padding:0 20px;border-right:1.5px solid rgba(0,0,0,.12);transition:border-color .15s,color .15s}
-.work-td:last-child{border-right:none;justify-content:center}
-.work-row:hover .work-td{border-color:rgba(250,249,246,.1)}
-.td-num{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--brown);transition:color .15s}
-.work-row:hover .td-num{color:rgba(250,249,246,.4)}
-.td-name{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1rem,1.6vw,1.3rem);letter-spacing:.02em;text-transform:uppercase;line-height:1.2;color:var(--ink)}
-.work-row:hover .td-name{color:var(--canvas)}
-.td-cat{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);transition:color .15s}
-.work-row:hover .td-cat{color:rgba(250,249,246,.5)}
-.td-year{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--ink);transition:color .15s}
-.work-row:hover .td-year{color:rgba(250,249,246,.45)}
-.td-arr{font-size:.9rem;opacity:0;transform:translateX(-6px);transition:opacity .2s,transform .2s;color:var(--canvas)}
-.work-row:hover .td-arr{opacity:1;transform:none}
+.work-row{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  width:100%;min-height:112px;padding:12px 20px;border:0;
+  background:transparent;color:var(--ink);text-decoration:none;text-align:center;cursor:none;
+}
+.work-td{display:flex;align-items:center;justify-content:center;min-width:0}
+.td-name{font-size:clamp(2rem,3vw,2.8rem);line-height:1.15;color:var(--ink)}
 
 /* ══════════════════════
    CONTACT
@@ -260,8 +248,6 @@ body,
 .page-strip-eyebrow,
 .page-strip-title,
 .work-col-header,
-.work-row,
-.td-name,
 .td-cat,
 .td-year,
 .about-section-label,
@@ -358,7 +344,6 @@ body,
 @media(prefers-reduced-motion:reduce){.portfolio-scroll-hint{animation:none}}
 .portfolio-list{transition:opacity .25s ease,transform .25s ease}
 .portfolio-body.detail-open .portfolio-list{opacity:0;transform:translateY(12px);pointer-events:none;position:absolute;inset:0}
-.work-row{text-decoration:none;border:none;background:transparent;text-align:center;width:100%;color:var(--ink);padding:0;appearance:none;font:inherit}
 .work-row:focus-visible{outline:2px solid var(--brown);outline-offset:-2px}
 .portfolio-detail{display:none;scroll-margin-top:80px;padding:30px 48px 72px;background:var(--canvas);color:var(--ink)}
 .portfolio-body.detail-open .portfolio-detail{display:block}
@@ -513,15 +498,15 @@ body,
 <div class="page" id="home">
   <section class="hero">
     <div class="hero-stage">
-      <a class="home-link" data-target="about" href="#over-mij" data-route-link>
+      <a class="home-link" data-zigzag-link data-target="about" href="#over-mij" data-route-link>
         <span class="home-link-label">Over Mij</span>
         <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
       </a>
-      <a class="home-link" data-target="portfolio" href="#portfolio" data-route-link>
+      <a class="home-link" data-zigzag-link data-target="portfolio" href="#portfolio" data-route-link>
         <span class="home-link-label">Portfolio</span>
         <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
       </a>
-      <a class="home-link" data-target="contact" href="#contact" data-route-link>
+      <a class="home-link" data-zigzag-link data-target="contact" href="#contact" data-route-link>
         <span class="home-link-label">Contact</span>
         <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
       </a>
@@ -575,20 +560,25 @@ body,
           <h2 class="portfolio-section-title" id="featured-title">Uitgelicht</h2>
           <div class="portfolio-featured-grid"></div>
         </section>
-        <a class="work-row" data-work="posters" href="#portfolio/designs" data-route-link>
+        <a class="work-row" data-zigzag-link data-work="posters" href="#portfolio/designs" data-route-link>
           <div class="work-td"><span class="td-name">Designs</span></div>
+          <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
         </a>
-        <a class="work-row" data-work="designs" href="#portfolio/branding" data-route-link>
+        <a class="work-row" data-zigzag-link data-work="designs" href="#portfolio/branding" data-route-link>
           <div class="work-td"><span class="td-name">Branding</span></div>
+          <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
         </a>
-        <a class="work-row" data-work="videos" href="#portfolio/videos" data-route-link>
+        <a class="work-row" data-zigzag-link data-work="videos" href="#portfolio/videos" data-route-link>
           <div class="work-td"><span class="td-name">Videos</span></div>
+          <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
         </a>
-        <a class="work-row" data-work="photos" href="#portfolio/photos" data-route-link>
+        <a class="work-row" data-zigzag-link data-work="photos" href="#portfolio/photos" data-route-link>
           <div class="work-td"><span class="td-name">Photos</span></div>
+          <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
         </a>
-        <a class="work-row" data-work="tekenen" href="#portfolio/tekenen" data-route-link>
+        <a class="work-row" data-zigzag-link data-work="tekenen" href="#portfolio/tekenen" data-route-link>
           <div class="work-td"><span class="td-name">Tekenen</span></div>
+          <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
         </a>
       </div>
       <div class="portfolio-detail" id="portfolio-detail" aria-live="polite">
@@ -659,9 +649,9 @@ function hideLogoCursor(){cur.classList.remove('is-visible','hover');}
 document.addEventListener('mouseleave',hideLogoCursor);
 window.addEventListener('blur',hideLogoCursor);
 
-// Keep the links stationary while their zigzag lines ripple on hover or keyboard focus.
-const homeReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
-function drawHomeZigzag(path,phase=0,strength=0){
+// Shared underline animation for the main menu and portfolio categories.
+const zigzagReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+function drawZigzag(path,phase=0,strength=0){
   const points=[];
   for(let i=0;i<=20;i++){
     const x=4+232*i/20;
@@ -671,28 +661,28 @@ function drawHomeZigzag(path,phase=0,strength=0){
   }
   path.setAttribute('d',points.join(' '));
 }
-document.querySelectorAll('.home-link').forEach(link=>{
+document.querySelectorAll('[data-zigzag-link]').forEach(link=>{
   const path=link.querySelector('.home-zigzag path');
   let hovered=false,focused=false,frame=0,strength=0,previous=0;
   function animate(time){
-    const target=(hovered||focused)&&!homeReducedMotion.matches?1:0;
+    const target=(hovered||focused)&&!zigzagReducedMotion.matches?1:0;
     const delta=previous?Math.min(time-previous,64):16;
     previous=time;
     strength+=(target-strength)*(1-Math.exp(-delta/90));
     if(!target&&strength<.005){
-      strength=0;frame=0;previous=0;drawHomeZigzag(path);return;
+      strength=0;frame=0;previous=0;drawZigzag(path);return;
     }
-    drawHomeZigzag(path,time/1000*5.5,strength);
+    drawZigzag(path,time/1000*5.5,strength);
     frame=requestAnimationFrame(animate);
   }
-  function start(){if(!frame&&!homeReducedMotion.matches)frame=requestAnimationFrame(animate);}
+  function start(){if(!frame&&!zigzagReducedMotion.matches)frame=requestAnimationFrame(animate);}
   link.addEventListener('pointerenter',event=>{if(event.pointerType==='touch')return;hovered=true;start();});
   link.addEventListener('pointerleave',()=>{hovered=false;start();});
   link.addEventListener('pointercancel',()=>{hovered=false;start();});
   link.addEventListener('focus',()=>{focused=link.matches(':focus-visible');if(focused)start();});
   link.addEventListener('blur',()=>{focused=false;start();});
-  homeReducedMotion.addEventListener('change',()=>{
-    cancelAnimationFrame(frame);frame=0;previous=0;strength=0;drawHomeZigzag(path);
+  zigzagReducedMotion.addEventListener('change',()=>{
+    cancelAnimationFrame(frame);frame=0;previous=0;strength=0;drawZigzag(path);
     if(hovered||focused)start();
   });
 });
