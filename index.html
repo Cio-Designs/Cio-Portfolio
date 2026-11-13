@@ -51,9 +51,6 @@
   --green2: #2A3D2D;   /* biraz açık yeşil — hover, strip */
   --mid:    #8FA68F;   /* soluk yeşil — ikincil metin */
   --rule:   rgba(245,240,232,.12); /* çizgi rengi */
-  --note:   #EDE5C8;
-  --tape:   #8B5E3C;   /* kahverengi bant */
-  --line:   #D4C8A8;
 }
 html,body{height:100%;overflow:hidden}
 body{background:var(--canvas);color:var(--green);font-family:'Inter',sans-serif;cursor:none}
@@ -109,224 +106,25 @@ body > nav{
   background:var(--canvas);
 }
 
-/* Stage is bigger now */
+/* Text navigation with an animated zigzag underline */
 .hero-stage{
-  position:relative;
-  width:min(820px,92vw);
-  height:min(820px,92vw);
-  z-index:1;
-  display:flex;align-items:flex-end;justify-content:center;
+  position:relative;z-index:1;
+  width:min(1100px,88vw);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  align-items:center;gap:clamp(28px,6vw,88px);
 }
-
-/* Big faded name */
-.hero-bg-name{
-  position:absolute;bottom:6%;left:50%;transform:translateX(-50%);
-  font-family:'Syne',sans-serif;
-  font-size:clamp(4rem,14vw,9rem);
-  font-weight:800;
-  line-height:1;letter-spacing:.08em;white-space:nowrap;
-  color:transparent;-webkit-text-stroke:1.5px rgba(245,240,232,.07);
-  z-index:1;user-select:none;
-  animation:fadeIn 1s ease .5s both;
+.home-link{
+  min-width:0;min-height:150px;padding:24px 8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  text-decoration:none;color:#1a1510;
 }
-
-/* ── PHOTO — larger & centered ── */
-.hero-photo{
-  position:absolute;
-  bottom:46px; /* above bottom bar */
-  left:50%;transform:translateX(-50%);
-  width:52%;
-  max-width:360px;
-  z-index:2;
-  filter:grayscale(100%) contrast(1.05);
-  animation:photoIn .9s cubic-bezier(.22,1,.36,1) .2s both;
+.home-link-label{
+  font-family:'Caveat',cursive;font-weight:700;
+  font-size:clamp(2.4rem,4vw,3.5rem);line-height:1.15;text-align:center;
 }
-.hero-photo-placeholder{
-  position:absolute;
-  bottom:46px;
-  left:50%;transform:translateX(-50%);
-  width:52%;max-width:360px;
-  z-index:2;
-  animation:photoIn .9s cubic-bezier(.22,1,.36,1) .2s both;
-}
-.php-inner{
-  width:100%;aspect-ratio:2/3;
-  background:rgba(245,240,232,.04);
-  border:2px dashed rgba(245,240,232,.2);
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:10px;
-}
-.php-inner span{
-  font-family:'Space Mono',monospace;font-size:.6rem;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--mid);text-align:center;line-height:1.6;
-}
-
-/* ── CRUMPLED NOTES ── */
-.note{
-  position:absolute;z-index:3;
-  width:clamp(170px,24%,210px);
-  background:transparent;
-  padding:36px 16px 22px 24px;
-  cursor:none;
-  box-shadow:
-    1px 1px 0 rgba(0,0,0,.08),
-    2px 3px 6px rgba(0,0,0,.12),
-    4px 8px 20px rgba(0,0,0,.1);
-  transition:box-shadow .3s,transform .35s cubic-bezier(.34,1.56,.64,1);
-  position:absolute;
-}
-
-/* Crumpled paper background — filter only on this layer, NOT on text */
-.note-bg{
-  position:absolute;inset:0;
-  background:var(--note);
-  background-image:
-    repeating-linear-gradient(
-      to bottom,transparent 0,transparent 21px,
-      var(--line) 21px,var(--line) 22px
-    ),
-    repeating-linear-gradient(
-      97deg,
-      transparent 0,transparent 16px,
-      rgba(0,0,0,.022) 16px,rgba(0,0,0,.022) 17px
-    ),
-    repeating-linear-gradient(
-      83deg,
-      transparent 0,transparent 20px,
-      rgba(0,0,0,.016) 20px,rgba(0,0,0,.016) 21px
-    );
-  background-size:100% 22px, 100% 17px, 100% 21px;
-  background-position:0 36px, 0 0, 0 0;
-  filter:url(#crumple);
-  z-index:0;
-}
-
-/* Extra wrinkle shading overlay */
-.note::after{
-  content:'';
-  position:absolute;inset:0;
-  background:
-    radial-gradient(ellipse at 30% 20%, rgba(0,0,0,.04) 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 80%, rgba(0,0,0,.05) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 30%, rgba(255,255,255,.08) 0%, transparent 40%);
-  pointer-events:none;
-  z-index:1;
-}
-
-/* Folded corner */
-.note-fold{
-  position:absolute;bottom:0;right:0;
-  width:22px;height:22px;
-  background:linear-gradient(225deg,var(--white) 50%,rgba(0,0,0,.12) 50%);
-  box-shadow:-1px -1px 3px rgba(0,0,0,.1);
-}
-
-/* Tape — above crumple layer */
-.note::before{
-  content:'';position:absolute;top:-11px;left:50%;
-  transform:translateX(-50%) rotate(-1.5deg);
-  width:44px;height:22px;
-  background:var(--tape);
-  opacity:.85;
-  z-index:5;
-  background-image:repeating-linear-gradient(
-    90deg,rgba(255,255,255,.18) 0,rgba(255,255,255,.18) 3px,transparent 3px,transparent 6px
-  );
-  box-shadow:0 1px 3px rgba(0,0,0,.18);
-}
-
-/* Spiral holes — above bg */
-.note-holes{
-  position:absolute;top:0;left:1px;bottom:0;
-  display:flex;flex-direction:column;justify-content:space-around;
-  padding:18px 0;pointer-events:none;
-  z-index:3;
-}
-.note-hole{
-  width:11px;height:11px;border-radius:50%;
-  background:var(--canvas);
-  border:1px solid rgba(8,8,8,.2);
-  margin-left:4px;
-  box-shadow:inset 0 1px 2px rgba(0,0,0,.15);
-}
-
-/* Torn bottom */
-.note-torn{
-  position:absolute;bottom:-5px;left:0;right:0;height:6px;
-  background:var(--note);
-  clip-path:polygon(0 0,1.5% 100%,3% 0,4.5% 100%,6% 0,7.5% 100%,9% 0,10.5% 100%,12% 0,13.5% 100%,15% 0,16.5% 100%,18% 0,19.5% 100%,21% 0,22.5% 100%,24% 0,25.5% 100%,27% 0,28.5% 100%,30% 0,31.5% 100%,33% 0,34.5% 100%,36% 0,37.5% 100%,39% 0,40.5% 100%,42% 0,43.5% 100%,45% 0,46.5% 100%,48% 0,49.5% 100%,51% 0,52.5% 100%,54% 0,55.5% 100%,57% 0,58.5% 100%,60% 0,61.5% 100%,63% 0,64.5% 100%,66% 0,67.5% 100%,69% 0,70.5% 100%,72% 0,73.5% 100%,75% 0,76.5% 100%,78% 0,79.5% 100%,81% 0,82.5% 100%,84% 0,85.5% 100%,87% 0,88.5% 100%,90% 0,91.5% 100%,93% 0,94.5% 100%,96% 0,97.5% 100%,100% 0);
-  z-index:3;
-}
-
-/* Folded corner */
-.note-fold{
-  position:absolute;bottom:0;right:0;
-  width:22px;height:22px;
-  background:linear-gradient(225deg,var(--canvas) 50%,rgba(0,0,0,.18) 50%);
-  box-shadow:-1px -1px 3px rgba(0,0,0,.12);
-  z-index:3;
-}
-
-/* TEXT — always crisp, no filter */
-.note-label{
-  font-family:'Caveat',cursive;
-  font-size:1.5rem;font-weight:700;
-  color:#1a1510;
-  margin-bottom:4px;line-height:1.2;
-  position:relative;z-index:4;
-  text-shadow:0 1px 0 rgba(255,255,255,.5);
-}
-.note-sub{
-  font-family:'Caveat',cursive;
-  font-size:1.08rem;font-weight:500;
-  color:#3a3020;
-  line-height:1.6;margin-top:2px;
-  position:relative;z-index:4;
-}
-.note-arrow{
-  font-family:'Caveat',cursive;font-size:1.5rem;
-  position:absolute;bottom:20px;right:16px;
-  color:rgba(26,21,16,.5);
-  transition:transform .2s;z-index:4;
-}
-.note:hover{
-  box-shadow:3px 6px 28px rgba(0,0,0,.22),6px 12px 40px rgba(0,0,0,.1);
-}
-.note:hover .note-bg{filter:url(#crumple) brightness(1.03)}
-.note:hover .note-arrow{transform:translate(3px,-3px)}
-
-/* Note positions — wider spread around centered photo */
-.note-1{
-  top:3%;left:1%;
-  transform:rotate(-9deg);
-  animation:noteIn .7s cubic-bezier(.22,1,.36,1) .4s both;
-  --rot:rotate(-9deg);
-}
-.note-2{
-  top:1%;right:1%;
-  transform:rotate(7deg);
-  animation:noteIn .7s cubic-bezier(.22,1,.36,1) .55s both;
-  --rot:rotate(7deg);
-}
-.note-3{
-  bottom:14%;right:1%;
-  transform:rotate(10deg);
-  animation:noteIn .7s cubic-bezier(.22,1,.36,1) .85s both;
-  --rot:rotate(10deg);
-}
-.note-1:hover{transform:rotate(-9deg) scale(1.06) translateY(-4px)}
-.note-2:hover{transform:rotate(7deg) scale(1.06) translateY(-4px)}
-.note-3:hover{transform:rotate(10deg) scale(1.06) translateY(-4px)}
-
-/* Bottom bar */
-.hero-bar{
-  position:absolute;bottom:0;left:0;right:0;height:46px;
-  border-top:1.5px solid rgba(245,240,232,.15);
-  display:flex;align-items:center;justify-content:center;
-  padding:0 32px;background:var(--green);z-index:5;
-}
-.hbar-txt{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
-.hbar-center{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--cream)}
+.home-zigzag{display:block;width:min(180px,100%);height:24px;color:var(--brown);pointer-events:none}
+.home-zigzag path{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.home-link:focus-visible{outline:2px solid var(--brown);outline-offset:6px}
 
 /* ══════════════════════
    INNER PAGES SHARED
@@ -439,13 +237,11 @@ body > nav{
 
 /* ── ANIMATIONS ── */
 @keyframes photoIn{from{opacity:0;transform:translateX(-50%) translateY(28px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-@keyframes noteIn{from{opacity:0;transform:var(--rot,rotate(0deg)) translateY(18px) scale(.9)}to{opacity:1;transform:var(--rot,rotate(0deg))}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
 /* ── MOBILE ── */
 @media(max-width:768px){
-  .note{width:clamp(130px,30vw,155px)}
   .about-grid{grid-template-columns:1fr}
   .about-col:first-child{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
   .contact-grid{grid-template-columns:1fr}
@@ -456,10 +252,6 @@ body > nav{
 }
 
 /* Final responsive refinements */
-.hero-bg-name,
-.hero-photo,
-.hero-photo-placeholder,
-.note-arrow,
 .page-strip-num{display:none!important}
 
 body,
@@ -529,26 +321,6 @@ body,
   .work-viewer-header{top:-12px}
 }
 
-
-.hero-stage{
-  width:min(1100px,88vw);height:auto;
-  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  align-items:center;gap:clamp(28px,6vw,88px);
-}
-.hero-stage .note{
-  position:relative;inset:auto;width:100%;min-height:210px;
-}
-.hero-stage .note[data-target]{
-  text-decoration:none;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:24px;
-}
-.hero-stage .note .note-label{
-  margin:0;font-size:clamp(2rem,3.6vw,3.5rem);text-align:center;
-}
-.hero-stage .note .note-sub{margin-top:8px;text-align:center}
-.hero-stage .note:focus-visible{outline:2px solid var(--green);outline-offset:6px}
-.note-3{animation-delay:.7s}
 .page-strip-eyebrow{font-size:.72rem}
 .page-strip-title{font-size:clamp(3rem,9vw,7.2rem);letter-spacing:0}
 :is(#portfolio,#about,#contact) .page-hero-strip{padding-top:24px;padding-bottom:24px}
@@ -696,12 +468,10 @@ body,
   body{cursor:auto}
   #cur{display:none!important}
   body > nav{height:56px;padding:0 18px}
-  .logo,.back-btn,.note,.work-row,.portfolio-back{cursor:pointer}
+  .logo,.back-btn,.home-link,.work-row,.portfolio-back{cursor:pointer}
   .page{padding-top:56px}
   .hero{min-height:calc(100svh - 56px);height:auto;overflow:visible;padding:28px 16px}
   .hero-stage{width:100%;max-width:700px;gap:28px}
-  .note{position:relative;inset:auto;width:100%;min-height:158px;padding:34px 14px 18px 22px}
-  .note-1,.note-2,.note-3{transform:none;--rot:rotate(0deg)}
   .page-hero-strip{padding:44px 20px 32px}
   .page-strip-title{font-size:clamp(2.1rem,14vw,3.4rem);line-height:.92}
   .portfolio-detail{padding:32px 20px 52px}
@@ -719,36 +489,17 @@ body,
 
 @media(max-width:600px){
   .hero-stage{max-width:300px;grid-template-columns:1fr;gap:32px}
-  .hero-stage .note{min-height:180px}
-  .hero-bar{padding:0 12px;gap:12px}
-  .hbar-txt{font-size:.48rem}
-  .hbar-center{font-size:.75rem}
+  .home-link{min-height:124px;padding:18px 8px}
 }
 
 @media(pointer:coarse){
   body{cursor:auto}
   #cur{display:none!important}
-  .logo,.back-btn,.note,.work-row,.portfolio-back{cursor:pointer}
+  .logo,.back-btn,.home-link,.work-row,.portfolio-back{cursor:pointer}
 }
 </style>
 </head>
 <body>
-
-<!-- SVG filter for crumple/wrinkle texture -->
-<svg width="0" height="0" style="position:absolute">
-  <defs>
-    <filter id="crumple" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="linearRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.035 0.06" numOctaves="5" seed="3" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
-      <feComposite in="displaced" in2="SourceGraphic" operator="in"/>
-    </filter>
-    <filter id="crumple-strong" x="-8%" y="-8%" width="116%" height="116%" color-interpolation-filters="linearRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.04 0.07" numOctaves="6" seed="7" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
-      <feComposite in="displaced" in2="SourceGraphic" operator="in"/>
-    </filter>
-  </defs>
-</svg>
 
 <div id="cur" aria-hidden="true"></div>
 
@@ -765,63 +516,20 @@ body,
 ══════════════════════════════════ -->
 <div class="page" id="home">
   <section class="hero">
-    <div class="hero-bg-name">CIO DESIGN</div>
     <div class="hero-stage">
-
-      <!-- ▼ FOTO TOEVOEGEN:
-           Verwijder dit blok en vervang door:
-           <img class="hero-photo" src="foto.png" alt=""> -->
-      <div class="hero-photo-placeholder">
-        <div class="php-inner">
-          <span>Voeg jouw foto<br>hier toe</span>
-          <span style="opacity:.45">PNG aanbevolen</span>
-        </div>
-      </div>
-
-      <!-- NOTITIE 1 → Over Mij -->
-      <a class="note note-1" data-target="about" href="#over-mij" data-route-link>
-        <div class="note-bg"></div>
-        <div class="note-holes">
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div>
-        </div>
-        <p class="note-label">Over Mij</p>
-        <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
-        <div class="note-torn"></div>
+      <a class="home-link" data-target="about" href="#over-mij" data-route-link>
+        <span class="home-link-label">Over Mij</span>
+        <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
       </a>
-
-      <!-- NOTITIE 2 → Portfolio -->
-      <a class="note note-2" data-target="portfolio" href="#portfolio" data-route-link>
-        <div class="note-bg"></div>
-        <div class="note-holes">
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div>
-        </div>
-        <p class="note-label">Portfolio</p>
-        <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
-        <div class="note-torn"></div>
+      <a class="home-link" data-target="portfolio" href="#portfolio" data-route-link>
+        <span class="home-link-label">Portfolio</span>
+        <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
       </a>
-
-      <!-- NOTITIE 3 → Contact -->
-      <a class="note note-3" data-target="contact" href="#contact" data-route-link>
-        <div class="note-bg"></div>
-        <div class="note-holes">
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div><div class="note-hole"></div>
-          <div class="note-hole"></div>
-        </div>
-        <p class="note-label">Contact</p>
-        <div class="note-fold"></div>
-        <div class="note-arrow">↗</div>
-        <div class="note-torn"></div>
+      <a class="home-link" data-target="contact" href="#contact" data-route-link>
+        <span class="home-link-label">Contact</span>
+        <svg class="home-zigzag" viewBox="0 0 240 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4.00 12.00 L15.60 6.50 L27.20 17.50 L38.80 6.50 L50.40 17.50 L62.00 6.50 L73.60 17.50 L85.20 6.50 L96.80 17.50 L108.40 6.50 L120.00 17.50 L131.60 6.50 L143.20 17.50 L154.80 6.50 L166.40 17.50 L178.00 6.50 L189.60 17.50 L201.20 6.50 L212.80 17.50 L224.40 6.50 L236.00 12.00"/></svg>
       </a>
-
-    </div><!-- /hero-stage -->
-
+    </div>
   </section>
 </div>
 
@@ -954,7 +662,7 @@ body,
 <script>
 // Cursor
 const cur=document.getElementById('cur');
-const cursorTargets='a[href],button:not(:disabled),[role="button"]:not([aria-disabled="true"]),.note,.work-row,.portfolio-back';
+const cursorTargets='a[href],button:not(:disabled),[role="button"]:not([aria-disabled="true"]),.work-row,.portfolio-back';
 function syncCursorHover(target){
   cur.classList.toggle('hover',target instanceof Element&&!!target.closest(cursorTargets));
 }
@@ -971,6 +679,44 @@ document.addEventListener('mouseout',e=>syncCursorHover(e.relatedTarget));
 function hideLogoCursor(){cur.classList.remove('is-visible','hover');}
 document.addEventListener('mouseleave',hideLogoCursor);
 window.addEventListener('blur',hideLogoCursor);
+
+// Keep the links stationary while their zigzag lines ripple on hover or keyboard focus.
+const homeReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+function drawHomeZigzag(path,phase=0,strength=0){
+  const points=[];
+  for(let i=0;i<=20;i++){
+    const x=4+232*i/20;
+    const base=i===0||i===20?12:12+(i%2?-5.5:5.5);
+    const bend=Math.sin(i*.7-phase)*3.4*Math.sin(Math.PI*i/20)*strength;
+    points.push(`${i?'L':'M'}${x.toFixed(2)} ${(base+bend).toFixed(2)}`);
+  }
+  path.setAttribute('d',points.join(' '));
+}
+document.querySelectorAll('.home-link').forEach(link=>{
+  const path=link.querySelector('.home-zigzag path');
+  let hovered=false,focused=false,frame=0,strength=0,previous=0;
+  function animate(time){
+    const target=(hovered||focused)&&!homeReducedMotion.matches?1:0;
+    const delta=previous?Math.min(time-previous,64):16;
+    previous=time;
+    strength+=(target-strength)*(1-Math.exp(-delta/90));
+    if(!target&&strength<.005){
+      strength=0;frame=0;previous=0;drawHomeZigzag(path);return;
+    }
+    drawHomeZigzag(path,time/1000*5.5,strength);
+    frame=requestAnimationFrame(animate);
+  }
+  function start(){if(!frame&&!homeReducedMotion.matches)frame=requestAnimationFrame(animate);}
+  link.addEventListener('pointerenter',event=>{if(event.pointerType==='touch')return;hovered=true;start();});
+  link.addEventListener('pointerleave',()=>{hovered=false;start();});
+  link.addEventListener('pointercancel',()=>{hovered=false;start();});
+  link.addEventListener('focus',()=>{focused=link.matches(':focus-visible');if(focused)start();});
+  link.addEventListener('blur',()=>{focused=false;start();});
+  homeReducedMotion.addEventListener('change',()=>{
+    cancelAnimationFrame(frame);frame=0;previous=0;strength=0;drawHomeZigzag(path);
+    if(hovered||focused)start();
+  });
+});
 
 const workData={
   posters:{
