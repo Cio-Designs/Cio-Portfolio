@@ -38,6 +38,8 @@
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preload" as="image" href="cursors/logo-03.png">
+<link rel="preload" as="image" href="cursors/logo-02.png">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -54,10 +56,6 @@
 }
 html,body{height:100%;overflow:hidden}
 body{background:var(--green);color:var(--cream);font-family:'Inter',sans-serif;cursor:none}
-
-/* ── CURSOR ── */
-#cur{position:fixed;z-index:9999;width:14px;height:14px;border:1.5px solid var(--cream);pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s,border-radius .2s}
-#cur.hover{width:44px;height:44px;background:rgba(245,240,232,.1);border-radius:50%}
 
 /* ── NAV ── */
 body > nav{
@@ -666,28 +664,30 @@ body,
 .portfolio-card-title{padding:18px;text-align:center;color:var(--brown);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
 .empty-work{min-height:280px;border:1.5px dashed rgba(28,43,30,.22);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--brown);font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
 
-/* Square-to-ring cursor */
+/* Equal-size square and round logo cursors */
 #cur{
   position:fixed;
   z-index:9999;
-  width:30px;
-  height:30px;
+  width:32px;
+  height:32px;
   box-sizing:border-box;
-  border:5px solid var(--cream);
-  background:var(--brown);
-  box-shadow:0 0 0 5px rgba(66,84,70,.95);
+  border:0;
+  background:transparent url('cursors/logo-03.png') center/contain no-repeat;
+  box-shadow:0 0 0 1px rgba(28,43,30,.25);
   border-radius:0;
-  opacity:.5;
+  visibility:hidden;
   mix-blend-mode:normal;
   pointer-events:none;
   transform:translate(-50%,-50%);
-  transition:width .2s,height .2s,border-radius .2s,box-shadow .2s;
+  transition:border-radius .12s ease;
 }
+#cur.is-visible{visibility:visible}
 #cur.hover{
-  width:58px;
-  height:58px;
+  background-image:url('cursors/logo-02.png');
   border-radius:50%;
-  box-shadow:0 0 0 6px rgba(66,84,70,.95);
+}
+@media(min-width:769px) and (hover:hover) and (pointer:fine){
+  body,body *{cursor:none!important}
 }
 
 @media(max-width:768px){
@@ -749,7 +749,7 @@ body,
   </defs>
 </svg>
 
-<div id="cur"></div>
+<div id="cur" aria-hidden="true"></div>
 
 <!-- ═══ NAV ═══ -->
 <nav>
@@ -959,16 +959,23 @@ body,
 <script>
 // Cursor
 const cur=document.getElementById('cur');
+const cursorTargets='a[href],button:not(:disabled),[role="button"]:not([aria-disabled="true"]),.note,.work-row,.portfolio-back';
+function syncCursorHover(target){
+  cur.classList.toggle('hover',target instanceof Element&&!!target.closest(cursorTargets));
+}
 let mx=0,my=0,cx=0,cy=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  if(!cur.classList.contains('is-visible')){cx=mx;cy=my;}
+  cur.classList.add('is-visible');
+  syncCursorHover(e.target);
+});
 (function loop(){cx+=(mx-cx)*.16;cy+=(my-cy)*.16;cur.style.left=cx+'px';cur.style.top=cy+'px';requestAnimationFrame(loop)})();
-document.addEventListener('mouseover',e=>{
-  if(e.target.closest('a,button,.note,.work-row,.portfolio-back'))cur.classList.add('hover');
-});
-document.addEventListener('mouseout',e=>{
-  const hot=e.target.closest('a,button,.note,.work-row,.portfolio-back');
-  if(hot&&!hot.contains(e.relatedTarget))cur.classList.remove('hover');
-});
+document.addEventListener('mouseover',e=>syncCursorHover(e.target));
+document.addEventListener('mouseout',e=>syncCursorHover(e.relatedTarget));
+function hideLogoCursor(){cur.classList.remove('is-visible','hover');}
+document.addEventListener('mouseleave',hideLogoCursor);
+window.addEventListener('blur',hideLogoCursor);
 
 const workData={
   posters:{
