@@ -47,6 +47,7 @@
   --green:  #1C2B1E;   /* koyu yeşil — ana renk */
   --brown:  #6B4226;   /* kahve — aksent */
   --cream:  #F5F0E8;   /* beyaz/krem — arka plan & metin */
+  --canvas: #FAF9F6;   /* kırık beyaz — ana sayfa arka planı */
   --green2: #2A3D2D;   /* biraz açık yeşil — hover, strip */
   --mid:    #8FA68F;   /* soluk yeşil — ikincil metin */
   --rule:   rgba(245,240,232,.12); /* çizgi rengi */
@@ -55,16 +56,16 @@
   --line:   #D4C8A8;
 }
 html,body{height:100%;overflow:hidden}
-body{background:var(--green);color:var(--cream);font-family:'Inter',sans-serif;cursor:none}
+body{background:var(--canvas);color:var(--green);font-family:'Inter',sans-serif;cursor:none}
 
 /* ── NAV ── */
 body > nav{
   position:fixed;top:0;left:0;right:0;z-index:300;
   height:52px;
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;align-items:center;justify-content:flex-end;
   padding:0 32px;
-  background:var(--green);
-  border-bottom:1.5px solid rgba(245,240,232,.15);
+  background:var(--canvas);
+  border-bottom:1.5px solid rgba(28,43,30,.12);
 }
 .logo{
   font-family:'Syne',sans-serif;
@@ -78,11 +79,11 @@ body > nav{
   display:flex;align-items:center;gap:8px;
   font-family:'Space Mono',monospace;
   font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--mid);background:none;border:none;cursor:none;
+  color:var(--brown);background:none;border:none;cursor:none;
   opacity:0;pointer-events:none;transition:opacity .3s,color .2s;
 }
 .back-btn.visible{opacity:1;pointer-events:all}
-.back-btn:hover{color:var(--cream)}
+.back-btn:hover{color:var(--green)}
 .back-arrow{font-size:.9rem;transition:transform .2s}
 .back-btn:hover .back-arrow{transform:translateX(-3px)}
 
@@ -105,7 +106,7 @@ body > nav{
   height:calc(100vh - 52px);
   display:flex;align-items:center;justify-content:center;
   position:relative;overflow:hidden;
-  background:var(--green);
+  background:var(--canvas);
 }
 
 /* Stage is bigger now */
@@ -243,7 +244,7 @@ body > nav{
 }
 .note-hole{
   width:11px;height:11px;border-radius:50%;
-  background:var(--green);
+  background:var(--canvas);
   border:1px solid rgba(8,8,8,.2);
   margin-left:4px;
   box-shadow:inset 0 1px 2px rgba(0,0,0,.15);
@@ -261,7 +262,7 @@ body > nav{
 .note-fold{
   position:absolute;bottom:0;right:0;
   width:22px;height:22px;
-  background:linear-gradient(225deg,var(--green) 50%,rgba(0,0,0,.18) 50%);
+  background:linear-gradient(225deg,var(--canvas) 50%,rgba(0,0,0,.18) 50%);
   box-shadow:-1px -1px 3px rgba(0,0,0,.12);
   z-index:3;
 }
@@ -546,7 +547,7 @@ body,
   margin:0;font-size:clamp(2rem,3.6vw,3.5rem);text-align:center;
 }
 .hero-stage .note .note-sub{margin-top:8px;text-align:center}
-.hero-stage .note:focus-visible{outline:2px solid var(--cream);outline-offset:6px}
+.hero-stage .note:focus-visible{outline:2px solid var(--green);outline-offset:6px}
 .note-3{animation-delay:.7s}
 .page-strip-eyebrow{font-size:.72rem}
 .page-strip-title{font-size:clamp(3rem,9vw,7.2rem);letter-spacing:0}
@@ -697,7 +698,7 @@ body,
   body > nav{height:56px;padding:0 18px}
   .logo,.back-btn,.note,.work-row,.portfolio-back{cursor:pointer}
   .page{padding-top:56px}
-  .hero{min-height:calc(100svh - 56px);height:auto;overflow:visible;padding:28px 16px 74px}
+  .hero{min-height:calc(100svh - 56px);height:auto;overflow:visible;padding:28px 16px}
   .hero-stage{width:100%;max-width:700px;gap:28px}
   .note{position:relative;inset:auto;width:100%;min-height:158px;padding:34px 14px 18px 22px}
   .note-1,.note-2,.note-3{transform:none;--rot:rotate(0deg)}
@@ -753,9 +754,6 @@ body,
 
 <!-- ═══ NAV ═══ -->
 <nav>
-  <a href="#" class="logo" id="logo-link">
-    <span class="logo-sq"></span>Cio Design
-  </a>
   <button class="back-btn" id="back-btn">
     <span class="back-arrow">←</span>
     <span>Terug</span>
@@ -824,9 +822,6 @@ body,
 
     </div><!-- /hero-stage -->
 
-    <div class="hero-bar">
-      <span class="hbar-center">Cio Design</span>
-    </div>
   </section>
 </div>
 
@@ -1501,7 +1496,6 @@ document.addEventListener('click',e=>{
 });
 
 backBtn.addEventListener('click',()=>navigateTo(''));
-document.getElementById('logo-link').addEventListener('click',e=>{e.preventDefault();navigateTo('')});
 applyLocationRoute();
 </script>
 </body>
