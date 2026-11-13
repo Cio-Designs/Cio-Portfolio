@@ -126,7 +126,7 @@ body > nav{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
   text-decoration:none;color:#1a1510;
 }
-.home-link-label,.nav-home{font-family:'Caveat',cursive;font-weight:700}
+.home-link-label,.nav-home,.contact-channel{font-family:'Caveat',cursive;font-weight:700}
 .home-link-label{
   font-size:clamp(2.4rem,4vw,3.5rem);line-height:1.15;text-align:center;
 }
@@ -228,20 +228,18 @@ body > nav{
 /* ══════════════════════
    CONTACT
 ══════════════════════ */
-.contact-grid{display:grid;grid-template-columns:1fr 220px;min-height:55vh}
-.contact-main{border-right:1.5px solid rgba(28,43,30,.15);display:flex;flex-direction:column}
-.contact-hl-row{padding:48px 48px 36px;border-bottom:1.5px solid rgba(28,43,30,.15)}
-.contact-hl{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3rem,6.5vw,6rem);line-height:.9;letter-spacing:.02em;text-transform:uppercase;color:var(--green)}
-.contact-hl em{font-style:normal;color:var(--brown)}
-.contact-action{padding:24px 48px;display:flex;align-items:center;justify-content:space-between}
-.contact-addr{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.04em;color:var(--green)}
-.contact-btn{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;color:var(--cream);background:var(--brown);padding:11px 22px;transition:opacity .2s}
-.contact-btn:hover{opacity:.8}
-.clinks{display:flex;flex-direction:column}
-.clink{flex:1;border-bottom:1.5px solid rgba(28,43,30,.12);display:flex;align-items:center;justify-content:space-between;padding:0 24px;text-decoration:none;color:var(--green);font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:background .15s,color .15s;min-height:56px}
-.clink:last-child{border-bottom:none}
-.clink:hover{background:var(--green);color:var(--cream)}
-.clink span{opacity:.4}
+.contact-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));min-height:55vh}
+.contact-channel{
+  appearance:none;min-width:0;min-height:104px;padding:24px 12px;
+  display:flex;align-items:center;justify-content:center;
+  border:0;border-right:1px solid rgba(28,43,30,.15);
+  background:transparent;color:#1a1510;opacity:1;text-decoration:none;
+  font-size:clamp(1.6rem,2.5vw,2.4rem);line-height:1.2;
+  transition:background .2s ease,color .2s ease;
+}
+.contact-channel:last-child{border-right:0}
+.contact-channel:not(:disabled):hover{background:rgba(107,66,38,.05);color:var(--brown)}
+.contact-channel:focus-visible{outline:2px solid var(--brown);outline-offset:-6px}
 
 /* ── ANIMATIONS ── */
 @keyframes photoIn{from{opacity:0;transform:translateX(-50%) translateY(28px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
@@ -252,11 +250,9 @@ body > nav{
 @media(max-width:768px){
   .about-grid{grid-template-columns:1fr}
   .about-col:first-child{border-right:none;border-bottom:1.5px solid rgba(28,43,30,.15)}
-  .contact-grid{grid-template-columns:1fr}
-  .contact-main{border-right:none}
   .work-row{grid-template-columns:1fr}
   .wch:nth-child(3),.work-td:nth-child(3){display:none}
-  .page-hero-strip,.about-col,.contact-hl-row,.contact-action{padding-left:20px;padding-right:20px}
+  .page-hero-strip,.about-col{padding-left:20px;padding-right:20px}
 }
 
 /* Final responsive refinements */
@@ -485,14 +481,9 @@ body,
   .portfolio-detail{padding:32px 20px 52px}
   .portfolio-gallery{grid-template-columns:1fr;gap:12px}
   .portfolio-card{min-height:220px}
-  .contact-grid{display:flex;flex-direction:column;min-height:auto}
-  .contact-main{border-right:none}
-  .contact-hl{font-size:clamp(2.2rem,14vw,4rem);line-height:.95}
-  .contact-action{display:flex;flex-direction:column;align-items:stretch;gap:16px}
-  .contact-addr{overflow-wrap:anywhere;line-height:1.5}
-  .contact-btn{width:100%;text-align:center;white-space:normal}
-  .clinks{display:grid;grid-template-columns:1fr}
-  .clink{min-height:58px}
+  .contact-grid{grid-template-columns:1fr;min-height:auto}
+  .contact-channel{border-right:0;border-bottom:1px solid rgba(28,43,30,.15)}
+  .contact-channel:last-child{border-bottom:0}
 }
 
 @media(max-width:600px){
@@ -621,16 +612,12 @@ body,
 <div class="page inner" id="contact">
   <div class="page-inner">
     <div class="page-body">
-      <div class="contact-grid">
-        <div class="contact-main">
-          <div class="contact-action">
-            <span class="contact-addr">cihancopur36@gmail.com</span>
-            <a href="mailto:cihancopur36@gmail.com" class="contact-btn">Schrijf →</a>
-          </div>
-        </div>
-        <div class="clinks">
-          <a href="https://www.instagram.com/cio.designs/" class="clink" target="_blank" rel="noopener noreferrer">Instagram <span>↗</span></a>
-        </div>
+      <div class="contact-grid" role="group" aria-label="Contactkanalen">
+        <button class="contact-channel" type="button" data-contact-channel="instagram" disabled>Instagram</button>
+        <button class="contact-channel" type="button" data-contact-channel="mail" disabled>Mail</button>
+        <button class="contact-channel" type="button" data-contact-channel="youtube" disabled>YouTube</button>
+        <button class="contact-channel" type="button" data-contact-channel="behance" disabled>Behance</button>
+        <button class="contact-channel" type="button" data-contact-channel="linkedin" disabled>LinkedIn</button>
       </div>
     </div>
   </div>
