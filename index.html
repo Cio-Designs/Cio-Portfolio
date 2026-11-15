@@ -37,12 +37,16 @@
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preload" as="font" type="font/woff2" href="fonts/might-makes-right-bb.woff2" crossorigin>
+<link rel="preload" as="font" type="font/ttf" href="fonts/dm-sans-variable.ttf" crossorigin>
 <link rel="preload" as="image" href="cursors/logo-03.png">
 <link rel="preload" as="image" href="cursors/logo-02.png">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+@font-face{
+  /* DM Sans — SIL Open Font License; see fonts/OFL-DMSans.txt. */
+  font-family:'DM Sans';src:url('fonts/dm-sans-variable.ttf') format('truetype');
+  font-style:normal;font-weight:100 1000;font-display:swap;
+}
 @font-face{
   /* Might Makes Right BB — Nate Piekos / Blambot. Supplied notice: fonts/might-makes-right-bb-notice.txt */
   font-family:'Might Makes Right BB';src:url('fonts/might-makes-right-bb.woff2') format('woff2');
@@ -50,12 +54,14 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
+  --body-font:'DM Sans',sans-serif;
   --heading-font:'Might Makes Right BB',sans-serif;
   --ink:    #000000;   /* siyah — arayüz metni ve etkileşimler */
   --canvas: #FFFFFF;   /* beyaz — tüm sayfaların arka planı */
 }
 html,body{height:100%;overflow:hidden}
-body{background:var(--canvas);color:var(--ink);font-family:'Inter',sans-serif;cursor:none}
+body{background:var(--canvas);color:var(--ink);font-family:var(--body-font);font-size:1rem;font-weight:400;line-height:1.6;font-optical-sizing:auto;cursor:none}
+button,input,textarea,select{font-family:var(--body-font)}
 
 /* ── NAV ── */
 body > nav{
@@ -84,8 +90,8 @@ body > nav{
 .nav-home:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 .back-btn{
   display:flex;align-items:center;gap:8px;
-  font-family:'Space Mono',monospace;
-  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  font-family:var(--body-font);
+  font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink);background:none;border:none;cursor:none;
   opacity:0;pointer-events:none;transition:opacity .3s,color .2s;
 }
@@ -148,7 +154,7 @@ body > nav{
 }
 .page-hero-strip::before{content:none}
 .page-strip-eyebrow{
-  font-family:'Space Mono',monospace;
+  font-family:var(--body-font);
   font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
   opacity:.6;margin-bottom:20px;
   animation:fadeUp .5s ease .05s both;
@@ -177,7 +183,7 @@ body > nav{
 .about-col{padding:48px 48px;display:flex;flex-direction:column;gap:22px}
 .about-col:first-child{border-right:1.5px solid rgba(0,0,0,.15)}
 .about-section-label{
-  font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;
+  font-family:var(--body-font);font-size:.58rem;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink);
   border-bottom:1.5px solid rgba(0,0,0,.15);padding-bottom:10px;
 }
@@ -187,7 +193,7 @@ body > nav{
   color:var(--ink);
 }
 .about-headline em{font-style:normal;color:var(--ink)}
-.about-text{font-family:'Inter',sans-serif;font-size:.84rem;line-height:1.85;color:var(--ink);font-weight:400}
+.about-text{font-family:var(--body-font);font-size:1.0625rem;line-height:1.6;color:var(--ink);font-weight:400}
 .about-text p+p{margin-top:.8rem}
 .about-photo-wrap{margin-top:8px;display:flex;align-items:flex-start;gap:16px}
 .about-logo{filter:grayscale(1);display:block;width:110px;height:110px;object-fit:contain}
@@ -195,11 +201,11 @@ body > nav{
   width:110px;height:135px;flex-shrink:0;
   background:rgba(0,0,0,.06);border:2px dashed rgba(0,0,0,.2);
   display:flex;align-items:center;justify-content:center;
-  font-family:'Space Mono',monospace;font-size:.52rem;
+  font-family:var(--body-font);font-size:.52rem;
   letter-spacing:.08em;text-transform:uppercase;color:var(--ink);text-align:center;line-height:1.7;
 }
 .skill-row{padding:10px 0;border-bottom:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;gap:6px}
-.skill-top{display:flex;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.01em;color:var(--ink)}
+.skill-top{display:flex;justify-content:space-between;font-family:var(--body-font);font-size:.875rem;font-weight:500;letter-spacing:.01em;color:var(--ink)}
 .skill-pct{color:var(--ink);font-weight:600}
 .skill-bg{height:2px;background:rgba(0,0,0,.1)}
 .skill-fill{height:2px;background:var(--ink);width:0;transition:width 1.1s cubic-bezier(.4,0,.2,1)}
@@ -248,19 +254,6 @@ body > nav{
 /* Final responsive refinements */
 .page-strip-num{display:none!important}
 
-body,
-.logo,
-.back-btn,
-.work-col-header,
-.td-cat,
-.td-year,
-.about-text,
-.skill-top,
-.contact-addr,
-.contact-btn,
-.clink,
-.portfolio-back,
-.empty-work{font-family:Georgia,'Times New Roman',serif!important}
 
 .work-viewer{width:min(94vw,1400px);max-height:94dvh;margin:auto;padding:20px;border:1px solid var(--ink);background:var(--canvas);color:var(--ink);overflow:auto}
 .work-viewer::backdrop{background:rgba(0,0,0,.8)}
@@ -275,9 +268,9 @@ body,
 .work-viewer-stage{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:16px}
 .work-viewer-content{display:grid;grid-template-columns:minmax(0,2fr) minmax(230px,1fr);gap:32px;align-items:center;min-width:0}
 .work-viewer-info{min-width:0;overflow-wrap:anywhere}
-.work-viewer-meta{margin-top:12px;font-size:.85rem;line-height:1.6;color:var(--ink)}
+.work-viewer-meta{margin-top:12px;font-size:.875rem;line-height:1.6;color:var(--ink)}
 .work-viewer-description-label{margin-top:28px;margin-bottom:10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
-.work-viewer-description{font-size:.95rem;line-height:1.8;white-space:pre-line}
+.work-viewer-description{font-size:1rem;line-height:1.6;white-space:pre-line}
 .work-viewer-pdf{margin-top:20px}
 .work-viewer-pdf[hidden]{display:none}
 .work-viewer-media{min-width:0}
@@ -320,7 +313,7 @@ body,
 .portfolio-card.portfolio-card-dark,.work-viewer-media.work-viewer-media-dark{background:#000}
 .portfolio-card.portfolio-card-white,.work-viewer-media.work-viewer-media-white{background:#fff}
 .portfolio-featured-grid .portfolio-work-info{align-items:start;gap:8px}
-.portfolio-featured-grid .portfolio-description{font-size:.76rem}
+.portfolio-featured-grid .portfolio-description{font-size:.875rem}
 .portfolio-featured-grid .portfolio-pdf-link{font-size:.76rem;padding:8px 10px}
 .portfolio-feature-go{margin-top:12px}
 @media(max-width:1000px){.portfolio-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -330,7 +323,7 @@ body,
   .portfolio-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
   .portfolio-featured-grid .portfolio-card{min-height:0;aspect-ratio:4/3}
   .portfolio-featured-grid .portfolio-work-info{grid-template-columns:1fr;gap:6px;margin-top:8px}
-  .portfolio-featured-grid .portfolio-description{font-size:.75rem;line-height:1.4}
+  .portfolio-featured-grid .portfolio-description{font-size:.875rem;line-height:1.4}
   .portfolio-featured-grid .portfolio-description-line{min-height:1.4em}
   .portfolio-featured-grid .portfolio-description hr{margin:4px 0;width:24px}
   .portfolio-featured-grid .portfolio-pdf-link{font-size:.72rem;padding:7px 8px;min-height:34px}
@@ -350,7 +343,7 @@ body,
   display:inline-flex;align-items:center;justify-content:center;gap:12px;
   min-height:48px;max-width:100%;padding:14px 22px;margin-bottom:28px;
   border:2px solid var(--ink);background:var(--ink);color:var(--canvas);
-  font-size:.95rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  font-size:.95rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;
   cursor:none;box-shadow:0 3px 0 rgba(0,0,0,.18);
   transition:background .15s,border-color .15s,transform .15s;
 }
@@ -376,7 +369,7 @@ body,
 .brand-project-header{padding:28px;background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.15);margin-bottom:32px}
 .brand-project-kicker{font-size:.72rem;color:var(--ink);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
 .brand-project-title{font-family:var(--heading-font);font-size:clamp(2.4rem,6vw,4rem);line-height:1.05;margin-bottom:16px}
-.brand-project-intro{max-width:720px;font-size:.95rem;line-height:1.8}
+.brand-project-intro{max-width:720px;font-size:1rem;line-height:1.6}
 .brand-palette{display:flex;flex-wrap:wrap;gap:20px;margin-top:24px}
 .brand-palette-color{display:flex;align-items:center;gap:8px;font-size:.8rem}
 .brand-palette-swatch{display:inline-block;width:28px;height:28px;border:1px solid rgba(0,0,0,.15)}
@@ -384,9 +377,9 @@ body,
 .brand-book{display:grid;grid-template-columns:minmax(130px,200px) minmax(0,1fr);align-items:center;gap:28px;padding:24px;border:1px solid rgba(0,0,0,.18);margin-bottom:32px}
 .brand-book .brand-book-cover{aspect-ratio:419.528/595.276;min-height:0;border:1px solid rgba(0,0,0,.15)}
 .brand-book-title{font-family:var(--heading-font);font-size:1.8rem;margin-bottom:12px}
-.brand-book-description{max-width:620px;font-size:.95rem;line-height:1.8;margin-bottom:20px}
+.brand-book-description{max-width:620px;font-size:1rem;line-height:1.6;margin-bottom:20px}
 .brand-section-title{font-family:var(--heading-font);font-size:1.7rem;margin-bottom:8px}
-.brand-section-intro{max-width:700px;font-size:.9rem;line-height:1.7;margin-bottom:20px}
+.brand-section-intro{max-width:700px;font-size:1rem;line-height:1.6;margin-bottom:20px}
 .brand-section-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .brand-card-info{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-top:12px}
 .brand-card-title{font-family:var(--heading-font);font-size:1rem;line-height:1.4}
@@ -395,7 +388,7 @@ body,
 .brand-overview-card img.brand-overview-logo{object-fit:contain;padding:24px;background:#fff}
 .brand-overview-caption{padding:20px}
 .brand-overview-caption h3{font-size:1.7rem;margin-bottom:8px}
-.brand-overview-caption p{font-size:.9rem;line-height:1.6;margin-bottom:12px}
+.brand-overview-caption p{font-size:1rem;line-height:1.6;margin-bottom:12px}
 .brand-overview-card:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 @media(max-width:1000px){
   .portfolio-gallery,.brand-section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -415,7 +408,7 @@ body,
 .portfolio-pdf-link{display:inline-block;padding:9px 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);text-decoration:none;font:inherit;font-size:.82rem;cursor:pointer;white-space:nowrap}
 .portfolio-pdf-link:hover{background:var(--ink);color:var(--canvas)}
 .portfolio-pdf-link:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.portfolio-description{margin-top:0;min-height:1.5em;font-family:'Inter',sans-serif;font-size:.82rem;line-height:1.6;color:var(--ink);white-space:pre-line;overflow-wrap:anywhere}
+.portfolio-description{margin-top:0;min-height:1.5em;font-family:var(--body-font);font-size:.875rem;line-height:1.6;color:var(--ink);white-space:pre-line;overflow-wrap:anywhere}
 .portfolio-description-line{display:block;min-height:1.6em}
 .portfolio-description hr{border:0;border-top:1px solid rgba(0,0,0,.25);width:36px;margin:8px 0}
 .portfolio-card-title{padding:18px;text-align:center;color:var(--ink);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
@@ -479,10 +472,18 @@ body,
   #cur{display:none!important}
   .logo,.back-btn,.home-link,.work-row,.portfolio-back{cursor:pointer}
 }
+/* Readable body copy and medium-weight utility labels. */
+.back-btn,.portfolio-back,.portfolio-pdf-link,.portfolio-year,
+.skill-top,.skill-pct,.work-viewer-meta,.brand-palette-color,.brand-overview-caption span{
+  font-family:var(--body-font);font-weight:500;
+}
+.portfolio-description{font-weight:500}
+
 /* Shared display type for titles and subtitles; paragraphs keep their reading font. */
+h1,h2,h3,h4,h5,h6{line-height:1.2}
 h1,h2,h3,h4,h5,h6,
 .page-strip-eyebrow,.about-section-label,.about-headline,
-.portfolio-detail-kicker,.brand-project-kicker,.portfolio-year,
+.portfolio-detail-kicker,.brand-project-kicker,
 .portfolio-card-title,.portfolio-description-line:first-child{
   font-family:var(--heading-font);font-weight:400;font-synthesis:none;
 }
