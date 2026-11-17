@@ -268,7 +268,7 @@ body > nav{
 .work-viewer-stage{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:16px}
 .work-viewer-content{display:grid;grid-template-columns:minmax(0,2fr) minmax(230px,1fr);gap:32px;align-items:center;min-width:0}
 .work-viewer-info{min-width:0;overflow-wrap:anywhere}
-.work-viewer-meta{margin-top:12px;font-size:.9375rem;line-height:1.6;color:var(--ink)}
+.work-viewer-meta{margin-top:12px;font-size:.875rem;line-height:1.6;color:var(--ink)}
 .work-viewer-description-label{margin-top:28px;margin-bottom:10px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
 .work-viewer-description{font-size:1rem;line-height:1.6;white-space:pre-line}
 .work-viewer-pdf{margin-top:20px}
@@ -313,7 +313,7 @@ body > nav{
 .portfolio-card.portfolio-card-dark,.work-viewer-media.work-viewer-media-dark{background:#000}
 .portfolio-card.portfolio-card-white,.work-viewer-media.work-viewer-media-white{background:#fff}
 .portfolio-featured-grid .portfolio-work-info{align-items:start;gap:8px}
-.portfolio-featured-grid .portfolio-description{font-size:.9375rem}
+.portfolio-featured-grid .portfolio-description{font-size:.875rem}
 .portfolio-featured-grid .portfolio-pdf-link{font-size:.76rem;padding:8px 10px}
 .portfolio-feature-go{margin-top:12px}
 @media(max-width:1000px){.portfolio-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -323,7 +323,7 @@ body > nav{
   .portfolio-featured-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 12px}
   .portfolio-featured-grid .portfolio-card{min-height:0;aspect-ratio:4/3}
   .portfolio-featured-grid .portfolio-work-info{grid-template-columns:1fr;gap:6px;margin-top:8px}
-  .portfolio-featured-grid .portfolio-description{font-size:.9375rem;line-height:1.4}
+  .portfolio-featured-grid .portfolio-description{font-size:.875rem;line-height:1.4}
   .portfolio-featured-grid .portfolio-description-line{min-height:1.4em}
   .portfolio-featured-grid .portfolio-description hr{margin:4px 0;width:24px}
   .portfolio-featured-grid .portfolio-pdf-link{font-size:.72rem;padding:7px 8px;min-height:34px}
@@ -408,7 +408,7 @@ body > nav{
 .portfolio-pdf-link{display:inline-block;padding:9px 14px;border:1px solid var(--ink);background:transparent;color:var(--ink);text-decoration:none;font:inherit;font-size:.82rem;cursor:pointer;white-space:nowrap}
 .portfolio-pdf-link:hover{background:var(--ink);color:var(--canvas)}
 .portfolio-pdf-link:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.portfolio-description{margin-top:0;min-height:1.5em;font-family:var(--body-font);font-size:.9375rem;line-height:1.6;color:var(--ink);white-space:pre-line;overflow-wrap:anywhere}
+.portfolio-description{margin-top:0;min-height:1.5em;font-family:var(--body-font);font-size:.875rem;line-height:1.6;color:var(--ink);white-space:pre-line;overflow-wrap:anywhere}
 .portfolio-description-line{display:block;min-height:1.6em}
 .portfolio-description hr{border:0;border-top:1px solid rgba(0,0,0,.25);width:36px;margin:8px 0}
 .portfolio-card-title{padding:18px;text-align:center;color:var(--ink);font-size:.82rem;letter-spacing:.08em;text-transform:uppercase}
@@ -477,21 +477,18 @@ body > nav{
 .skill-top,.skill-pct,.work-viewer-meta,.brand-palette-color,.brand-overview-caption span{
   font-family:var(--body-font);font-weight:500;
 }
-.portfolio-description,.work-viewer-meta{font-weight:400;font-variant-numeric:lining-nums tabular-nums}
+.portfolio-description{font-family:var(--heading-font);font-weight:400;font-synthesis:none}
 
 /* Shared display type for titles and subtitles; paragraphs keep their reading font. */
 h1,h2,h3,h4,h5,h6{line-height:1.2}
 h1,h2,h3,h4,h5,h6,
 .page-strip-eyebrow,.about-section-label,.about-headline,
 .portfolio-detail-kicker,.brand-project-kicker,
-.portfolio-card-title{
+.portfolio-card-title,.portfolio-description-line:first-child{
   font-family:var(--heading-font);font-weight:400;font-synthesis:none;
 }
 .about-section-label{font-size:.82rem;line-height:1.4;letter-spacing:.06em}
 .work-viewer-description-label{font-size:.9rem}
-.portfolio-description-line:first-child,.brand-card-title,.work-viewer-title{
-  font-family:var(--body-font);font-weight:600;letter-spacing:0;font-synthesis:none;
-}
 .portfolio-description-line:first-child{font-size:1rem;line-height:1.4}
 
 </style>
@@ -719,6 +716,7 @@ const workData={
   posters:{
     title:'Designs',
     items:[
+      {category:'posters',year:2026,type:'image',src:'posters/ahmet-kaya-2026.png',title:'Ahmet Kaya',client:'CIO Design'},
       {topic:'activism',year:2026,type:'image',src:'POSTER/ChePoster-BG-02.png',title:'Che Guevara Poster',client:'The Red Archive'},
       {topic:'activism',year:2026,type:'image',src:'posters/poster-02.png',title:'Zapatistas Poster',client:'The Red Archive'},
       {topic:'activism',year:2026,type:'image',src:'posters/poster-03.png',title:'Vladimir Lenin Poster',client:'The Red Archive'},
@@ -814,6 +812,7 @@ const brandProjects={
 const publicWorkSlugs={posters:'designs',designs:'branding',videos:'videos',photos:'photos',tekenen:'tekenen'};
 
 const workDescriptions={
+  "posters/ahmet-kaya-2026.png": "Een herdenkingsposter voor Ahmet Kaya, ontworpen door CIO Design. Zwart-witportretten, een donkere achtergrond en een rasterstructuur vormen een gelaagde collage. De grote witte naam en de tekst ‘Unutmadık İki Gözüm’ staan centraal in het ontwerp.",
   "designs/3d/environment-2026.png": "Een 3D-omgeving, gemaakt in Blender als schoolopdracht. Zuilen, paviljoens, een fontein en eenvoudige rotsvormen vormen een open binnenplaats. Zacht zonlicht en lange schaduwen geven de scène diepte.",
   "designs/bote-eindhoven/de-smasher-2026.png": "Het logo van De Smasher, ontworpen voor Bote Eindhoven. Rode, afgeronde hoofdletters met een zwarte schaduw vormen een compact woordmerk.",
   "designs/bote-eindhoven/kip-en-hap-2026.png": "Het logo van Kip & Hap, ontworpen voor Bote Eindhoven. Grote gele en oranje letters staan in twee regels. De zwarte schaduw geeft de speelse lettervormen extra diepte.",
