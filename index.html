@@ -16,7 +16,7 @@
 <title>Cio Design | Portfolio van Cihan Copur</title>
 <meta name="description" content="Portfolio van Cihan Copur, student Mediavormgeven aan SintLucas. Bekijk mijn werk in branding, grafisch ontwerp, fotografie en motion design.">
 <link rel="canonical" href="https://ciodesign.net/">
-<link rel="icon" type="image/png" sizes="4500x4500" href="https://ciodesign.net/CIO-C.png">
+<link rel="icon" type="image/png" sizes="64x64" href="previews/site-icon-64.png">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="nl_NL">
 <meta property="og:site_name" content="Cio Design">
@@ -49,8 +49,8 @@
 </script>
 <link rel="preload" as="font" type="font/woff2" href="fonts/might-makes-right-bb.woff2" crossorigin>
 <link rel="preload" as="font" type="font/ttf" href="fonts/dm-sans-variable.ttf" crossorigin>
-<link rel="preload" as="image" href="cursors/logo-03.png">
-<link rel="preload" as="image" href="cursors/logo-02.png">
+<link rel="preload" as="image" type="image/webp" href="previews/cursors/logo-03-64.webp" media="(min-width: 769px) and (hover: hover) and (pointer: fine)">
+<link rel="preload" as="image" type="image/webp" href="previews/cursors/logo-02-64.webp" media="(min-width: 769px) and (hover: hover) and (pointer: fine)">
 <style>
 @font-face{
   /* DM Sans — SIL Open Font License; see fonts/OFL-DMSans.txt. */
@@ -255,7 +255,7 @@ body > nav{
 /* ══════════════════════
    CONTACT
 ══════════════════════ */
-.contact-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));min-height:55vh}
+.contact-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));min-height:55vh}
 .contact-channel{
   appearance:none;min-width:0;min-height:104px;padding:24px 12px;
   display:flex;align-items:center;justify-content:center;
@@ -267,6 +267,9 @@ body > nav{
 .contact-channel:last-child{border-right:0}
 .contact-channel:not(:disabled):hover{background:rgba(var(--ink-rgb),.05);color:var(--ink)}
 .contact-channel:focus-visible{outline:2px solid var(--ink);outline-offset:-6px}
+.contact-cta{padding:28px 20px;border-top:1px solid rgba(var(--ink-rgb),.15);text-align:center;font-size:clamp(1rem,1.8vw,1.2rem);font-style:italic;line-height:1.7}
+.contact-cta a{color:var(--ink);text-underline-offset:4px;overflow-wrap:anywhere}
+.contact-cta a:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
 
 /* ── ANIMATIONS ── */
 @keyframes photoIn{from{opacity:0;transform:translateX(-50%) translateY(28px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
@@ -454,7 +457,7 @@ body > nav{
   height:32px;
   box-sizing:border-box;
   border:0;
-  background:transparent url('cursors/logo-03.png') center/contain no-repeat;
+  background:transparent url('previews/cursors/logo-03-64.webp') center/contain no-repeat;
   box-shadow:0 0 0 1px rgba(var(--ink-rgb),.25);
   border-radius:0;
   visibility:hidden;
@@ -465,7 +468,7 @@ body > nav{
 }
 #cur.is-visible{visibility:visible}
 #cur.hover{
-  background-image:url('cursors/logo-02.png');
+  background-image:url('previews/cursors/logo-02-64.webp');
   border-radius:50%;
 }
 @media(min-width:769px) and (hover:hover) and (pointer:fine){
@@ -580,7 +583,7 @@ h1,h2,h3,h4,h5,h6,
             <p>SintLucas — Mediavormgeven.</p>
           </div>
           <div class="about-photo-wrap">
-            <img class="about-logo" src="designs/cio-design-logo-2026.png" alt="Cio Design logo" width="110" height="110">
+            <img class="about-logo" src="previews/designs/cio-design-logo-2026-480.webp" alt="Cio Design logo" width="110" height="110" loading="lazy" decoding="async">
           </div>
         </div>
         <div class="about-col" id="about-skills">
@@ -651,11 +654,11 @@ h1,h2,h3,h4,h5,h6,
     <div class="page-body">
       <div class="contact-grid" role="group" aria-label="Contactkanalen">
         <a class="contact-channel" data-contact-channel="instagram" href="https://www.instagram.com/cio.designs/" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a class="contact-channel" data-contact-channel="mail" href="mailto:cihancopur36@gmail.com">Mail</a>
         <a class="contact-channel" data-contact-channel="youtube" href="https://www.youtube.com/@bynxyop" target="_blank" rel="noopener noreferrer">YouTube</a>
         <a class="contact-channel" data-contact-channel="behance" href="https://www.behance.net/cihanopur" target="_blank" rel="noopener noreferrer">Behance</a>
         <a class="contact-channel" data-contact-channel="linkedin" href="https://www.linkedin.com/in/cihan-copur-15761a295/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
+      <p class="contact-cta">Samenwerken? Neem contact op → <a href="mailto:cihancopur36@gmail.com">cihancopur36@gmail.com</a></p>
     </div>
   </div>
 </div>
@@ -1017,6 +1020,16 @@ function renderWorkYear(year){
 function escapeDescription(value){
   return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
+const galleryPreviewSizes='(max-width: 768px) calc(100vw - 40px), (max-width: 1000px) calc((100vw - 56px) / 2), calc((100vw - 144px) / 4)';
+const featuredPreviewSizes='(max-width: 768px) calc((100vw - 52px) / 2), (max-width: 1000px) calc((100vw - 116px) / 2), calc((100vw - 156px) / 4)';
+function previewPath(src,suffix){
+  return 'previews/'+src.replace(/\.[^/.]+$/,'')+'-'+suffix+'.webp';
+}
+function workPreviewMarkup(item,sizes=galleryPreviewSizes,className=''){
+  const small=escapeDescription(previewPath(item.src,480));
+  const large=escapeDescription(previewPath(item.src,960));
+  return `<img${className?` class="${escapeDescription(className)}"`:''} src="${small}" srcset="${small} 480w, ${large} 960w" sizes="${sizes}" alt="${escapeDescription(item.title)}" loading="lazy" decoding="async">`;
+}
 let cropClipSequence=0;
 function croppedWorkMarkup(item){
   // Clip only the displayed viewport; preserve every pixel in the uploaded artwork.
@@ -1109,9 +1122,9 @@ function workCardMarkup(item,index,feature=null){
   const viewAttribute=feature?'data-view-feature':'data-view-work';
   const cardClass='portfolio-card portfolio-card-button'+(item.darkBackground?' portfolio-card-dark':'')+(item.whiteBackground?' portfolio-card-white':'');
   const categoryLink=feature ? `<a class="portfolio-pdf-link portfolio-feature-go" href="${portfolioRoute(feature.key,feature.category)}" data-route-link>Ga naar ${escapeDescription(feature.label)} →</a>` : '';
-    const media=item.cropHeight ? croppedWorkMarkup(item) : item.type==='video'
-      ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
-      : `<img src="${item.src}" alt="${item.title}" loading="lazy">`;
+    const media=item.type==='video'
+      ? `<video src="${escapeDescription(item.src)}" poster="${escapeDescription(previewPath(item.src,'poster'))}" controls playsinline preload="none"></video>`
+      : workPreviewMarkup(item,feature?featuredPreviewSizes:galleryPreviewSizes);
     const card=item.type==='video'
       ? `<div class="portfolio-card">${media}</div>`
       : `<button class="${cardClass}" type="button" ${viewAttribute}="${index}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(item.title)}">${media}</button>`;
@@ -1121,19 +1134,19 @@ function workCardMarkup(item,index,feature=null){
 function renderBrandOverview(){
   portfolioGallery.classList.remove('brand-project');
   portfolioGallery.innerHTML=Object.entries(brandProjects).map(([key,project])=>
-    `<a class="brand-overview-card" href="${portfolioRoute('designs',key)}" data-route-link><img${project.previewLogo?' class="brand-overview-logo"':''} src="${escapeDescription(project.preview)}" alt="${escapeDescription(project.title)} — visuele identiteit" loading="lazy"><div class="brand-overview-caption"><h3>${escapeDescription(project.title)}</h3><p>Logo, visitekaartjes & menukaarten</p><span>Bekijk merkidentiteit →</span></div></a>`
+    `<a class="brand-overview-card" href="${portfolioRoute('designs',key)}" data-route-link>${workPreviewMarkup({src:project.preview,title:project.title+' — visuele identiteit'},galleryPreviewSizes,project.previewLogo?'brand-overview-logo':'')}<div class="brand-overview-caption"><h3>${escapeDescription(project.title)}</h3><p>Logo, visitekaartjes & menukaarten</p><span>Bekijk merkidentiteit →</span></div></a>`
   ).join('');
 }
 function renderBrandProject(items){
   const project=brandProjects[activeCategory];
   const book=items.find(item=>item.section==='brandbook'&&item.pdf);
-  const brandbook=book?`<section class="brand-book" aria-label="Brandboek"><button class="portfolio-card portfolio-card-button brand-book-cover" type="button" data-view-work="${items.indexOf(book)}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(book.title)}"><img src="${escapeDescription(book.src)}" alt="${escapeDescription(book.title)} — omslag"></button><div><h3 class="brand-book-title">Brandboek</h3><p class="brand-book-description">Ontdek de visuele identiteit van ${escapeDescription(project.title)}: van het logo, de kleuren en de typografie tot de toepassingen van de huisstijl.</p><a class="portfolio-pdf-link" href="${escapeDescription(book.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk het brandboek van ${escapeDescription(project.title)} als PDF">Bekijk brandboek (PDF) ↗</a></div></section>`:'';
+  const brandbook=book?`<section class="brand-book" aria-label="Brandboek"><button class="portfolio-card portfolio-card-button brand-book-cover" type="button" data-view-work="${items.indexOf(book)}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(book.title)}">${workPreviewMarkup({...book,title:book.title+' — omslag'},'200px')}</button><div><h3 class="brand-book-title">Brandboek</h3><p class="brand-book-description">Ontdek de visuele identiteit van ${escapeDescription(project.title)}: van het logo, de kleuren en de typografie tot de toepassingen van de huisstijl.</p><a class="portfolio-pdf-link" href="${escapeDescription(book.pdf)}" target="_blank" rel="noopener noreferrer" aria-label="Bekijk het brandboek van ${escapeDescription(project.title)} als PDF">Bekijk brandboek (PDF) ↗</a></div></section>`:'';
   const palette=project.palette.map(color=>`<span class="brand-palette-color"><span class="brand-palette-swatch" style="background:${color.color}" aria-hidden="true"></span>${escapeDescription(color.name)}</span>`).join('');
   const sections=project.sections.map(section=>{
     const works=items.filter(item=>item.section===section.key);
     const cards=works.map(item=>{
       const index=items.indexOf(item);
-      return `<article class="portfolio-work"><button class="portfolio-card portfolio-card-button${item.whiteBackground?' portfolio-card-white':''}" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(item.title)}"><img src="${escapeDescription(item.src)}" alt="${escapeDescription(item.title)}" loading="lazy"></button><div class="brand-card-info"><h5 class="brand-card-title">${escapeDescription(item.title)}</h5><button class="portfolio-pdf-link" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Bekijk: ${escapeDescription(item.title)}">Bekijk ↗</button></div></article>`;
+      return `<article class="portfolio-work"><button class="portfolio-card portfolio-card-button${item.whiteBackground?' portfolio-card-white':''}" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Vergroot: ${escapeDescription(item.title)}">${workPreviewMarkup(item)}</button><div class="brand-card-info"><h5 class="brand-card-title">${escapeDescription(item.title)}</h5><button class="portfolio-pdf-link" type="button" data-view-work="${index}" aria-haspopup="dialog" aria-label="Bekijk: ${escapeDescription(item.title)}">Bekijk ↗</button></div></article>`;
     }).join('');
     return `<section class="brand-project-section"><h4 class="brand-section-title">${escapeDescription(section.title)}</h4><p class="brand-section-intro">${escapeDescription(section.intro)}</p><div class="brand-section-grid">${cards}</div></section>`;
   }).join('');
