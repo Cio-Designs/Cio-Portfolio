@@ -296,7 +296,13 @@ body > nav{
 @media(min-width:769px) and (pointer:fine){
   .work-viewer,.work-viewer::backdrop,.work-viewer button,.work-viewer a{cursor:none}
 }
-.work-viewer-header{display:flex;align-items:center;justify-content:flex-end;gap:16px;margin-bottom:16px;position:sticky;top:-20px;background:var(--canvas);z-index:1}
+.work-viewer-header{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:16px;position:sticky;top:-20px;background:var(--canvas);z-index:1}
+.work-viewer-share-status{font-size:.82rem;margin-right:auto}
+.work-viewer-share-status:empty{display:none}
+.work-viewer-share-fallback{margin-top:20px;font-size:.875rem}
+.work-viewer-share-fallback[hidden]{display:none}
+.work-viewer-share-fallback input{display:block;width:100%;min-height:44px;margin-top:8px;padding:8px;border:1px solid var(--ink);background:var(--canvas);color:var(--ink);font-size:1rem}
+.work-viewer-share-fallback input:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .work-viewer-title{font-size:clamp(1.4rem,2.5vw,2rem);line-height:1.2;overflow-wrap:anywhere}
 .work-viewer-close{flex-shrink:0}
 .work-viewer-stage{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:16px}
@@ -665,6 +671,8 @@ h1,h2,h3,h4,h5,h6,
 
 <dialog class="work-viewer" id="work-viewer" aria-labelledby="work-viewer-title">
   <div class="work-viewer-header">
+    <span class="work-viewer-share-status" role="status" aria-live="polite"></span>
+    <button class="portfolio-pdf-link work-viewer-copy" type="button" aria-label="Kopieer link naar dit werk">Kopieer link</button>
     <button class="portfolio-pdf-link work-viewer-close" type="button" autofocus>Sluiten ×</button>
   </div>
   <div class="work-viewer-stage">
@@ -677,6 +685,10 @@ h1,h2,h3,h4,h5,h6,
         <h3 class="work-viewer-description-label">Beschrijving</h3>
         <p class="work-viewer-description"></p>
         <a class="portfolio-pdf-link work-viewer-pdf" target="_blank" rel="noopener noreferrer" hidden>Bekijk PDF ↗</a>
+        <div class="work-viewer-share-fallback" hidden>
+          <label for="work-viewer-link">Link naar dit werk</label>
+          <input id="work-viewer-link" type="text" readonly spellcheck="false">
+        </div>
       </section>
     </div>
     <button class="work-viewer-arrow" type="button" data-viewer-step="1" aria-label="Volgend werk">→</button>
@@ -937,6 +949,25 @@ Object.values(workData).forEach(group=>group.items.forEach(item=>{
   item.description=workDescriptions[item.src]||'';
 }));
 
+// File-based IDs stay stable when titles change and distinguish photo series.
+const workEntries=Object.entries(workData).flatMap(([key,group])=>group.items.map(item=>({key,item})));
+function workLinkId(item){return item.src.replace(/\.[^/.]+$/,'').toLowerCase();}
+const workByLinkId=new Map(workEntries.map(entry=>[workLinkId(entry.item),entry]));
+function workRoute(item){return '#werk/'+workLinkId(item).split('/').map(encodeURIComponent).join('/');}
+function workLink(item){
+  const url=new URL(location.href);
+  url.search='';url.hash=workRoute(item);
+  return url.href;
+}
+function workCategory(entry){
+  return entry.item.category||(entry.key==='photos'?'overige':entry.key==='designs'?'overig':'posters');
+}
+function workGalleryRoute(entry){
+  const category=workCategory(entry);
+  const hasYears=entry.key==='tekenen'||(entry.key==='posters'&&category!=='posters');
+  return portfolioRoute(entry.key,workCategoryLabels[entry.key]?category:null,hasYears?entry.item.year:null);
+}
+
 const featuredWorks=[
   {key:'posters',category:'posters',src:'POSTER/ChePoster-BG-02.png',label:'Posters'},
   {key:'photos',category:'evenementen',src:'photos/hayko-cepkin-2026-02.jpeg',label:'Evenementen'},
@@ -1043,8 +1074,18 @@ const cursorHome=cur.parentNode;
 const cursorNextSibling=cur.nextSibling;
 let viewerItems=[];
 let viewerIndex=0;
+let viewerReturnHash='#portfolio';
+let viewerClosing=false;
+const siteTitle=document.title;
+const shareStatus=workViewer.querySelector('.work-viewer-share-status');
+const shareFallback=workViewer.querySelector('.work-viewer-share-fallback');
+const shareField=document.getElementById('work-viewer-link');
 function renderViewerItem(){
   const item=viewerItems[viewerIndex];
+  document.title=item.title+' | Cio Design';
+  shareStatus.textContent='';
+  shareFallback.hidden=true;
+  shareField.value=workLink(item);
   workViewerMedia.classList.toggle('work-viewer-media-dark',!!item.darkBackground);
   workViewerMedia.classList.toggle('work-viewer-media-white',!!item.whiteBackground);
   workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
@@ -1076,14 +1117,18 @@ function renderViewerItem(){
   workViewer.querySelectorAll('[data-viewer-step]').forEach(button=>button.hidden=single);
 }
 function stepViewer(direction){
-  if(!workViewer.open||viewerItems.length<2)return;
+  if(!workViewer.open||viewerClosing||viewerItems.length<2)return;
   viewerIndex=(viewerIndex+direction+viewerItems.length)%viewerItems.length;
   renderViewerItem();
+  history.replaceState(history.state,'',workRoute(viewerItems[viewerIndex]));
 }
-function openWorkViewer(index,items=visibleWorkItems){
+function openWorkViewer(index,items=visibleWorkItems,linked=false,returnHash=location.hash){
   const item=items[index];
   if(!item)return;
   portfolioGallery.querySelectorAll('video').forEach(video=>video.pause());
+  viewerClosing=false;
+  viewerReturnHash=returnHash;
+  if(!linked)history.pushState({cioWorkReturn:returnHash,cioWorkScroll:portfolioPage.scrollTop},'',workRoute(item));
   viewerItems=items;
   viewerIndex=viewerItems.indexOf(item);
   renderViewerItem();
@@ -1093,30 +1138,64 @@ function openWorkViewer(index,items=visibleWorkItems){
   cur.setAttribute('popover','manual');
   cur.showPopover();
 }
-workViewer.querySelectorAll('[data-viewer-step]').forEach(button=>{
-  button.addEventListener('click',()=>stepViewer(Number(button.dataset.viewerStep)));
-});
-workViewer.addEventListener('keydown',event=>{
-  if(event.target.closest('video')||event.altKey||event.ctrlKey||event.metaKey)return;
-  if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
-    event.preventDefault();
-    stepViewer(event.key==='ArrowLeft'?-1:1);
-  }
-});
-workViewer.querySelector('.work-viewer-close').addEventListener('click',()=>workViewer.close());
-workViewer.addEventListener('click',event=>{
-  if(event.target!==workViewer)return;
-  const bounds=workViewer.getBoundingClientRect();
-  if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)workViewer.close();
-});
-workViewer.addEventListener('close',()=>{
+function clearWorkViewer(){
   viewerItems=[];
   viewerIndex=0;
+  viewerClosing=false;
   if(cur.matches(':popover-open'))cur.hidePopover();
   cur.removeAttribute('popover');
   cursorHome.insertBefore(cur,cursorNextSibling);
   workViewerMedia.querySelectorAll('video').forEach(video=>video.pause());
   workViewerMedia.replaceChildren();
+  shareStatus.textContent='';
+  shareFallback.hidden=true;
+}
+function closeWorkViewerForRoute(){
+  if(workViewer.open)workViewer.close();
+  clearWorkViewer();
+  document.title=siteTitle;
+}
+function closeWorkViewer(){
+  if(!workViewer.open||viewerClosing)return;
+  viewerClosing=true;
+  if(typeof history.state?.cioWorkReturn==='string')history.back();
+  else{
+    history.replaceState(null,'',viewerReturnHash);
+    applyLocationRoute();
+  }
+}
+workViewer.querySelector('.work-viewer-copy').addEventListener('click',async()=>{
+  const url=shareField.value;
+  try{
+    await navigator.clipboard.writeText(url);
+    if(workViewer.open&&shareField.value===url)shareStatus.textContent='Link gekopieerd';
+  }catch{
+    if(!workViewer.open||shareField.value!==url)return;
+    shareFallback.hidden=false;
+    shareField.focus();shareField.select();
+    shareStatus.textContent='Selecteer en kopieer de link.';
+  }
+});
+workViewer.addEventListener('cancel',event=>{event.preventDefault();closeWorkViewer();});
+workViewer.querySelectorAll('[data-viewer-step]').forEach(button=>{
+  button.addEventListener('click',()=>stepViewer(Number(button.dataset.viewerStep)));
+});
+workViewer.addEventListener('keydown',event=>{
+  if(event.target.closest('video,input,textarea,[contenteditable="true"]')||event.altKey||event.ctrlKey||event.metaKey)return;
+  if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+    event.preventDefault();
+    stepViewer(event.key==='ArrowLeft'?-1:1);
+  }
+});
+workViewer.querySelector('.work-viewer-close').addEventListener('click',closeWorkViewer);
+workViewer.addEventListener('click',event=>{
+  if(event.target!==workViewer)return;
+  const bounds=workViewer.getBoundingClientRect();
+  if(event.clientX<bounds.left||event.clientX>bounds.right||event.clientY<bounds.top||event.clientY>bounds.bottom)closeWorkViewer();
+});
+workViewer.addEventListener('close',()=>{
+  // A queued close event must not clear a viewer opened by a newer route.
+  if(!workViewer.open)clearWorkViewer();
 });
 function workCardMarkup(item,index,feature=null){
   const viewAttribute=feature?'data-view-feature':'data-view-work';
@@ -1263,10 +1342,30 @@ function navigateTo(hash){
   if(location.hash===hash)applyLocationRoute();
   else location.hash=hash;
 }
+function routeParts(hash){
+  try{return hash.slice(1).split('/').filter(Boolean).map(decodeURIComponent);}catch{return [];}
+}
 function applyLocationRoute(){
-  if(workViewer.open)workViewer.close();
-  let parts;
-  try{parts=location.hash.slice(1).split('/').filter(Boolean).map(decodeURIComponent);}catch{closePage();return;}
+  viewerClosing=false;
+  // Returning from the viewer keeps the existing gallery and its scroll position.
+  if(workViewer.open&&location.hash===viewerReturnHash){closeWorkViewerForRoute();return;}
+  closeWorkViewerForRoute();
+  const parts=routeParts(location.hash);
+  if(parts[0]==='werk'){
+    const entry=workByLinkId.get(parts.slice(1).join('/').toLowerCase());
+    if(!entry){history.replaceState(null,'','#portfolio');renderPageRoute(['portfolio']);return;}
+    const savedReturn=history.state?.cioWorkReturn;
+    const returnHash=typeof savedReturn==='string'&&routeParts(savedReturn)[0]==='portfolio'?savedReturn:workGalleryRoute(entry);
+    renderPageRoute(routeParts(returnHash));
+    if(Number.isFinite(history.state?.cioWorkScroll))portfolioPage.scrollTop=history.state.cioWorkScroll;
+    const featured=featuredWorks.map(feature=>feature.item);
+    const items=returnHash==='#portfolio'&&featured.includes(entry.item)?featured:visibleWorkItems;
+    openWorkViewer(items.indexOf(entry.item),items,true,returnHash);
+    return;
+  }
+  renderPageRoute(parts);
+}
+function renderPageRoute(parts){
   if(!parts.length){closePage();return;}
   if(parts[0]==='over-mij'||parts[0]==='contact'){
     openPage(parts[0]==='over-mij'?'about':'contact');
